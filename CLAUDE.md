@@ -134,7 +134,7 @@ Se o código precisar divergir do spec, **pare e atualize o spec antes**.
 - Trunk-based: `main` sempre estável; branches curtas; **PR até para trabalho solo**; o CI é o portão. Releases com tag semântica (`v0.1.0`).
 - Commits convencionais (`feat:`, `fix:`, `chore:`…), uma mudança lógica por commit.
 - **Antes de cada commit: revisão de código no Plannotator.** A IA abre `plannotator review` do diff local, **com Approve ativo, e para**. Só com **aprovação explícita** do humano ela faz o commit. Comentários são aplicados e a revisão é reaberta se a mudança for relevante.
-- **Antes de cada push e de cada PR: nova revisão no Plannotator** do conjunto de commits da branch contra a base, também aprovada. O PR, quando existir, também é revisado no Plannotator.
+- **Antes de cada push e de cada PR: nova revisão no Plannotator** do conjunto de commits da branch contra a base, também aprovada. A revisão do PR é feita sobre o **diff local contra a base** (`plannotator review --base main`), não pela URL do PR: o GitHub não deixa o autor aprovar o próprio PR, e o desenvolvimento é solo. Aprovação no GitHub **não** é exigida; a proteção da `main` exige só o CI verde.
 - **A IA nunca faz push, merge nem force push sem aprovação explícita**, e nunca faz force push em `main`.
 - Revisão de documento (spec, plano, ADR) segue o fluxo da seção 5; revisão de código segue este fluxo. As duas mantêm `PLANNOTATOR_SHARE=disabled`.
 - Dinheiro em `BigDecimal` ou centavos (`Long`); fuso `America/Sao_Paulo` explícito; nunca `LocalDateTime` sem fuso para instantes.

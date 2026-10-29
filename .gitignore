@@ -1,0 +1,41 @@
+# Sistema operacional e editores
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Segredos e configuração local (repositório público: nunca versionar)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.keystore
+*.jks
+
+# Dados locais e de teste
+*.sqlite
+*.db
+/local/
+
+# Backend (Maven, Kotlin)
+backend/target/
+*.class
+*.jar
+*.log
+hs_err_pid*
+
+# Front (React, React Native)
+node_modules/
+dist/
+build/
+.expo/
+coverage/
+
+# Infra (OpenTofu e Terraform)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example

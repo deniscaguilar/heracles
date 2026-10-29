@@ -23,10 +23,10 @@
 - [x] T2.3 **P4:** cenários de falha: nova tentativa com espera crescente, DLQ, mesma mensagem duas vezes sem efeito duplicado. *Pronto quando:* os três passam nos dois emuladores ou a diferença está anotada.
 - [ ] T2.4 **P4 (pede ok):** teste de fumaça no SQS real, com `destroy` ao final. *Pronto quando:* resultado comparado ao emulador e recursos removidos.
 - [ ] T2.5 **P4:** escrever `docs/stage-0/p4-filas.md` e atualizar o ADR-0004 com o emulador escolhido. *Pronto quando:* ADR revisada e aprovada no Plannotator.
-- [ ] T2.6 **P2:** criar o módulo Kotlin isolado em `prototypes/swap/` e um catálogo de alimentos de teste sem dado pessoal. *Pronto quando:* compila e carrega o catálogo.
-- [ ] T2.7 **P2:** escrever os 20 casos de troca em arquivo de dados (inclui arroz → purê de batata), marcados "propostos pela IA, não validados". *Pronto quando:* o arquivo existe e o Dênis revisou.
-- [ ] T2.8 **P2:** implementar o algoritmo (±10% de calorias, piso de proteína, piso calórico seguro, filtros de alergia e restrição) em `BigDecimal`, com as regras de arredondamento escritas. *Pronto quando:* os 20 casos passam.
-- [ ] T2.9 **P2:** medir a latência (p50, p95, p99) com carga sintética. *Pronto quando:* números no registro `p2-troca.md`.
+- [x] T2.6 **P2:** criar o módulo Kotlin isolado em `prototypes/swap/` e um catálogo de alimentos de teste sem dado pessoal. *Pronto quando:* compila e carrega o catálogo.
+- [x] T2.7 **P2:** escrever os 20 casos de troca em arquivo de dados (inclui arroz → purê de batata), marcados "propostos pela IA, não validados". *Pronto quando:* o arquivo existe e o Dênis revisou.
+- [x] T2.8 **P2:** implementar o algoritmo (±10% de calorias, piso de proteína, piso calórico seguro, filtros de alergia e restrição) em `BigDecimal`, com as regras de arredondamento escritas. *Pronto quando:* os 20 casos passam.
+- [x] T2.9 **P2:** medir a latência (p50, p95, p99) com carga sintética. *Pronto quando:* números no registro `p2-troca.md`.
 
 ## Ordem 3
 

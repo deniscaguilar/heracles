@@ -1,0 +1,22 @@
+# id;descricao;kcal_alvo;piso_proteina_g;piso_kcal;marcadores_excluidos;indice;substituto;esperado;gramas;kcal_dia;proteina_dia_g;motivos;ajustes
+# Casos PROPOSTOS PELA IA, NÃO VALIDADOS por nutricionista (ver docs/stage-0/p2-troca.md). Valores ilustrativos.
+C01;Arroz por purê de batata, mesmo valor calórico;1900;120;1500;;4;mashed_potato;ACEITA;210;1905.7;143.2;;
+C02;Arroz por batata-doce;1900;120;1500;;4;sweet_potato;ACEITA;250;1907.1;140.7;;
+C03;Arroz por mandioca;1900;120;1500;;4;cassava;ACEITA;155;1908.4;140.1;;
+C04;Arroz por macarrão;1900;120;1500;;4;pasta;ACEITA;190;1908.4;145.6;;
+C05;Arroz por macarrão, usuário sem glúten;1900;120;1500;GLUTEN;4;pasta;REJEITADA;;;;EXCLUDED_TAG;
+C06;Frango por tilápia;1900;120;1500;;6;tilapia;ACEITA;185;1904.9;143.0;;
+C07;Frango por atum, porção limitada ao máximo;1900;120;1500;;6;tuna;ACEITA;200;1900.1;146.9;;PORTION_CAPPED
+C08;Frango por ovo, proteína do dia cai abaixo do piso;1900;120;1500;;6;egg;REJEITADA;150;1887.1;114.9;BELOW_PROTEIN_FLOOR;
+C09;Frango por tofu, porção limitada e piso de proteína por pouco;1900;120;1500;;6;tofu;REJEITADA;300;1896.1;119.2;BELOW_PROTEIN_FLOOR;PORTION_CAPPED
+C10;Patinho por grão-de-bico, grupos diferentes;1900;120;1500;;12;chickpeas;REJEITADA;;;;DIFFERENT_GROUP;
+C11;Frango por frango, mesmo alimento;1900;120;1500;;6;chicken;REJEITADA;;;;SAME_FOOD;
+C12;Leite por iogurte de soja, usuário sem lactose;1900;120;1500;LACTOSE;3;soy_yogurt;ACEITA;220;1907.8;142.9;;
+C13;Iogurte por leite, usuário sem lactose;1900;120;1500;LACTOSE;8;milk;REJEITADA;;;;EXCLUDED_TAG;
+C14;Leite por queijo minas frescal;1900;120;1500;;3;fresh_cheese;ACEITA;45;1903.4;144.4;;
+C15;Amendoim por castanha-do-pará, usuário com alergia a amendoim;1900;120;1500;PEANUT;10;brazil_nut;ACEITA;20;1921.2;140.6;;
+C16;Azeite por amendoim, usuário com alergia a amendoim;1900;120;1500;PEANUT;7;peanut;REJEITADA;;;;EXCLUDED_TAG;
+C17;Pão francês por aveia;1900;120;1500;;0;oats;ACEITA;40;1914.2;144.5;;
+C18;Dia já acima da tolerância (alvo 1700): troca não o corrige;1700;120;1500;;4;mashed_potato;REJEITADA;210;1905.7;143.2;ABOVE_TOLERANCE;
+C19;Dia abaixo da tolerância (alvo 2300);2300;120;1500;;4;sweet_potato;REJEITADA;250;1907.1;140.7;BELOW_TOLERANCE;
+C20;Dia abaixo do piso calórico seguro (piso 1950);1900;120;1950;;4;sweet_potato;REJEITADA;250;1907.1;140.7;BELOW_KCAL_FLOOR;

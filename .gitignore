@@ -21,6 +21,7 @@
 
 # Backend (Maven, Kotlin)
 backend/target/
+**/target/
 *.class
 *.jar
 *.log

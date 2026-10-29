@@ -24,7 +24,7 @@ Nome: `p<N>-<tema>.md` (por exemplo, `p4-filas.md`). Seções, em português:
 | Prova | Registro | Estado |
 |---|---|---|
 | P1 Sincronização offline | `p1-sincronizacao.md` | a fazer |
-| P2 Algoritmo de troca | `p2-troca.md` | a fazer |
+| P2 Algoritmo de troca | `p2-troca.md` | protótipo e 20 casos prontos; validação científica pendente |
 | P3 Reconhecimento e extração de exame | `p3-extracao-exames.md` | a fazer |
 | P4 Filas | `p4-filas.md` | cenários rodados; falta fumaça no SQS real |
 | P5 Orçamento de latência | tabela em `docs/architecture.md` | a fazer |

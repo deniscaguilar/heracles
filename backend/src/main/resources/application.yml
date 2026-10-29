@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: heracles-backend
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+      show-components: never

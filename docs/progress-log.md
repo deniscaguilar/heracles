@@ -16,9 +16,11 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - T2.1 a T2.3 (P4): ElasticMQ 1.7.1 e LocalStack 4.14.0 passam nos mesmos cenários; proposta de ElasticMQ para SQS local (ADR-0004 atualizada, provisória). Registro em `docs/stage-0/p4-filas.md`.
 - T2.5: ADR-0004 aprovada e mergeada (PR #9); T2.4 (fumaça no SQS real) adiada pelo Dênis.
 - T2.6 a T2.9 (P2): protótipo Kotlin da troca em `prototypes/swap/` (Maven, 9 testes verdes), 20 casos em `data/cases.tsv` (não validados), regras de arredondamento e latência (p99 de 0,0015 ms por troca; 1,2 ms para gerar opções sobre 1.358 candidatos). Registro em `docs/stage-0/p2-troca.md`.
+- P3: candidatos de OCR e IA levantados (AWS, Google, Anthropic, Azure, OpenAI e local) no Notion e em `docs/stage-0/p3-provedores.md`. Exames do Dênis em `local/exams/` (5 arquivos; nada lido nem enviado).
 
 **Próximo passo**
-- Ordem 3: P1 (sincronização offline, T3.1 a T3.4) e P3 (exames, T3.5 a T3.10; T3.7 pede autorização).
+- P3: gabaritos (T3.5, feitos à mão pelo Dênis ou com leitura autorizada), sintéticos (T3.6) e checklist de provedor com autorização (T3.7).
+- P1 (sincronização offline, T3.1 a T3.4), quando as dependências e o simulador estiverem definidos.
 
 ## 2026-10-29
 

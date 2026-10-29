@@ -8,10 +8,9 @@ Regras obrigatórias para qualquer trabalho de IA neste repositório. Em caso de
 
 ## 1. Contexto
 
-App de treino, nutrição e saúde, com três clientes e um backend:
+App de treino, nutrição e saúde, com dois clientes e um backend:
 - **App mobile para iOS e Android**, em React Native.
-- **PWA do cliente na web**, em React. O roadmap v5 ainda não detalha o PWA; escopo e papel (inclusive offline) são decididos na Etapa 0.
-- **Backoffice na web**, em React.
+- **App web em React**, uma única base (como no EndoAcademy): o **PWA instalável do cliente** e o **backoffice** em `/admin`. Service worker só para o shell, **sem cache de resposta da API**; sem offline (o offline é do app mobile). Decisão P10 da Etapa 0, 29/10/2026.
 - **Backend** Kotlin + Spring Boot e **infraestrutura** na AWS.
 
 Primeiro uso próprio (o Dênis), depois assinatura. Desenvolvedor único (Dênis) trabalhando com IA. Escopo e etapas em `docs/roadmap.md`. Marketing, audiência e Heracles TV **não** fazem parte deste repositório.
@@ -25,9 +24,8 @@ Primeiro uso próprio (o Dênis), depois assinatura. Desenvolvedor único (Dêni
 | Banco | PostgreSQL, Flyway, **RLS por usuário** (ADR-0003) |
 | Filas | **AWS SQS** com outbox e consumidores idempotentes (ADR-0004) |
 | App iOS e Android | **React Native** + TypeScript, offline com sincronização (ADR-0005; ferramenta decidida na Etapa 0) |
-| PWA do cliente (web) | **React** + TypeScript, instalável; escopo definido na Etapa 0 |
-| Backoffice (web) | **React** + TypeScript, cliente gerado do OpenAPI |
-| Código TypeScript compartilhado | Pacotes comuns aos três clientes (cliente de API gerado, tipos e design tokens) |
+| App web (PWA do cliente + backoffice) | **React** + TypeScript, uma base; backoffice em `/admin`; PWA instalável com service worker só para o shell; cliente gerado do OpenAPI |
+| Código TypeScript compartilhado | Pacotes comuns ao app mobile e ao app web (cliente de API gerado, tipos e design tokens) |
 | Auth | OIDC genérico (resource server) atrás de um port; provedor a decidir (Cognito é candidato) |
 | IA e OCR | Somente pelo `aigateway` (ADR-0007) |
 | Infra | AWS sa-east-1, OpenTofu, EC2 + Docker Compose + RDS, S3, SQS, SSM (ADR-0002) |
@@ -59,7 +57,7 @@ Regras (verificadas por ArchUnit e `Modulith.verify()` no CI):
 
 Módulos (proposta do ADR-0001, nomes de uma palavra): `platform` (identidade, perfis, auditoria), `consent`, `profile` (anamnese e perfil de saúde), `exams`, `training`, `nutrition`, `billing`, `engagement` (check-ins, missões, medalhas), `community` (inclui posts promocionais), `notifications`, `aigateway`. O **backoffice é um canal**, não um módulo. Dependências permitidas entre módulos: `docs/architecture.md` (a escrever).
 
-**Estrutura do repositório** (proposta, num único repositório): `backend/` (Kotlin + Spring Boot), `mobile/` (React Native), `web/` (PWA do cliente), `backoffice/` (web), `packages/` (TypeScript compartilhado), `infra/` (OpenTofu), `docker/` (ambiente local), `docs/` (roadmap, ADRs, arquitetura, diário) e `specs/`.
+**Estrutura do repositório** (proposta, num único repositório): `backend/` (Kotlin + Spring Boot), `mobile/` (React Native), `web/` (app web: PWA do cliente e backoffice em `/admin`), `packages/` (TypeScript compartilhado), `infra/` (OpenTofu), `docker/` (ambiente local), `docs/` (roadmap, ADRs, arquitetura, diário) e `specs/`.
 
 ## 4. Dado de saúde, isolamento e LGPD
 

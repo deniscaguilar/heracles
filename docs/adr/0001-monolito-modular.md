@@ -18,7 +18,7 @@ Um **monolito modular**: um artefato, módulos por contexto de negócio, frontei
 - **Dados:** um PostgreSQL, **um schema por módulo**, uma pasta Flyway por módulo, sem join nem FK entre schemas.
 - **Ports** para tudo externo, cada um com adaptador real e adaptador local ou falso: `IdentityProvider`, `FileStorage`, `Clock`, `TaskQueue`, `LlmClient`, `OcrClient`, `PaymentGateway`, `NotificationChannel`.
 - **Comunicação:** consulta síncrona pela `api` do módulo dono; reação a mudança por eventos de domínio (ADR-0004).
-- **Clientes:** o app mobile (React Native, iOS e Android), o PWA do cliente (React, web) e o backoffice (React, web) são clientes separados, no mesmo repositório, que consomem o contrato OpenAPI versionado. Pacotes TypeScript compartilhados (cliente de API gerado, tipos, design tokens) evitam duplicação entre eles. O escopo do PWA é decidido na Etapa 0.
+- **Clientes:** o app mobile (React Native, iOS e Android), o app web (React, uma base: PWA do cliente e backoffice em `/admin`) são os dois clientes, no mesmo repositório, e consomem o contrato OpenAPI versionado. Pacotes TypeScript compartilhados (cliente de API gerado, tipos, design tokens) evitam duplicação entre eles. Alterado em 29/10/2026 pela decisão P10 da Etapa 0 (`docs/stage-0/p10-pwa.md`).
 - O mapa de dependências permitidas entre módulos vai para `docs/architecture.md`, que será escrito e revisado em seguida.
 
 ## Alternativas

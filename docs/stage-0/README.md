@@ -32,4 +32,4 @@ Nome: `p<N>-<tema>.md` (por exemplo, `p4-filas.md`). Seções, em português:
 | P7 Telas, API e autenticação | `p7-*.md` | a fazer |
 | P8 Pendências jurídica e científica | `p8-pendencias.md` | a fazer |
 | P9 Gateway de pagamento | `p9-gateway.md` | a fazer |
-| P10 Escopo do PWA | `p10-pwa.md` | a fazer |
+| P10 Escopo do PWA | `p10-pwa.md` | decidido (29/10/2026) |

@@ -1,6 +1,6 @@
 # Heracles Society
 
-App de treino, nutrição e saúde: app mobile (iOS e Android), PWA do cliente, backoffice web, backend e infraestrutura.
+App de treino, nutrição e saúde: app mobile (iOS e Android), app web (PWA do cliente e backoffice), backend e infraestrutura.
 
 ## Estado atual
 

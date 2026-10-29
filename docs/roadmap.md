@@ -258,6 +258,7 @@ Um backoffice **mínimo** (exercícios, alimentos, regras, marcadores de exame e
 **Fechadas:**
 - Bioimpedância pelas duas vias: ler o laudo enviado por PDF ou foto (Etapa 3) e verificar a viabilidade de receber a medição de um aparelho integrado (Etapa 0, com entrada na Etapa 7 se for viável).
 
+- Clientes: app mobile em React Native (iOS e Android, com o offline) e **um único app web em React** (PWA instalável do cliente e backoffice em `/admin`), como no EndoAcademy; service worker só para o shell, sem cache da API e sem offline na web (P10, 29/10/2026; `docs/stage-0/p10-pwa.md`).
 - Infraestrutura: EC2 + Docker Compose + RDS, com SQS para as filas.
 - Motores antes do pagamento; assinatura e pagamento na Etapa 6 com gateway mockado.
 - Planos mensal, trimestral, semestral e anual, com renovação automática e cancelamento só ao final do período; aluno grátis e vitalício pelo backoffice.

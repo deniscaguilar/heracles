@@ -1,6 +1,6 @@
 # ADR-0005: App offline e sincronização
 
-- **Status:** Aprovada (invariantes); a ferramenta de sincronização será decidida pela prova da Etapa 0
+- **Status:** Aprovada (invariantes); ferramenta de sincronização: **opção A, provisória** (expo-sqlite + sincronização própria), decidida em 29/10/2026 pela prova P1
 - **Data:** 2026-10-29
 - **Origem:** roadmap v5, Etapas 0 e 5; decisão fechada em 29/10/2026: offline para tudo do dia, exceto o cálculo da troca de alimento, que exige conexão (ADR-0006)
 
@@ -23,7 +23,11 @@ O app precisa funcionar sem internet no que importa durante o dia: ler o treino 
 - **Segurança do dado no aparelho:** dado de saúde guardado localmente é criptografado, com chave no armazenamento seguro do sistema, e **apagado ao sair da conta**. Sessão expirada não pode expor dado em cache nem perder o progresso do treino em andamento.
 - **Estado visível:** o app mostra o que está pendente de envio e o que falhou.
 
-**A decidir na Etapa 0, por prova em protótipo** (Expo SQLite com sincronização própria, WatermelonDB, PowerSync): critérios de escolha são resolução de conflito, desempenho com o volume de registros de uso, suporte a criptografia local, esforço de implantar o protocolo no backend Kotlin e custo de manutenção solo. A ferramenta escolhida substitui este rascunho.
+**Ferramenta de sincronização (decisão de 29/10/2026, provisória):** **`expo-sqlite` com sincronização própria** (opção A da prova P1, `docs/stage-0/p1-sincronizacao.md`). Fica provisória porque a prova cobriu só a opção A:
+- **O que a prova mostrou:** fila de mutações local, envio idempotente por `mutation_id`, pull por cursor, conflito de perfil por última escrita com o relógio do servidor, sessão expirada sem perda de fila ou de treino em andamento e apagar tudo ao sair; 10 mil registros no emulador Android 15 com envio em 0,75 s e pull em 0,22 s (gravações em lote dentro de transação), no Expo Go e sem serviço novo.
+- **O que NÃO foi provado (pendências, sem prazo):** (1) **criptografia local com SQLCipher** (opção do plugin do `expo-sqlite`, exige build de desenvolvimento): obrigatória antes de qualquer dado de saúde real no aparelho de terceiros; (2) **WatermelonDB e PowerSync não foram executados**, só avaliados pela documentação; (3) o esforço real do protocolo no **backend Kotlin** (o servidor de teste é Node); (4) iOS (o Xcode não está instalado).
+- **Gatilhos para reavaliar B ou C:** a SQLCipher não funcionar no `expo-sqlite` do SDK em uso, o protocolo próprio ficar caro de manter, ou aparecer requisito de sincronização que ele não cubra (por exemplo, dados compartilhados entre usuários).
+- **Regras que a spec da Etapa 5 herda:** gravações em lote sempre em transação; o cliente de sincronização fica atrás de um adaptador de armazenamento; o servidor aplica mutação por `mutation_id` e responde `duplicate` para repetidas.
 
 ## Alternativas
 

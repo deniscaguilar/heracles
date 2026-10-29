@@ -35,9 +35,11 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - P1, SQLCipher: criptografia local provada no Android (emulador) e no iOS (simulador) com `expo-sqlite` e `useSQLCipher` (SQLCipher 4.17.0): arquivo ilegível sem chave, chave errada falha, custo pequeno. Chave de teste fixa; falta o armazenamento seguro da chave. ADR-0005 e `p1-sincronizacao.md` atualizados.
 - Requisito novo do Dênis: **substituição de exercício** (por equipamento equivalente, como supino reto com halter por barra, ou por outro do mesmo grupo muscular). Decisão: **fica na Etapa 4**, não na Etapa 0 (consulta ao catálogo, sem o risco técnico da troca de alimento; regras dependem do educador físico). Registrado no roadmap (Etapa 4, anamnese da Etapa 2 e ideias aprovadas), no glossário do `CLAUDE.md`, na pendência C10, nas telas e na arquitetura.
 - T6.2: fechamento da Etapa 0 em `docs/stage-0/fechamento.md`, **aprovado pelo Dênis**: concluída com pendências; a Etapa 1 pode começar. Pendência principal que não bloqueia a fundação: provedor de IA e OCR (T3.7 a T3.10).
+- Spec da Etapa 1 (fundação) aprovada pelo Dênis (`specs/platform/stage-1-foundation/spec.md`): 11 requisitos e 20 critérios de aceite; JDK 25, Boot 4.1, Modulith 2.1, `com.heracles`, LocalStack só para S3; casca dos clientes e ambiente de fumaça na AWS entram na etapa.
+- Regras de fluxo git do Dênis no `CLAUDE.md`: uma revisão por mudança, depois commit, push, PR, merge e limpeza sem perguntar; atualizar a `main` ao iniciar.
 
 **Próximo passo**
-- Spec da Etapa 1 (fundação).
+- `plan.md` da Etapa 1 (design técnico, dependências a aprovar, fatias), depois `tasks.md` e o board no Notion.
 - Guardar a chave no Keychain e no Keystore (`expo-secure-store` é dependência nova a aprovar).
 - T6.2 (fechamento da Etapa 0). T3.7 a T3.10 e T2.4 seguem pendentes.
 - P3: Dênis escolhe o provedor e prepara a conta (T3.7); depois T3.8 a T3.10.

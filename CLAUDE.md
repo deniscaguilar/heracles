@@ -99,6 +99,14 @@ Se o código precisar divergir do spec, **pare e atualize o spec antes**.
 
 **Diário de progresso:** `docs/progress-log.md` registra onde paramos e o próximo passo (entrada mais recente no topo). Atualize ao fim de cada tarefa.
 
+**Board de tarefas no Notion:** o board "Heracles · Tarefas" (Notion, página Heracles Society, https://app.notion.com/p/88a83726c87b4404a0d5993df6a3837b) espelha o `tasks.md` de cada etapa. **A fonte da verdade é o `tasks.md`**; em conflito, ele vence. Ao trabalhar:
+1. Ao **começar** uma tarefa: mover o cartão para `DOING` e marcar a tarefa no `tasks.md`.
+2. Ao **pedir revisão** (Plannotator): `REVIEW`.
+3. Se **travar** (aprovação pendente, dependência, decisão): `BLOCKED`, com o motivo em "Motivo do bloqueio".
+4. Ao **concluir** (critério "pronto quando" cumprido): `DONE`, `[x]` no `tasks.md` e entrada no `docs/progress-log.md`.
+5. Tarefa nova ou removida no `tasks.md` entra ou sai do board na mesma hora, com ID, ordem, etapa e critérios iguais.
+O board não leva dado de saúde, segredo nem informação comercial sensível.
+
 ## 6. Testes
 
 - **Unitários** (`*Test`, Surefire): `domain` e `application`, com fakes dos ports. Sem Spring, sem banco. Meta de cobertura de linhas e branches em `domain` + `application`: **≥ 85%**, com portão JaCoCo no CI.

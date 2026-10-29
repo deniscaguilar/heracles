@@ -1,7 +1,7 @@
 # P1: Sincronização offline
 
 - **Prova:** P1 da Etapa 0 (`specs/platform/stage-0-proofs/spec.md`); ADR-0005
-- **Estado:** a **opção A foi provada** (sem aparelho e no emulador Android). **As opções B (WatermelonDB) e C (PowerSync) NÃO foram executadas**: só foram avaliadas pela documentação. A ADR-0005 **continua com a escolha em aberto** até uma decisão do Dênis sobre como fechar a comparação (seção 8).
+- **Estado:** a **opção A foi provada** (sem aparelho e no emulador Android). **As opções B (WatermelonDB) e C (PowerSync) NÃO foram executadas**: só foram avaliadas pela documentação. **Decisão do Dênis (29/10/2026): seguir com a opção A, de forma provisória** (ADR-0005 atualizada).
 
 ## 1. Pergunta
 
@@ -62,14 +62,11 @@ A opção A **já cumpre os invariantes do ADR-0005 que dá para provar sem um b
 - Os tempos incluem rede local (emulador para o computador) e não representam 4G.
 - O `npm install` do app de teste avisou de vulnerabilidades em dependências transitivas; é um protótipo descartável, e o app real seguirá a política do CLAUDE.md (seção 7).
 
-## 8. Como fechar a comparação (decisão do Dênis)
+## 8. Decisão (Dênis, 29/10/2026)
 
-1. **Fechar a P1 aqui**, com a opção A como escolha provisória e a criptografia e as opções B e C como pendências registradas.
-2. **Testar B e C antes de decidir:** (a) um build de desenvolvimento (Gradle, NDK) para provar SQLCipher na A e testar a B; (b) para a C, subir o serviço de sincronização e um banco de origem localmente. É um trabalho grande, e a C introduz um serviço novo.
+**Opção A, provisória.** A criptografia local (SQLCipher) e as opções B e C ficam como pendências registradas no ADR-0005. Reavaliar B ou C só pelos gatilhos do ADR (SQLCipher inviável, protocolo caro de manter ou novo requisito de sincronização).
 
 ## 9. Pendências
 
-- Decisão acima.
-- Atualizar o ADR-0005 conforme a decisão (T3.4).
 - Provar SQLCipher num build de desenvolvimento.
 - Estimar o protocolo no backend Kotlin quando a spec da fundação existir.

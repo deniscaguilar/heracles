@@ -60,7 +60,31 @@ marcadores:
 
 **T3.6: sintéticos.** Montar documentos de calorimetria e de teste respirado de SIBO a partir de laudos públicos de exemplo, ou registrar a lacuna.
 
-**T3.7: provedor, região e autorização.** Para cada candidato a testar, preencher: região real de processamento, retenção padrão, retenção zero, treino, DPA, custo e se guarda o arquivo. Depois o Dênis autoriza por escrito, com provedor e região.
+**T3.7: provedor, região e autorização.** O que é necessário, em ordem:
+
+1. **Escolher o provedor a testar primeiro** (sugestão: B, Google em São Paulo, por ser o único com processamento no Brasil indicado; depois A, AWS). O Dênis diz **quais contas já existem** e **o que está disposto a abrir**.
+2. **Preparar a conta do provedor** (feito pelo Dênis, com a ajuda da IA nas instruções): projeto ou conta própria só para o teste; faturamento ativo (custo a confirmar no console e **combinado antes**, por gerar despesa); API habilitada; **região fixada** (por exemplo, `southamerica-east1`); termos de dados (DPA) aceitos; opção de **não guardar** as requisições ligada (retenção zero ou log desligado, se o provedor permitir). **A chave de acesso fica só em `local/` ou no cofre do Dênis, nunca no repositório.**
+3. **Preencher o checklist do provedor** (abaixo) com o que a conta mostra de fato, não com o que a pesquisa sugeriu.
+4. **Minimizar o que será enviado:** nos PDFs com camada de texto, extrair o texto **localmente** e **remover as linhas de identificação** (nome, CPF, data de nascimento, número de atendimento e de prontuário) antes de enviar; enviar só o texto. Na foto, **cortar o cabeçalho com nome e identificação** antes. Nada de enviar o arquivo original inteiro, se o texto bastar.
+5. **Autorização escrita do Dênis, a cada envio**, com o modelo abaixo.
+6. **Registro de cada envio** em `local/work/envios.log` (fora do git): data, arquivo (identificador local), provedor, região, o que foi enviado (texto ou imagem cortada) e onde ficou a resposta.
+
+**Checklist por provedor** (preencher antes do primeiro envio):
+
+| Item | Valor confirmado na conta |
+|---|---|
+| Provedor e serviço | |
+| Região de processamento (real, não a anunciada) | |
+| Retenção padrão e opção de retenção zero | |
+| Uso para treino (contrato) | |
+| DPA aceito (data) | |
+| Guarda o arquivo enviado? | |
+| Custo estimado para esta prova | |
+| Onde fica a chave de acesso | |
+
+**Modelo de autorização** (o Dênis responde no chat):
+
+> Autorizo enviar ao **[provedor / serviço]**, na região **[região]**, os documentos **[lista, por identificador local]**, nesta forma: **[texto sem identificação / imagem cortada]**, para a prova P3. Entendo que o conteúdo é dado de saúde do próprio Dênis e que a autorização vale só para este envio.
 
 **T3.8: pipeline.** Para cada documento e provedor: classificar o tipo, extrair os campos e validar a saída contra um esquema. Rodar F (local) primeiro. Saída em `local/`.
 
@@ -71,5 +95,5 @@ marcadores:
 ## 7. Pendências
 
 - Conferir região, retenção e treino de cada candidato em documentação oficial e contrato.
-- Autorização escrita do Dênis antes do primeiro envio (T3.7).
+- Escolher o provedor, preparar a conta, preencher o checklist e dar a autorização escrita antes do primeiro envio (T3.7).
 - Resposta jurídica sobre transferência internacional (J2, em `p8-pendencias.md`) antes de qualquer uso com dado de terceiros.

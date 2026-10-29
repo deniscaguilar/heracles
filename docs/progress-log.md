@@ -16,16 +16,22 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - T2.1 a T2.3 (P4): ElasticMQ 1.7.1 e LocalStack 4.14.0 passam nos mesmos cenários; proposta de ElasticMQ para SQS local (ADR-0004 atualizada, provisória). Registro em `docs/stage-0/p4-filas.md`.
 - T2.5: ADR-0004 aprovada e mergeada (PR #9); T2.4 (fumaça no SQS real) adiada pelo Dênis.
 - T2.6 a T2.9 (P2): protótipo Kotlin da troca em `prototypes/swap/` (Maven, 9 testes verdes), 20 casos em `data/cases.tsv` (não validados), regras de arredondamento e latência (p99 de 0,0015 ms por troca; 1,2 ms para gerar opções sobre 1.358 candidatos). Registro em `docs/stage-0/p2-troca.md`.
-- P3: candidatos de OCR e IA levantados (AWS, Google, Anthropic, Azure, OpenAI e local) no Notion e em `docs/stage-0/p3-provedores.md`. Exames do Dênis em `local/exams/` (5 arquivos; nada lido nem enviado).
+- P3: candidatos de OCR e IA levantados (AWS, Google, Anthropic, Azure, OpenAI e local) no Notion e em `docs/stage-0/p3-provedores.md`. Exames do Dênis em `local/exams/` (5 arquivos).
 - P3, T3.5: Dênis autorizou a leitura dos 5 exames; gabaritos criados em `local/gabaritos/` (fora do git, têm valores reais). Os exames são 2 laudos de sangue, 2 de imagem (tomografia e ressonância, não ultrassom) e 1 foto InBody (JPEG).
 - P3, candidato F (local): `prototypes/exam-extraction/local_baseline.py` (Tesseract e poppler instalados via Homebrew). Resultados em `docs/stage-0/p3-extracao-exames.md`.
 - P1, T3.1: ambiente instalado (Node 22 pelo nvm sem mudar o padrão, Android SDK e emulador Android 15 pelo Homebrew; sem Xcode). Protótipo `prototypes/sync/` com a opção A (expo-sqlite + sincronização própria): 6 cenários verdes, 10 mil registros no emulador (envio 0,75 s, pull 0,22 s). B e C não executadas. Registro em `docs/stage-0/p1-sincronizacao.md`.
 - O template do Expo criou um `.claude/settings.json` que ativava um plugin do Claude; removido.
+- P1 decidida pelo Dênis: opção A provisória; ADR-0005 atualizada (T3.2 a T3.4). Pendências: SQLCipher, B e C, backend Kotlin, iOS.
+- T3.6 cancelada: o Dênis não tem calorimetria nem SIBO; segue só com os exames que tem.
+- T3.7: procedimento, checklist e modelo de autorização em `docs/stage-0/p3-provedores.md`; falta o Dênis escolher o provedor e preparar a conta.
+- T3.7 adiada pelo Dênis; sigo com as tarefas que não dependem dela. T3.8 a T3.10 (provedores externos) ficam bloqueadas junto.
+- T5.2 (P7): `docs/api-conventions.md` (rascunho): versão no caminho, camelCase, UUID, decimais como string, erros Problem Details, cursor, idempotência, tarefas assíncronas.
+- T6.1 (P5): orçamento de latência na seção 7.1 de `docs/architecture.md`, com os números medidos nas provas P1, P2 e P4.
 
 **Próximo passo**
-- P1: decisão do Dênis sobre fechar com a opção A provisória ou testar B e C num build de desenvolvimento (T3.2 a T3.4).
-- P3: sintéticos (T3.6) e checklist de provedor com autorização (T3.7); depois os candidatos B e A (T3.8 e T3.9).
-- P1 (sincronização offline, T3.1 a T3.4), quando as dependências e o simulador estiverem definidos.
+- Ordem 4 e 5: T4.1 e T4.2 (wearables), T5.1 (telas) e T5.3 (provedor de identidade); depois T6.2 (fechamento).
+- P3: Dênis escolhe o provedor e prepara a conta (T3.7); depois T3.8 a T3.10.
+- Depois da P3: ordem 4 (P6 wearables), ordem 5 (P7 telas, API e autenticação) e o fechamento (P5 latência e T6.2).
 
 ## 2026-10-29
 

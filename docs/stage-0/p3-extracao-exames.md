@@ -49,7 +49,7 @@ Quanto dá para reconhecer e extrair dos exames **sem enviar nada a ninguém** (
 
 ## 7. Pendências
 
-- T3.6: documentos sintéticos de calorimetria e SIBO (e, se possível, ultrassom).
+- T3.6 (cancelada em 29/10/2026): o Dênis não tem exames de calorimetria, SIBO nem ultrassom e seguirá só com os que tem. **Essas famílias de exame ficam sem medição** e a lacuna se repete na Etapa 3.
 - T3.7: checklist de provedor e **autorização escrita do Dênis** antes de enviar qualquer exame (provedor e região).
 - T3.8 e T3.9: rodar B e A com a mesma amostra e comparar com esta linha de base; incluir o documento com injeção de prompt.
 - Revisar à mão uma amostra do gabarito de sangue para tirar o viés da pré-anotação.

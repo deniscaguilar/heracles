@@ -146,6 +146,36 @@ Cada tabela cai em uma classe de isolamento (ADR-0003):
 1. O backoffice cria o post em `community`, com audiência (todos, um usuário ou uma comunidade) escolhida sem usar dado de saúde.
 2. A entrega ao feed roda em fila; `PromotionalPostPublished` leva a `notifications`, que só envia push a quem aceitou comunicações promocionais.
 
+### 7.1 Orçamento de latência
+
+Proposta inicial do roadmap (p95 de 300 ms para leituras do dia e trocas) conferida com as provas P1, P2 e P4. Os números **medidos** abaixo são de protótipo (sem banco real nem rede móvel); as metas são **orçamentos a validar** na Etapa 1 (com Postgres real) e na Etapa 4.
+
+| Tipo de operação | Meta (p95, no servidor) | Se passar da meta |
+|---|---|---|
+| Leitura do dia (cardápio, treino) e perfil | 300 ms | investigar; leitura offline no app já cobre o uso sem rede |
+| Troca de alimento (resposta com opções) | 300 ms no total; **10 ms** para o cálculo da regra | otimizar a consulta; a troca não vira assíncrona, vira "pendente" só sem conexão (ADR-0006) |
+| Escrita de registro de uso (treino, refeição, check-in) | invisível ao usuário: grava local na hora e envia depois | n/a (offline-first) |
+| Envio da fila de mutações (`/sync/push`) | 1 s por lote de 500 | reduzir o tamanho do lote |
+| Pull incremental (`/sync/pull`) | 500 ms | paginar por cursor |
+| Pedir URL pré-assinada de upload de exame | 300 ms | n/a (o arquivo vai direto ao S3) |
+| Extração de exame (assíncrona) | a medir na P3 (depende do provedor); estado visível ao usuário | tarefa com status e nova tentativa (ADR-0004) |
+| Login e renovação de sessão | 500 ms | depende do provedor de identidade |
+| Listas do backoffice | 500 ms | paginação por cursor |
+
+**Regra:** uma operação cujo p95 esperado passa de **2 s** vira assíncrona (`202` e tarefa com status, `docs/api-conventions.md`, seção 6); entre 300 ms e 2 s é otimizada antes de virar assíncrona, exceto a extração de exame, que nasce assíncrona.
+
+**Medido nas provas (protótipos):**
+
+| Medida | Resultado | Fonte |
+|---|---|---|
+| Cálculo de uma troca | p99 de 0,0015 ms | P2 |
+| Gerar opções sobre 1.358 candidatos do mesmo grupo | p99 de 1,2 ms | P2 |
+| Enviar 10 mil mutações em lotes de 500 (emulador Android, rede local) | 0,75 s | P1 |
+| Baixar 10 mil registros num aparelho novo | 0,22 s | P1 |
+| Fila SQS (emuladores): entrega, nova tentativa com espera de 2 s e 4 s, DLQ | funcional; latência fim a fim **não medida** | P4 |
+
+O cálculo da regra ocupa uma fração mínima do orçamento; o tempo real será de banco, rede e serialização, a medir com Postgres real na Etapa 1.
+
 ## 8. Segurança e privacidade
 
 - Isolamento por usuário no banco, auditoria append-only e ausência de dado de saúde em log, trace, métrica e mensagem de fila: ADR-0003 e CLAUDE.md, seção 4.

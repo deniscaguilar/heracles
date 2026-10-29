@@ -39,9 +39,10 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - Regras de fluxo git do Dênis no `CLAUDE.md`: uma revisão por mudança, depois commit, push, PR, merge e limpeza sem perguntar; atualizar a `main` ao iniciar.
 - `plan.md` da Etapa 1 aprovado (`specs/platform/stage-1-foundation/plan.md`): outbox próprio, RLS por transação, 8 fatias (S1 a S8) e lista de dependências aprovada, incluindo `expo-secure-store` (resolve a pendência da chave de criptografia local).
 - `tasks.md` da Etapa 1 (`specs/platform/stage-1-foundation/tasks.md`): 45 tarefas em 8 fatias mais o fechamento, test-first, com as que pedem ok marcadas (S1.11, S8.1, S8.3, S8.4). As 45 estão no board "Heracles · Tarefas" do Notion (Etapa E1; a coluna "Prova" guarda a fatia S1 a S8 e F).
+- E1-S1.1: estrutura de pastas (`backend/`, `mobile/`, `web/`, `packages/`, `infra/`, `docker/`) com README em cada uma; README raiz com a tabela de pastas.
 
 **Próximo passo**
-- S1 (esqueleto e pipeline), começando pela estrutura de pastas e pelo `pom.xml`.
+- E1-S1.2: `backend/pom.xml`, wrapper e o app subindo com `/actuator/health/liveness`.
 - Guardar a chave no Keychain e no Keystore (`expo-secure-store` é dependência nova a aprovar).
 - T6.2 (fechamento da Etapa 0). T3.7 a T3.10 e T2.4 seguem pendentes.
 - P3: Dênis escolhe o provedor e prepara a conta (T3.7); depois T3.8 a T3.10.

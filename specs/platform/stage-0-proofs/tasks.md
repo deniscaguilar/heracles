@@ -47,7 +47,7 @@
 - [ ] T4.2 **P6:** teste com dados simulados em simulador ou aparelho. *Pronto quando:* leitura confirmada ou limite anotado; parte do aparelho de bioimpedância registrada como adiada.
 - [ ] T5.1 **P7:** fluxos de tela do app e do backoffice em baixa fidelidade. *Pronto quando:* o Dênis revisa e aprova.
 - [x] T5.2 **P7:** convenções de API (versionamento, erro padronizado, paginação, identificadores de cliente). *Pronto quando:* documento aprovado.
-- [ ] T5.3 **P7:** comparar provedores de identidade (custo, OIDC, MFA, recuperação de conta) e propor um. *Pronto quando:* ADR de autenticação aprovada.
+- [x] T5.3 **P7:** comparar provedores de identidade (custo, OIDC, MFA, recuperação de conta) e propor um. *Pronto quando:* ADR de autenticação aprovada.
 
 ## Fechamento
 

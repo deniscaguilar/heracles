@@ -27,9 +27,9 @@ Nome: `p<N>-<tema>.md` (por exemplo, `p4-filas.md`). Seções, em português:
 | P2 Algoritmo de troca | `p2-troca.md` | protótipo e 20 casos prontos; validação científica pendente |
 | P3 Reconhecimento e extração de exame | `p3-provedores.md` (instruções), `p3-extracao-exames.md` (resultados) | candidatos levantados; nada enviado |
 | P4 Filas | `p4-filas.md` | cenários rodados; falta fumaça no SQS real |
-| P5 Orçamento de latência | tabela em `docs/architecture.md` | a fazer |
+| P5 Orçamento de latência | tabela em `docs/architecture.md`, seção 7.1 | proposta pronta; validar na Etapa 1 |
 | P6 Wearables e bioimpedância | `p6-wearables.md` | a fazer |
-| P7 Telas, API e autenticação | `p7-*.md` | a fazer |
+| P7 Telas, API e autenticação | `docs/api-conventions.md` (API); `p7-*.md` (telas e identidade) | convenções de API em rascunho |
 | P8 Pendências jurídica e científica | `p8-pendencias.md` | listas prontas; pendências abertas |
 | P9 Gateway de pagamento | `p9-gateway.md` | pesquisa feita; decisão na Etapa 6 |
 | P10 Escopo do PWA | `p10-pwa.md` | decidido (29/10/2026) |

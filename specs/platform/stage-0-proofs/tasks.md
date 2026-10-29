@@ -46,10 +46,10 @@
 - [ ] T4.1 **P6:** matriz de dados legíveis em Apple Health e Health Connect, com permissões e bibliotecas. *Pronto quando:* matriz em `p6-wearables.md`.
 - [ ] T4.2 **P6:** teste com dados simulados em simulador ou aparelho. *Pronto quando:* leitura confirmada ou limite anotado; parte do aparelho de bioimpedância registrada como adiada.
 - [ ] T5.1 **P7:** fluxos de tela do app e do backoffice em baixa fidelidade. *Pronto quando:* o Dênis revisa e aprova.
-- [ ] T5.2 **P7:** convenções de API (versionamento, erro padronizado, paginação, identificadores de cliente). *Pronto quando:* documento aprovado.
+- [x] T5.2 **P7:** convenções de API (versionamento, erro padronizado, paginação, identificadores de cliente). *Pronto quando:* documento aprovado.
 - [ ] T5.3 **P7:** comparar provedores de identidade (custo, OIDC, MFA, recuperação de conta) e propor um. *Pronto quando:* ADR de autenticação aprovada.
 
 ## Fechamento
 
-- [ ] T6.1 **P5:** fixar metas de latência por tipo de operação a partir de P1, P2 e P4 e escrever a tabela no `docs/architecture.md`. *Pronto quando:* aprovada no Plannotator.
+- [x] T6.1 **P5:** fixar metas de latência por tipo de operação a partir de P1, P2 e P4 e escrever a tabela no `docs/architecture.md`. *Pronto quando:* aprovada no Plannotator.
 - [ ] T6.2 Conferir o critério de conclusão da spec (seção 5), listar pendências abertas (jurídica, científica, aparelho de bioimpedância) e atualizar `docs/progress-log.md`. *Pronto quando:* tudo checado e o próximo passo (spec da Etapa 1) registrado.

@@ -30,7 +30,7 @@
 
 ## Ordem 3
 
-- [ ] T3.1 **P1:** app React Native mínimo e servidor de teste em Kotlin em `prototypes/sync/`. *Pronto quando:* o app cria um registro offline e o servidor o recebe ao reconectar. *(pede ok para dependências)*
+- [x] T3.1 **P1:** app React Native mínimo e servidor de teste em Kotlin em `prototypes/sync/`. *Pronto quando:* o app cria um registro offline e o servidor o recebe ao reconectar. *(pede ok para dependências)*
 - [ ] T3.2 **P1:** implementar os cenários nas três opções (Expo SQLite com sync próprio, WatermelonDB, PowerSync), começando por mutação duplicada, conflito em dois aparelhos e sessão expirada. *Pronto quando:* resultado de cada cenário anotado por opção.
 - [ ] T3.3 **P1:** medir 10 mil registros e verificar criptografia local nas três opções. *Pronto quando:* números e suporte anotados.
 - [ ] T3.4 **P1:** tabela comparativa, ADR-0005 atualizada com a ferramenta e `docs/stage-0/p1-sincronizacao.md`. *Pronto quando:* ADR aprovada no Plannotator.

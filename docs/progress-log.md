@@ -19,8 +19,11 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - P3: candidatos de OCR e IA levantados (AWS, Google, Anthropic, Azure, OpenAI e local) no Notion e em `docs/stage-0/p3-provedores.md`. Exames do Dênis em `local/exams/` (5 arquivos; nada lido nem enviado).
 - P3, T3.5: Dênis autorizou a leitura dos 5 exames; gabaritos criados em `local/gabaritos/` (fora do git, têm valores reais). Os exames são 2 laudos de sangue, 2 de imagem (tomografia e ressonância, não ultrassom) e 1 foto InBody (JPEG).
 - P3, candidato F (local): `prototypes/exam-extraction/local_baseline.py` (Tesseract e poppler instalados via Homebrew). Resultados em `docs/stage-0/p3-extracao-exames.md`.
+- P1, T3.1: ambiente instalado (Node 22 pelo nvm sem mudar o padrão, Android SDK e emulador Android 15 pelo Homebrew; sem Xcode). Protótipo `prototypes/sync/` com a opção A (expo-sqlite + sincronização própria): 6 cenários verdes, 10 mil registros no emulador (envio 0,75 s, pull 0,22 s). B e C não executadas. Registro em `docs/stage-0/p1-sincronizacao.md`.
+- O template do Expo criou um `.claude/settings.json` que ativava um plugin do Claude; removido.
 
 **Próximo passo**
+- P1: decisão do Dênis sobre fechar com a opção A provisória ou testar B e C num build de desenvolvimento (T3.2 a T3.4).
 - P3: sintéticos (T3.6) e checklist de provedor com autorização (T3.7); depois os candidatos B e A (T3.8 e T3.9).
 - P1 (sincronização offline, T3.1 a T3.4), quando as dependências e o simulador estiverem definidos.
 

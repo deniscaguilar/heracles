@@ -6,8 +6,8 @@
 
 ## Preparação
 
-- [ ] T0.1 Criar `prototypes/README.md` (aviso: descartável, não é referência de qualidade) e `docs/stage-0/README.md` com o modelo de registro. *Pronto quando:* os dois arquivos existem e seguem o plano, seções 2 e 3.
-- [ ] T0.2 Conferir que `local/` está no `.gitignore` e criar a pasta local com um README que lista o que pode ficar lá. *Pronto quando:* `git status` não mostra nada de `local/`.
+- [x] T0.1 Criar `prototypes/README.md` (aviso: descartável, não é referência de qualidade) e `docs/stage-0/README.md` com o modelo de registro. *Pronto quando:* os dois arquivos existem e seguem o plano, seções 2 e 3.
+- [x] T0.2 Conferir que `local/` está no `.gitignore` e criar a pasta local com um README que lista o que pode ficar lá. *Pronto quando:* `git status` não mostra nada de `local/`.
 
 ## Ordem 1 (independentes)
 

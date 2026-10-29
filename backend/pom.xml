@@ -21,7 +21,22 @@
     <java.version>25</java.version>
     <kotlin.compiler.jvmTarget>25</kotlin.compiler.jvmTarget>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Fora do BOM do Boot; últimas GA no Maven Central em 29/10/2026. -->
+    <spring-modulith.version>2.1.2</spring-modulith.version>
+    <archunit.version>1.5.1</archunit.version>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.modulith</groupId>
+        <artifactId>spring-modulith-bom</artifactId>
+        <version>${spring-modulith.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
@@ -42,8 +57,24 @@
     </dependency>
 
     <dependency>
+      <groupId>org.springframework.modulith</groupId>
+      <artifactId>spring-modulith-starter-core</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.modulith</groupId>
+      <artifactId>spring-modulith-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit-junit5</artifactId>
+      <version>${archunit.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

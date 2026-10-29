@@ -2,6 +2,28 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-10-29 (encerramento da sessão: onde paramos)
+
+**Estado do projeto**
+- **Etapa 0 concluída com pendências** (`docs/stage-0/fechamento.md`).
+- **Etapa 1 (fundação técnica) em andamento**: spec, plano e tarefas aprovados e na `main`. Concluídas **E1-S1.1** (estrutura de pastas), **E1-S1.2** (`pom.xml`, wrapper e aplicação mínima, JDK 25, Spring Boot 4.1.2) e **E1-S1.3** (pacotes do módulo `platform`, regras do ArchUnit com prova de violação e `Modulith.verify()`; 9 testes unitários e 3 de integração verdes com `./mvnw verify`). 3 de 45 tarefas da Etapa 1.
+- **Board no Notion** ("Heracles · Tarefas", Etapas E0 e E1): cartões atualizados até a E1-S1.3.
+
+**Como retomar (regras do `CLAUDE.md`)**
+1. Ler o `CLAUDE.md` e **atualizar a `main`** (`git checkout main` e `git pull`).
+2. Usar o JDK 25: `sdk env` em `backend/` (`.sdkmanrc`) e `./mvnw verify` para conferir que está verde.
+3. **Próxima tarefa: E1-S1.4** (perfis `api`, `worker` e `all`), depois S1.5 (`docker compose` local) e o resto da fatia S1 (CI, scans, SBOM, Dependabot). Ordem completa em `specs/platform/stage-1-foundation/tasks.md`.
+4. Fluxo: uma revisão no Plannotator antes do commit; aprovada, a IA faz commit, push, PR, merge e limpeza sem perguntar; mover o cartão no Notion e atualizar `tasks.md` e este diário.
+
+**Pendências que dependem do Dênis** (nenhuma bloqueia a S1)
+- **Provedor de IA e OCR** (T3.7 a T3.10 da Etapa 0): escolher, preparar conta e autorizar o envio; bloqueia a Etapa 3. Candidatos e checklist em `docs/stage-0/p3-provedores.md` e no Notion.
+- **Teste de fumaça no SQS real** (T2.4): adiado.
+- **Tarefas da Etapa 1 que pedem ok**: E1-S1.11 (proteção da `main` e secret scanning), E1-S8.1 (estado remoto e conta AWS), E1-S8.3 e E1-S8.4 (ambiente de fumaça, geram custo).
+- **Validação científica** e **pareceres jurídicos** (`docs/stage-0/p8-pendencias.md`): bloqueiam abrir o produto a terceiros (Etapa 6 em diante). O produto segue só do Dênis.
+- **Contas de desenvolvedor da Apple e do Google** e confirmação do Cognito em São Paulo (ADR-0008).
+
+**Ambiente da máquina** (para não estranhar): Xcode 26.6 e simulador do iOS 26.5, Android SDK e emulador `heracles-p1`, Node 22 (padrão do nvm continua 18), Tesseract e poppler, CocoaPods, `mas`. Exames reais só em `local/` (fora do git).
+
 ## 2026-10-29 (Etapa 0, preparação)
 
 **Feito**
@@ -42,12 +64,10 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - E1-S1.1: estrutura de pastas (`backend/`, `mobile/`, `web/`, `packages/`, `infra/`, `docker/`) com README em cada uma; README raiz com a tabela de pastas.
 - E1-S1.2: `backend/pom.xml` e o wrapper (Maven 3.9.14); `./mvnw verify` verde com JDK 25 (3 testes de integração: liveness 200, health sem detalhes, outros endpoints do actuator não expostos); o enforcer recusa o JDK 21. **Versões (conferidas no Maven Central em 29/10/2026):** Spring Boot 4.1.2 (a 4.2.0-RC1 não é GA), Kotlin 2.3.21 (pelo BOM do Boot), Jackson 3.1.7, Tomcat 11.0.27, JDK 25.0.2 (SDKMAN, `backend/.sdkmanrc`). Modulith 2.1.2, MockK 1.14.11, AWS SDK 2.57.7, springdoc 3.2.0, JaCoCo 0.8.16 e ArchUnit 1.5.1 são as últimas GA e entram nas tarefas em que forem usados.
 
+- E1-S1.3: pacotes do módulo `platform` (`api`, `domain`, `application`, `adapter`, `config`) e regras do ArchUnit em `ArchitectureRules` (camadas, domínio sem Spring/JPA/Jackson/AWS, sem pacote `core`, `common` ou `shared`, módulo só usa outro pela `api`), com **classes de exemplo com violação proposital** que provam que cada regra falha; `Modulith.verify()` com as classes de exemplo fora. Dependências: `spring-modulith-starter-core` e `-test` (2.1.2) e `archunit-junit5` (1.5.1), da lista aprovada. `./mvnw verify` verde: 9 testes unitários e 3 de integração. **Limite:** ainda não há classe de produção nas camadas do `platform`, então as regras passam sem exercitar código real; a prova de que funcionam são as classes de exemplo, e elas passam a valer para o código real a partir da S2.
+
 **Próximo passo**
-- E1-S1.3: pacotes do módulo `platform`, regras do ArchUnit e `Modulith.verify()`.
-- Guardar a chave no Keychain e no Keystore (`expo-secure-store` é dependência nova a aprovar).
-- T6.2 (fechamento da Etapa 0). T3.7 a T3.10 e T2.4 seguem pendentes.
-- P3: Dênis escolhe o provedor e prepara a conta (T3.7); depois T3.8 a T3.10.
-- Depois da P3: ordem 4 (P6 wearables), ordem 5 (P7 telas, API e autenticação) e o fechamento (P5 latência e T6.2).
+- E1-S1.4: perfis `api`, `worker` e `all`.
 
 ## 2026-10-29
 

@@ -1,6 +1,6 @@
 # Roadmap: Heracles Society (app, backoffice, backend e infraestrutura)
 
-**Status:** Aprovada (v5, com a alteração de 29/10/2026: troca de alimento só no backend)
+**Status:** Aprovada (v5, com as alterações de 29/10/2026: troca de alimento só no backend; substituição de exercício na Etapa 4)
 **Base:** Notion "Heracles Society — Central de Planejamento", lições do Sistema da Clínica (EndoAcademy) e o feedback das versões anteriores (29/10/2026)
 **Autor:** Dênis Casado Aguilar
 
@@ -98,7 +98,7 @@ Um backoffice **mínimo** (exercícios, alimentos, regras, marcadores de exame e
 - **Backoffice:** área onde o Dênis **cadastra as políticas e os termos de consentimento**, com versão. Alterar o texto cria nova versão; o cliente aceita de novo quando a versão muda; os aceites antigos continuam ligados à versão que ele viu.
 - Aceite e revogação registrados e auditados, com confirmação ao usuário (enviada em segundo plano).
 - Retenção, exclusão e exportação dos dados do titular.
-- Anamnese: objetivo, nível, restrições, **alergias e intolerâncias**, preferências alimentares.
+- Anamnese: objetivo, nível, restrições, **alergias e intolerâncias**, preferências alimentares, **equipamento disponível e limitações físicas ou lesões** (base da substituição de exercício, Etapa 4).
 
 ### Etapa 3: Exames com IA
 - **Entrada:** digitação, ou upload de **PDF ou imagem** em armazenamento criptografado. O arquivo original é sempre guardado. O envio responde na hora ("recebido") e o processamento segue em segundo plano.
@@ -121,7 +121,7 @@ Um backoffice **mínimo** (exercícios, alimentos, regras, marcadores de exame e
 - **Gate de IA:** só com consentimento específico, anonimização no `aigateway`, provedor aprovado e revisão jurídica.
 
 ### Etapa 4: Motores de treino e cardápio
-- Banco de 150 a 250 exercícios com grupos de equivalência.
+- Banco de 150 a 250 exercícios com grupos de equivalência. Cada exercício guarda **grupo muscular principal e secundários, padrão de movimento, equipamento, nível e limitações** (por exemplo, contraindicado para lesão no ombro).
 - Banco de alimentos baseado em TACO ou TBCA, com porções caseiras e **filtros rígidos de alergia e restrição**.
 - Motor de treino por regras (volume, intensidade, periodização por objetivo).
 - Motor de cardápio (calorias e macros por refeição).
@@ -131,6 +131,14 @@ Um backoffice **mínimo** (exercícios, alimentos, regras, marcadores de exame e
   3. Confere o total do dia contra a meta, aceitando **±10% de calorias**. Se estourar, propõe ajustes de porção em outras refeições e mostra as opções.
   4. Respeita um **piso de proteína configurável** e um piso calórico seguro.
 - **"Comi fora do plano":** o usuário registra o que comeu e o resto do dia é recalculado com o mesmo algoritmo.
+- **Substituição de exercício** (por equipamento equivalente ou por outro exercício do mesmo grupo muscular): o usuário troca, por exemplo, *supino reto com halter* por *supino reto com barra*, ou escolhe outro exercício que trabalhe o mesmo músculo, porque falta o equipamento, ele está ocupado ou há preferência. Regras iniciais:
+  1. Mesmo **grupo muscular principal** e mesmo **padrão de movimento**; o equipamento pode mudar.
+  2. Só entram equipamentos que o usuário **declarou ter** (academia, casa, peso do corpo).
+  3. Respeita **limitações e lesões** declaradas: exercício com contraindicação **nunca** é sugerido; dor ou lesão nova leva ao aviso "procure um profissional".
+  4. Mantém séries e repetições do plano; **a carga não é convertida sozinha** (halter e barra não têm equivalência direta): o app sugere começar leve e guarda a carga nova no histórico.
+  5. A troca fica registrada no histórico e vale para aquele treino ou para o plano, à escolha do usuário.
+  6. É **consulta ao catálogo, sem recálculo**; por isso pode funcionar **offline** com o catálogo de exercícios guardado no aparelho (a confirmar na spec; diferente da troca de alimento, ADR-0006).
+  7. Regras e equivalências **validadas pelo educador físico** (pendência C10).
 - **Lista de compras** da semana, com as trocas já aplicadas.
 - **Receitas e preparo em lote**, ligados ao banco de alimentos.
 - **Suplementos como sugestão no cardápio**, só os alimentares comuns (por exemplo whey e creatina), sem hormônios e sem reposição de vitaminas e minerais em dose terapêutica, com texto revisado pelo parceiro e pelo jurídico.
@@ -263,6 +271,7 @@ Um backoffice **mínimo** (exercícios, alimentos, regras, marcadores de exame e
 - Motores antes do pagamento; assinatura e pagamento na Etapa 6 com gateway mockado.
 - Planos mensal, trimestral, semestral e anual, com renovação automática e cancelamento só ao final do período; aluno grátis e vitalício pelo backoffice.
 - Offline para tudo do dia (treino, leitura do cardápio, check-in e exames em fila), com sincronização.
+- Substituição de exercício por equipamento equivalente ou por outro exercício do mesmo grupo muscular: **fica na Etapa 4** (motor de treino), não na Etapa 0 (decisão de 29/10/2026): é consulta ao catálogo, sem o risco técnico da troca de alimento, e as regras dependem do educador físico.
 - Algoritmo de troca **só no backend**; a troca exige conexão e, sem sinal, fica como ação pendente (alterado em 29/10/2026, aprovada em 29/10/2026).
 - Tolerância de ±10% nas calorias do dia, com piso de proteína configurável.
 - Comunidade completa desde o início.
@@ -287,6 +296,7 @@ Um backoffice **mínimo** (exercícios, alimentos, regras, marcadores de exame e
 | Modo "dia livre" e pausa saudável | 5 |
 | Receitas e preparo em lote | 4 |
 | Suplementos como sugestão no cardápio | 4 |
+| Substituição de exercício por equipamento equivalente ou por outro do mesmo grupo muscular | 4 e 5 |
 | Lembrete de refazer o exame | 3 |
 | Relatório em PDF para levar ao médico | 3 |
 | Refeição por foto | 7 |
@@ -343,3 +353,4 @@ Um backoffice **mínimo** (exercícios, alimentos, regras, marcadores de exame e
 
 - [x] Aprovado por: Dênis, via Plannotator (Approve), em 29/10/2026
 - [x] Alteração de 29/10/2026 (troca de alimento só no backend; offline para tudo do dia exceto a troca) aprovada por: Dênis, via Plannotator (Approve), em 29/10/2026
+- [x] Alteração de 29/10/2026 (substituição de exercício na Etapa 4) aprovada por: Dênis, via Plannotator (Approve), em 29/10/2026

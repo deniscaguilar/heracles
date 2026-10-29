@@ -54,7 +54,7 @@ Cada consentimento é separado e revogável depois em Mais > Privacidade. Sem o 
 
 ### 3.2 Anamnese (Etapa 2)
 
-Fluxo curto em passos: objetivo e nível; restrições, **alergias e intolerâncias**; preferências alimentares; idade e condições que tiram do plano automático (menores, gestantes e quadros que exigem acompanhamento recebem a mensagem "procure um profissional" em vez de plano automático).
+Fluxo curto em passos: objetivo e nível; restrições, **alergias e intolerâncias**; preferências alimentares; **equipamento disponível** (academia, casa, peso do corpo) e **limitações físicas ou lesões**; idade e condições que tiram do plano automático (menores, gestantes e quadros que exigem acompanhamento recebem a mensagem "procure um profissional" em vez de plano automático).
 
 ### 3.3 Hoje (Etapas 4 e 5)
 
@@ -101,10 +101,12 @@ Treino · Peito e tríceps      Execução
  1 Supino reto   4x8           Supino reto   série 2 de 4
  2 Supino incl.  3x10          carga [ 60 kg ]  reps [ 8 ]
  3 Crucifixo     3x12          [ Concluir série ]   descanso 01:30
- [ Começar ]                   [ Trocar exercício ] (grupo de equivalência)
+ [ Começar ]                   [ Trocar exercício ] (outro equipamento ou outro do mesmo músculo)
 ```
 
 O treino em andamento fica salvo localmente e sobrevive a sessão expirada e a fechar o app.
+
+**Trocar exercício:** a tela mostra as opções do mesmo grupo muscular, com o equipamento de cada uma (por exemplo, *supino reto com halter* por *supino reto com barra*), só com o equipamento que o usuário declarou ter e sem exercícios que ele não pode fazer por limitação ou lesão. A carga não é convertida: o app sugere começar leve (Etapa 4; regras no roadmap).
 
 ### 3.6 Check-in (Etapa 7)
 

@@ -180,6 +180,10 @@ Use sempre o termo em inglês no código. Termos novos entram aqui antes de sere
 | treino | `workout` |
 | exercício | `exercise` |
 | grupo de equivalência (exercício) | `exerciseGroup` |
+| substituição de exercício | `exerciseSubstitution` |
+| equipamento | `equipment` |
+| grupo muscular | `muscleGroup` |
+| padrão de movimento | `movementPattern` |
 | cardápio | `mealPlan` |
 | refeição | `meal` |
 | alimento | `food` |

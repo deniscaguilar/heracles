@@ -7,7 +7,8 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.heracles.healthproto"
     },
     "android": {
       "adaptiveIcon": {
@@ -42,6 +43,13 @@
     },
     "plugins": [
       "react-native-health-connect",
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "Prot\u00f3tipo: ler peso, composi\u00e7\u00e3o corporal e passos para testar a integra\u00e7\u00e3o.",
+          "NSHealthUpdateUsageDescription": "Prot\u00f3tipo: gravar dados simulados para testar a integra\u00e7\u00e3o."
+        }
+      ],
       [
         "expo-build-properties",
         {

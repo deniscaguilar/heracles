@@ -28,9 +28,10 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - T5.2 (P7): `docs/api-conventions.md` (rascunho): versão no caminho, camelCase, UUID, decimais como string, erros Problem Details, cursor, idempotência, tarefas assíncronas.
 - T6.1 (P5): orçamento de latência na seção 7.1 de `docs/architecture.md`, com os números medidos nas provas P1, P2 e P4.
 - T5.3 (P7): ADR-0008 aprovada: Amazon Cognito provisório, login por conta própria, Google e Apple; `ADMIN` e `MODERATOR` só com conta própria e MFA. Comparativo no Notion. Pendências: região de São Paulo, preço oficial, pt-BR, contas de desenvolvedor da Apple e do Google, prova real de login PKCE.
+- T4.1 e T4.2 (P6): matriz de Health Connect e HealthKit e teste com dados simulados no emulador Android (5 registros gravados e lidos). iOS e bioimpedância real pendentes. Build de desenvolvimento do Android funcionando (destrava SQLCipher da P1). Registro em `docs/stage-0/p6-wearables.md`.
 
 **Próximo passo**
-- Ordem 4 e 5: T4.1 e T4.2 (wearables) e T5.1 (telas); depois T6.2 (fechamento).
+- T5.1 (telas em baixa fidelidade) e T6.2 (fechamento).
 - P3: Dênis escolhe o provedor e prepara a conta (T3.7); depois T3.8 a T3.10.
 - Depois da P3: ordem 4 (P6 wearables), ordem 5 (P7 telas, API e autenticação) e o fechamento (P5 latência e T6.2).
 

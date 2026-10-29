@@ -13,9 +13,10 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - T1.1 (P10): decidido um **único app web React** (PWA do cliente + backoffice em `/admin`), como no EndoAcademy; dois clientes (mobile e web). `CLAUDE.md`, `architecture.md`, ADR-0001, README e roadmap ajustados.
 - T1.2 e T1.3 (P8): `docs/stage-0/p8-pendencias.md` com 12 temas jurídicos (J1 a J12) e 12 itens científicos (C1 a C12), todos como pendência aberta, e as travas vigentes (produto só do Dênis).
 - T1.4 (P9): comparativo de gateways no Notion (números não confirmados em fonte oficial) e registro `docs/stage-0/p9-gateway.md`; decisão adiada para a Etapa 6. Ordem 1 da Etapa 0 concluída.
+- T2.1 a T2.3 (P4): ElasticMQ 1.7.1 e LocalStack 4.14.0 passam nos mesmos cenários; proposta de ElasticMQ para SQS local (ADR-0004 atualizada, provisória). Registro em `docs/stage-0/p4-filas.md`.
 
 **Próximo passo**
-- Ordem 2: P4 (filas, T2.1 a T2.5) e P2 (troca, T2.6 a T2.9).
+- T2.4 (fumaça no SQS real, pede autorização) e T2.5 (aprovação do ADR-0004); depois P2 (troca, T2.6 a T2.9).
 
 ## 2026-10-29
 

@@ -18,9 +18,9 @@
 
 ## Ordem 2
 
-- [ ] T2.1 **P4:** subir ElasticMQ e LocalStack fixado (versão sem token) via `docker compose` local em `prototypes/queues/`. *Pronto quando:* os dois respondem a criar fila e enviar mensagem.
-- [ ] T2.2 **P4:** produtor e worker de teste. *Pronto quando:* mensagem enviada é consumida e confirmada.
-- [ ] T2.3 **P4:** cenários de falha: nova tentativa com espera crescente, DLQ, mesma mensagem duas vezes sem efeito duplicado. *Pronto quando:* os três passam nos dois emuladores ou a diferença está anotada.
+- [x] T2.1 **P4:** subir ElasticMQ e LocalStack fixado (versão sem token) via `docker compose` local em `prototypes/queues/`. *Pronto quando:* os dois respondem a criar fila e enviar mensagem.
+- [x] T2.2 **P4:** produtor e worker de teste. *Pronto quando:* mensagem enviada é consumida e confirmada.
+- [x] T2.3 **P4:** cenários de falha: nova tentativa com espera crescente, DLQ, mesma mensagem duas vezes sem efeito duplicado. *Pronto quando:* os três passam nos dois emuladores ou a diferença está anotada.
 - [ ] T2.4 **P4 (pede ok):** teste de fumaça no SQS real, com `destroy` ao final. *Pronto quando:* resultado comparado ao emulador e recursos removidos.
 - [ ] T2.5 **P4:** escrever `docs/stage-0/p4-filas.md` e atualizar o ADR-0004 com o emulador escolhido. *Pronto quando:* ADR revisada e aprovada no Plannotator.
 - [ ] T2.6 **P2:** criar o módulo Kotlin isolado em `prototypes/swap/` e um catálogo de alimentos de teste sem dado pessoal. *Pronto quando:* compila e carrega o catálogo.

@@ -23,7 +23,7 @@ Premissa do produto: o melhor tempo de resposta possível; só aparece na hora o
 - **Atualização da tela:** ao voltar ao primeiro plano, por consulta periódica com espera crescente e por push quando disponível. Sem conexão permanente aberta no MVP.
 - **Perfis:** `api` e `worker` no mesmo artefato, juntos no início; podem separar sem reescrita.
 - **Observabilidade:** idade da mensagem mais antiga, tamanho da fila, tamanho da DLQ e tempo de processamento por tipo de tarefa; alarmes de idade e de DLQ não vazia.
-- **Ambiente local:** o emulador de SQS é decidido na Etapa 0. Lição do Sistema da Clínica: o LocalStack exige token a partir da versão 2026.03 e lá foi fixado na 4.14.0 por digest; ElasticMQ é uma alternativa compatível com SQS. O adaptador real e o local ficam atrás do port `TaskQueue`.
+- **Ambiente local:** **ElasticMQ** (`softwaremill/elasticmq-native`, versão e digest fixados; provado na 1.7.1) como emulador de SQS. Na prova P4 (`docs/stage-0/p4-filas.md`, 29/10/2026) ele e o LocalStack 4.14.0 passaram nos mesmos cenários (entrega, nova tentativa com espera crescente, DLQ, duplicidade), e o ElasticMQ usa cerca de um terço da memória e um décimo do tamanho de imagem, sem risco de token ou licença. A decisão é provisória até o teste de fumaça no SQS real. O emulador de S3 é decidido na spec da fundação. O adaptador real e o local ficam atrás do port `TaskQueue`. O adaptador real e o local ficam atrás do port `TaskQueue`.
 - **SNS** só se algum evento precisar chegar a vários consumidores.
 
 ## Alternativas

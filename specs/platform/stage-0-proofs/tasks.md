@@ -34,7 +34,7 @@
 - [ ] T3.2 **P1:** implementar os cenários nas três opções (Expo SQLite com sync próprio, WatermelonDB, PowerSync), começando por mutação duplicada, conflito em dois aparelhos e sessão expirada. *Pronto quando:* resultado de cada cenário anotado por opção.
 - [ ] T3.3 **P1:** medir 10 mil registros e verificar criptografia local nas três opções. *Pronto quando:* números e suporte anotados.
 - [ ] T3.4 **P1:** tabela comparativa, ADR-0005 atualizada com a ferramenta e `docs/stage-0/p1-sincronizacao.md`. *Pronto quando:* ADR aprovada no Plannotator.
-- [ ] T3.5 **P3:** reunir os exames do Dênis em `local/` (sangue, ultrassom, PDF de bioimpedância) e montar os gabaritos à mão. *Pronto quando:* gabaritos sem dado pessoal prontos para o repositório.
+- [x] T3.5 **P3:** reunir os exames do Dênis em `local/` (sangue, imagem e bioimpedância) e montar os gabaritos. *Pronto quando:* gabaritos prontos **em `local/gabaritos/`**. Eles contêm valores reais de saúde e por isso **não vão ao repositório público** (só métricas agregadas). Os exames são: 2 laudos de sangue (PDF), 2 laudos de imagem (tomografia e ressonância) e 1 foto de bioimpedância (InBody).
 - [ ] T3.6 **P3:** criar documentos sintéticos para calorimetria e SIBO (ou registrar a lacuna). *Pronto quando:* existem ou a lacuna está no registro.
 - [ ] T3.7 **P3 (pede ok):** escolher provedores candidatos, informar provedor e região e obter autorização escrita do Dênis para enviar os exames. *Pronto quando:* autorização registrada no chat.
 - [ ] T3.8 **P3:** pipeline de OCR e LLM com saída validada por esquema, rodando em cada provedor. *Pronto quando:* saída gerada para cada documento e provedor, só em `local/`.

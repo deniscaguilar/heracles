@@ -141,7 +141,9 @@ O board não leva dado de saúde, segredo nem informação comercial sensível.
 - Commits convencionais (`feat:`, `fix:`, `chore:`…), uma mudança lógica por commit.
 - **Antes de cada commit: revisão de código no Plannotator.** A IA abre `plannotator review` do diff local, **com Approve ativo, e para**. Só com **aprovação explícita** do humano ela faz o commit. Comentários são aplicados e a revisão é reaberta se a mudança for relevante.
 - **Antes de cada push e de cada PR: nova revisão no Plannotator** do conjunto de commits da branch contra a base, também aprovada. A revisão do PR é feita sobre o **diff local contra a base** (`plannotator review --base main`), não pela URL do PR: o GitHub não deixa o autor aprovar o próprio PR, e o desenvolvimento é solo. Aprovação no GitHub **não** é exigida; a proteção da `main` exige só o CI verde.
-- **A IA nunca faz push, merge nem force push sem aprovação explícita**, e nunca faz force push em `main`.
+- **Aprovada a revisão do conjunto da branch (item acima), a IA segue sem perguntar mais nada** (regra do Dênis, 29/10/2026): faz o `git push` da branch, abre o PR, faz o **merge (squash) na `main`**, **remove a branch** (remota e local) e atualiza a `main` local. Não pergunta "posso mergear?" nem "posso remover as branches?", e não pede autorização separada para abrir a branch e dar o push.
+- **Limites que continuam valendo:** a IA **nunca faz force push**, nunca faz push nem commit direto na `main` (só por PR) e **só faz push, PR e merge do que passou pela revisão aprovada no Plannotator** (se a revisão vier com comentários, aplica e reabre; sem aprovação, não segue). Quando houver CI, o merge só acontece com o CI verde. Mudança que caia na lista da seção 10 continua exigindo a decisão específica do Dênis sobre o assunto (não sobre o merge).
+- **Ao iniciar o trabalho, depois de ler este arquivo:** a IA **atualiza a `main`** (`git checkout main` e `git pull`) e confere `git status`, para começar com o projeto atualizado. Se houver alteração local não commitada, **não descarta**: avisa o Dênis.
 - Revisão de documento (spec, plano, ADR) segue o fluxo da seção 5; revisão de código segue este fluxo. As duas mantêm `PLANNOTATOR_SHARE=disabled`.
 - Dinheiro em `BigDecimal` ou centavos (`Long`); fuso `America/Sao_Paulo` explícito; nunca `LocalDateTime` sem fuso para instantes.
 - Quantidades do algoritmo de troca em `BigDecimal` ou inteiros em unidade fixa, com regras de arredondamento escritas na spec (ADR-0006), nunca `Double`.
@@ -158,7 +160,7 @@ O board não leva dado de saúde, segredo nem informação comercial sensível.
 - Alterar migração já aplicada, configuração de segurança, RLS ou autenticação.
 - Adicionar ou trocar dependência, imagem base, provider de infra ou serviço AWS.
 - Fazer deploy, `apply` de infra ou qualquer ação que gere custo.
-- Criar o repositório, conectar o remoto, fazer commit, push ou merge sem a revisão aprovada no Plannotator.
+- Criar o repositório, conectar o remoto, fazer commit, push ou merge sem a revisão aprovada no Plannotator (com a revisão aprovada, a IA segue direto até o merge, sem nova pergunta; ver seção 9).
 - Enviar dado a serviço externo (LLM, OCR, e-mail, push, WhatsApp, gateway de pagamento).
 - Criar ou alterar uma fila, ou colocar dado de saúde numa mensagem.
 - Segmentar comunicação por qualquer dado de saúde.

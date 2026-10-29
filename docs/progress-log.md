@@ -17,9 +17,11 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - T2.5: ADR-0004 aprovada e mergeada (PR #9); T2.4 (fumaça no SQS real) adiada pelo Dênis.
 - T2.6 a T2.9 (P2): protótipo Kotlin da troca em `prototypes/swap/` (Maven, 9 testes verdes), 20 casos em `data/cases.tsv` (não validados), regras de arredondamento e latência (p99 de 0,0015 ms por troca; 1,2 ms para gerar opções sobre 1.358 candidatos). Registro em `docs/stage-0/p2-troca.md`.
 - P3: candidatos de OCR e IA levantados (AWS, Google, Anthropic, Azure, OpenAI e local) no Notion e em `docs/stage-0/p3-provedores.md`. Exames do Dênis em `local/exams/` (5 arquivos; nada lido nem enviado).
+- P3, T3.5: Dênis autorizou a leitura dos 5 exames; gabaritos criados em `local/gabaritos/` (fora do git, têm valores reais). Os exames são 2 laudos de sangue, 2 de imagem (tomografia e ressonância, não ultrassom) e 1 foto InBody (JPEG).
+- P3, candidato F (local): `prototypes/exam-extraction/local_baseline.py` (Tesseract e poppler instalados via Homebrew). Resultados em `docs/stage-0/p3-extracao-exames.md`.
 
 **Próximo passo**
-- P3: gabaritos (T3.5, feitos à mão pelo Dênis ou com leitura autorizada), sintéticos (T3.6) e checklist de provedor com autorização (T3.7).
+- P3: sintéticos (T3.6) e checklist de provedor com autorização (T3.7); depois os candidatos B e A (T3.8 e T3.9).
 - P1 (sincronização offline, T3.1 a T3.4), quando as dependências e o simulador estiverem definidos.
 
 ## 2026-10-29

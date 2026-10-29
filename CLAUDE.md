@@ -26,7 +26,7 @@ Primeiro uso próprio (o Dênis), depois assinatura. Desenvolvedor único (Dêni
 | App iOS e Android | **React Native** + TypeScript, offline com sincronização (ADR-0005; ferramenta decidida na Etapa 0) |
 | App web (PWA do cliente + backoffice) | **React** + TypeScript, uma base; backoffice em `/admin`; PWA instalável com service worker só para o shell; cliente gerado do OpenAPI |
 | Código TypeScript compartilhado | Pacotes comuns ao app mobile e ao app web (cliente de API gerado, tipos e design tokens) |
-| Auth | OIDC genérico (resource server) atrás de um port; provedor a decidir (Cognito é candidato) |
+| Auth | OIDC genérico (resource server) atrás de um port; provedor: Amazon Cognito, provisório (ADR-0008); login por conta própria, Google e Apple |
 | IA e OCR | Somente pelo `aigateway` (ADR-0007) |
 | Infra | AWS sa-east-1, OpenTofu, EC2 + Docker Compose + RDS, S3, SQS, SSM (ADR-0002) |
 | Testes | JUnit 5, MockK, AssertJ, Testcontainers, ArchUnit, JaCoCo; Jest e Testing Library no front |

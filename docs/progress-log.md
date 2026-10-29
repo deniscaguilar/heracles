@@ -2,6 +2,17 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-10-29 (Etapa 0, preparação)
+
+**Feito**
+- Spec, plano e tarefas da Etapa 0 aprovados e na `main` (PR #3); regra do board de tarefas no Notion no `CLAUDE.md` (PR #4).
+- Board "Heracles · Tarefas" criado no Notion com as 32 tarefas da Etapa 0.
+- T0.1: `prototypes/README.md` e `docs/stage-0/README.md` criados.
+- T0.2: `local/` já estava no `.gitignore`; README local criado e confirmado como ignorado.
+
+**Próximo passo**
+- Ordem 1 da Etapa 0: T1.1 (escopo do PWA), T1.2 e T1.3 (pendências jurídica e científica), T1.4 (gateway).
+
 ## 2026-10-29
 
 **Feito**

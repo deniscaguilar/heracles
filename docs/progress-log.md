@@ -10,8 +10,10 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - T0.1: `prototypes/README.md` e `docs/stage-0/README.md` criados.
 - T0.2: `local/` já estava no `.gitignore`; README local criado e confirmado como ignorado.
 
+- T1.1 (P10): decidido um **único app web React** (PWA do cliente + backoffice em `/admin`), como no EndoAcademy; dois clientes (mobile e web). `CLAUDE.md`, `architecture.md`, ADR-0001, README e roadmap ajustados.
+
 **Próximo passo**
-- Ordem 1 da Etapa 0: T1.1 (escopo do PWA), T1.2 e T1.3 (pendências jurídica e científica), T1.4 (gateway).
+- Ordem 1 da Etapa 0: T1.2 e T1.3 (pendências jurídica e científica), T1.4 (gateway).
 
 ## 2026-10-29
 

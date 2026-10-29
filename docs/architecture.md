@@ -11,8 +11,8 @@ Monolito modular em Kotlin + Spring Boot, com Clean Architecture dentro de cada 
 
 ```
  App iOS/Android (React Native)  ┐
- PWA do cliente (React)          ├──HTTPS──►  Caddy  ──►  backend (api + worker)  ──►  RDS PostgreSQL
- Backoffice (React, web)         ┘                          │   │   │   │
+ App web (React: PWA + /admin)   ┘──HTTPS──►  Caddy  ──►  backend (api + worker)  ──►  RDS PostgreSQL
+                                                            │   │   │   │
                                                             │   │   │   └──► SQS (filas + DLQ)
    App ──URL pré-assinada──► S3 (exames, mídia) ◄───────────┘   │   └──────► provedor OIDC
                                                                 └──────────► aigateway ──► OCR e LLM (externos)
@@ -26,10 +26,10 @@ Local: o mesmo desenho com Postgres, emulador de SQS e S3, OIDC mock e observabi
 | Canal | Onde vive | Quem usa |
 |---|---|---|
 | App iOS e Android | `mobile/` (React Native) | Usuário |
-| PWA do cliente | `web/` (React); escopo definido na Etapa 0 | Usuário |
-| Backoffice | `backoffice/` (React, web), rotas `/admin` | `ADMIN` e `MODERATOR` |
+| App web, área do cliente (PWA) | `web/` (React), service worker só para o shell, sem offline | Usuário |
+| App web, backoffice | `web/` (mesma base React), rotas `/admin` | `ADMIN` e `MODERATOR` |
 
-Os três consomem o mesmo contrato OpenAPI versionado, com cliente TypeScript gerado em `packages/`. O backoffice **não é um módulo**: cada módulo expõe os seus endpoints administrativos em `adapter/in/web`, sob `/admin/<módulo>`, protegidos pelo `Authorizer` do `platform`.
+Os dois clientes consomem o mesmo contrato OpenAPI versionado, com cliente TypeScript gerado em `packages/`. O backoffice **não é um módulo**: cada módulo expõe os seus endpoints administrativos em `adapter/in/web`, sob `/admin/<módulo>`, protegidos pelo `Authorizer` do `platform`.
 
 ## 3. Módulos
 
@@ -175,7 +175,7 @@ O worker de extração de exame e IA é o candidato mais natural a virar serviç
 
 - **Permissões fixas por perfil** (`USER`, `ADMIN`, `MODERATOR`): definidas nas specs de `platform`, `consent` e `community`.
 - **Onde fica a lista de planos de conteúdo** consultada por `training` e `nutrition`: a proposta é `billing` expor uma consulta de direito de acesso; a spec decide se há cópia em cache local de leitura.
-- **Escopo do PWA** e seu papel no offline: Etapa 0.
+- ~~Escopo do PWA e seu papel no offline~~: decidido na P10 (`docs/stage-0/p10-pwa.md`).
 - **Mecanismo de eventos** (registro de eventos do Spring Modulith como outbox, ou tabela própria): decidido na spec da fundação.
 - **Wearables e bioimpedância integrada:** se viáveis, os dados entram em `profile`; a prova está na Etapa 0.
 

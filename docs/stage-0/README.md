@@ -30,6 +30,6 @@ Nome: `p<N>-<tema>.md` (por exemplo, `p4-filas.md`). Seções, em português:
 | P5 Orçamento de latência | tabela em `docs/architecture.md` | a fazer |
 | P6 Wearables e bioimpedância | `p6-wearables.md` | a fazer |
 | P7 Telas, API e autenticação | `p7-*.md` | a fazer |
-| P8 Pendências jurídica e científica | `p8-pendencias.md` | a fazer |
+| P8 Pendências jurídica e científica | `p8-pendencias.md` | listas prontas; pendências abertas |
 | P9 Gateway de pagamento | `p9-gateway.md` | a fazer |
 | P10 Escopo do PWA | `p10-pwa.md` | decidido (29/10/2026) |

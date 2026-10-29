@@ -14,7 +14,7 @@
 - [x] T1.1 **P10:** propor o papel do PWA (o que faz, offline ou não, recursos nativos que faltam) e registrar em `docs/stage-0/p10-pwa.md`. *Pronto quando:* Dênis aprova e o roadmap e o `docs/architecture.md` refletem a decisão.
 - [x] T1.2 **P8:** montar a lista de perguntas jurídicas por tema (LGPD, transferência internacional, comunidade, termos, suplementos, cancelamento, promoção, venda de produto, ANVISA) em `docs/stage-0/p8-pendencias.md`. *Pronto quando:* cada tema está listado como pendência aberta com as travas vigentes.
 - [x] T1.3 **P8:** listar o que o parceiro científico precisa validar (regras e casos da troca, travas de segurança, suplementos) e registrar como pendência. *Pronto quando:* a lista está no mesmo arquivo.
-- [ ] T1.4 **P9:** pesquisar gateways (taxas, Pix, recorrência, regras das lojas) e guardar o comparativo **no Notion**, não no repositório. *Pronto quando:* o comparativo existe no Notion e `docs/stage-0/p9-gateway.md` só aponta que a decisão fica para a Etapa 6.
+- [x] T1.4 **P9:** pesquisar gateways (taxas, Pix, recorrência, regras das lojas) e guardar o comparativo **no Notion**, não no repositório. *Pronto quando:* o comparativo existe no Notion e `docs/stage-0/p9-gateway.md` só aponta que a decisão fica para a Etapa 6.
 
 ## Ordem 2
 

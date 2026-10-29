@@ -1,0 +1,15 @@
+# Prova P4 (descartável): dois emuladores de SQS lado a lado.
+# Portas altas para não colidir com outros ambientes locais.
+services:
+  elasticmq:
+    image: softwaremill/elasticmq-native:1.7.1
+    ports:
+      - "19324:9324"
+
+  localstack:
+    # Fixado em 4.14.0: as versões a partir de 2026.03 exigem token (lição do projeto da clínica).
+    image: localstack/localstack:4.14.0
+    environment:
+      SERVICES: sqs
+    ports:
+      - "14566:4566"

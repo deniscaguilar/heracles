@@ -127,7 +127,7 @@ O board não leva dado de saúde, segredo nem informação comercial sensível.
 ## 8. Paridade local e produção
 
 - Mesma imagem em todos os ambientes; só variáveis de ambiente mudam.
-- `docker compose` local sobe Postgres, emulador de SQS e S3, OIDC mock e observabilidade. A escolha do emulador de SQS é da Etapa 0.
+- `docker compose` local sobe Postgres, emulador de SQS e S3, OIDC mock e observabilidade. O emulador de SQS é o ElasticMQ (ADR-0004); o de S3 é decidido na spec da fundação.
 - A aplicação só fala **OTLP**; o destino é configuração do coletor.
 - Antes de qualquer go-live: restauração de backup do RDS testada, ambiente de fumaça efêmero na AWS (apply, testes, destroy) e `plan` revisado.
 

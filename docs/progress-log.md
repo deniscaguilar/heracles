@@ -32,9 +32,10 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - T5.1 (P7): telas em baixa fidelidade aprovadas pelo Dênis (`docs/design/telas-baixa-fidelidade.md`): navegação, telas do app, estados compartilhados e backoffice. Sem Figma por ora.
 - Xcode instalado e licença aceita; dependências do teste de iOS (`@kingstinct/react-native-healthkit` e `react-native-nitro-modules`) aprovadas pelo Dênis.
 - P6 iOS: Xcode 26.6 e simulador do iOS 26.5 instalados; app compilado e rodando no simulador; HealthKit gravou e leu 3 de 5 tipos (peso e gordura sem permissão). Achados: permissão por tipo e leitura negada vem como lista vazia. Registro em `docs/stage-0/p6-wearables.md`.
+- P1, SQLCipher: criptografia local provada no Android (emulador) e no iOS (simulador) com `expo-sqlite` e `useSQLCipher` (SQLCipher 4.17.0): arquivo ilegível sem chave, chave errada falha, custo pequeno. Chave de teste fixa; falta o armazenamento seguro da chave. ADR-0005 e `p1-sincronizacao.md` atualizados.
 
 **Próximo passo**
-- SQLCipher e armazenamento seguro (P1), agora que há build de desenvolvimento no Android e no iOS.
+- Guardar a chave no Keychain e no Keystore (`expo-secure-store` é dependência nova a aprovar).
 - T6.2 (fechamento da Etapa 0). T3.7 a T3.10 e T2.4 seguem pendentes.
 - P3: Dênis escolhe o provedor e prepara a conta (T3.7); depois T3.8 a T3.10.
 - Depois da P3: ordem 4 (P6 wearables), ordem 5 (P7 telas, API e autenticação) e o fechamento (P5 latência e T6.2).

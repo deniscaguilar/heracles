@@ -36,37 +36,54 @@ Protótipo descartável em `prototypes/sync/` (detalhes no README da pasta):
 
 A primeira medida no aparelho foi ruim por **erro do meu cliente**: gravava linha por linha, sem transação. Agrupar as gravações em transação reduziu o envio de 11,7 s para 0,75 s e o pull de 11,0 s para 0,22 s. As duas medidas ficam registradas.
 
-## 5. Opções B e C (documentação, sem prova)
+## 5. Criptografia local com SQLCipher (prova de 29/10/2026)
+
+`prototypes/sync/app/` com o plugin `["expo-sqlite", { "useSQLCipher": true }]` e `expo-build-properties` (necessário para compilar com o Expo SDK 58), em **build de desenvolvimento** no emulador Android 15 e no simulador do iOS 26.5. Teste em `src/sqlcipher.ts`, com chave **fixa de teste**.
+
+| Verificação | Android | iOS |
+|---|---|---|
+| Biblioteca em uso | SQLCipher 4.17.0 community | SQLCipher 4.17.0 community |
+| Criar tabela, gravar e ler 1.000 registros com chave | 1.000 lidos | 1.000 lidos |
+| Cabeçalho do arquivo em disco | bytes aleatórios (o banco sem cifra começa com `SQLite format 3`) | bytes aleatórios |
+| Abrir **sem chave** | falha: `file is not a database` | falha: `file is not a database` |
+| Abrir com **chave errada** | falha: `file is not a database` | falha: `file is not a database` |
+| Abrir com a chave certa | 1.000 lidos | 1.000 lidos |
+| Gravar 10 mil registros em transação (cifrado, sem cifra) | 323 ms, 294 ms | 84 ms, 85 ms |
+| Ler 10 mil registros (cifrado, sem cifra) | 52 ms, 38 ms | 10 ms, 9 ms |
+
+**Leitura:** a criptografia local funciona nas duas plataformas, o arquivo em disco não é legível sem a chave e o custo de desempenho é pequeno. **Limite:** a chave era fixa; guardar uma chave por usuário no Keychain e no Keystore exige um módulo de armazenamento seguro (dependência nova a aprovar) e não foi testado.
+
+## 6. Opções B e C (documentação, sem prova)
 
 | | A: expo-sqlite + próprio | B: WatermelonDB | C: PowerSync |
 |---|---|---|---|
 | Roda no Expo Go | **Sim** (provado) | Não: módulo nativo, exige build de desenvolvimento | Exige build de desenvolvimento (adaptador nativo) |
 | Protocolo de sincronização | O nosso (simples, já provado) | Protocolo próprio (`pullChanges` e `pushChanges`); o servidor precisa implementá-lo | Serviço PowerSync entre o app e o banco; conector no app |
 | Infraestrutura extra | Nenhuma | Nenhuma | **Novo serviço** (PowerSync Cloud, pago, ou auto-hospedado) e banco de origem configurado para replicação |
-| Criptografia local | SQLCipher por opção do plugin do `expo-sqlite` (**a provar** num build de desenvolvimento; a documentação consultada cobre até o SDK 57) | Parâmetro de senha do adaptador (SQLCipher) via PR do projeto, com configuração nativa; sem guia oficial para Expo | Suportada pelo pacote `@powersync/op-sqlite` |
+| Criptografia local | SQLCipher por opção do plugin do `expo-sqlite` (**provada** em build de desenvolvimento, seção 5) | Parâmetro de senha do adaptador (SQLCipher) via PR do projeto, com configuração nativa; sem guia oficial para Expo | Suportada pelo pacote `@powersync/op-sqlite` |
 | Conflito | Nossa regra por tipo de dado (provada) | Por coluna; regra no servidor | "Última escrita vence" por padrão; regras mais ricas no backend próprio |
 | Esforço no backend Kotlin | Pequeno: 2 endpoints (envio e pull) | Médio: implementar o protocolo da biblioteca | Médio: conector e sincronização com o serviço |
 | Regra do projeto | Sem dependência nova de peso | Dependência nova | **Serviço novo exige aprovação** (CLAUDE.md, seção 2) |
 
 Fontes (buscas de 29/10/2026, em parte de terceiros): documentação do Expo (`expo-sqlite`), documentação e PR do WatermelonDB, documentação do PowerSync (criptografia, backend e conflito). Nada disso foi testado.
 
-## 6. Leitura provisória (não é decisão)
+## 7. Leitura provisória (não é decisão)
 
-A opção A **já cumpre os invariantes do ADR-0005 que dá para provar sem um build nativo**, no Expo Go, sem serviço novo e com um backend pequeno. O que ela ainda não provou é a **criptografia local** (SQLCipher), que exige um build de desenvolvimento. B e C não foram executadas, então **não há base para escolhê-las nem para descartá-las com números**.
+A opção A **já cumpre os invariantes do ADR-0005 que dá para provar sem um build nativo**, no Expo Go, sem serviço novo e com um backend pequeno. A **criptografia local** (SQLCipher) foi provada depois, em build de desenvolvimento no Android e no iOS (seção 5); falta guardar a chave no armazenamento seguro do sistema. B e C não foram executadas, então **não há base para escolhê-las nem para descartá-las com números**.
 
-## 7. Limites
+## 8. Limites
 
 - **Servidor em Node, não em Kotlin:** a opção A **não prova o esforço real no backend Kotlin**; o protocolo é pequeno (dois endpoints), mas a estimativa de esforço é minha.
-- **Emulador, não aparelho real**, e só Android; iOS (armazenamento seguro, Keychain) não foi testado porque o Xcode não está instalado.
+- **Emulador e simulador, não aparelho real.** A sincronização foi medida só no Android; a criptografia foi provada no Android e no iOS. O armazenamento seguro da chave (Keychain e Keystore) não foi testado.
 - **Volume:** 10 mil registros de um tipo, um usuário, um aparelho por vez. Sem concorrência real e sem rede lenta.
 - Os tempos incluem rede local (emulador para o computador) e não representam 4G.
 - O `npm install` do app de teste avisou de vulnerabilidades em dependências transitivas; é um protótipo descartável, e o app real seguirá a política do CLAUDE.md (seção 7).
 
-## 8. Decisão (Dênis, 29/10/2026)
+## 9. Decisão (Dênis, 29/10/2026)
 
 **Opção A, provisória.** A criptografia local (SQLCipher) e as opções B e C ficam como pendências registradas no ADR-0005. Reavaliar B ou C só pelos gatilhos do ADR (SQLCipher inviável, protocolo caro de manter ou novo requisito de sincronização).
 
-## 9. Pendências
+## 10. Pendências
 
-- Provar SQLCipher num build de desenvolvimento.
+- ~~Provar SQLCipher num build de desenvolvimento~~: feito (seção 5). Falta guardar a chave no armazenamento seguro (dependência nova a aprovar).
 - Estimar o protocolo no backend Kotlin quando a spec da fundação existir.

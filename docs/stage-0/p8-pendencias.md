@@ -48,7 +48,7 @@ O **parceiro científico** é um nutricionista e um educador físico (podem ser 
 | C7 | **Quando o plano automático não vale**: menores, gestantes, nutrizes, condições clínicas, uso de medicação, transtornos alimentares | Nutricionista | Etapa 2 |
 | C8 | **Ajuste do plano por check-in**: limites de variação por semana e sinais de alerta | Nutricionista e educador físico | Etapa 7 |
 | C9 | **Gamificação sem punir o corpo**: revisão das medalhas e missões para evitar incentivo a déficit, jejum ou excesso de treino | Nutricionista e educador físico | Etapa 7 |
-| C10 | **Treino**: grupos de equivalência de exercícios, progressão, volume e descanso seguros, e quando indicar procurar um profissional | Educador físico | Etapa 4 |
+| C10 | **Treino**: grupos de equivalência de exercícios, **regras da substituição de exercício** (mesmo grupo muscular e padrão de movimento, troca de equipamento como supino reto com halter por barra, e a carga que não se converte sozinha), progressão, volume e descanso seguros, e quando indicar procurar um profissional | Educador físico | Etapa 4 |
 | C11 | **Faixas de referência dos marcadores** exibidos nas réguas de exame (fonte, população, unidade) e o texto "procure um médico" | Nutricionista ou médico parceiro | Etapa 3 |
 | C12 | **Texto de avisos ao usuário**: tom, limites do que o app diz sobre saúde | Nutricionista e educador físico | Etapa 2 em diante |
 

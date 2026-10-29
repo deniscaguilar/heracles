@@ -42,7 +42,7 @@ Nome de uma palavra: é o nome do pacote em `com.heracles.<module>`, da pasta da
 | `profile` | Anamnese, objetivo, nível, restrições, alergias e intolerâncias, medidas corporais e dados de aparelhos e wearables | 2 |
 | `exams` | Tipos de exame, upload, reconhecimento e extração, marcadores, réguas e comparativos, interpretação, relatório em PDF, lembrete de refazer | 3 |
 | `nutrition` | Banco de alimentos, receitas, cardápio, troca de alimento e "comi fora do plano" (ADR-0006), lista de compras, sugestão de suplemento | 4 |
-| `training` | Banco de exercícios, geração de treino, registro de treino | 4 |
+| `training` | Banco de exercícios, geração de treino, **substituição de exercício**, registro de treino | 4 |
 | `billing` | Planos, assinaturas, periodicidades, concessões (aluno grátis e vitalício), gateway de pagamento atrás de um port, webhooks | 6 |
 | `engagement` | Check-ins, desafios, missões, medalhas, regras de gamificação | 7 |
 | `community` | Perfil público, amizades, posts, comunidades, posts promocionais, feed, moderação | 9 |

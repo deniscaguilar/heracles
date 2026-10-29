@@ -37,9 +37,10 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - T6.2: fechamento da Etapa 0 em `docs/stage-0/fechamento.md`, **aprovado pelo Dênis**: concluída com pendências; a Etapa 1 pode começar. Pendência principal que não bloqueia a fundação: provedor de IA e OCR (T3.7 a T3.10).
 - Spec da Etapa 1 (fundação) aprovada pelo Dênis (`specs/platform/stage-1-foundation/spec.md`): 11 requisitos e 20 critérios de aceite; JDK 25, Boot 4.1, Modulith 2.1, `com.heracles`, LocalStack só para S3; casca dos clientes e ambiente de fumaça na AWS entram na etapa.
 - Regras de fluxo git do Dênis no `CLAUDE.md`: uma revisão por mudança, depois commit, push, PR, merge e limpeza sem perguntar; atualizar a `main` ao iniciar.
+- `plan.md` da Etapa 1 aprovado (`specs/platform/stage-1-foundation/plan.md`): outbox próprio, RLS por transação, 8 fatias (S1 a S8) e lista de dependências aprovada, incluindo `expo-secure-store` (resolve a pendência da chave de criptografia local).
 
 **Próximo passo**
-- `plan.md` da Etapa 1 (design técnico, dependências a aprovar, fatias), depois `tasks.md` e o board no Notion.
+- `tasks.md` da Etapa 1 e board no Notion; depois S1 (esqueleto e pipeline).
 - Guardar a chave no Keychain e no Keystore (`expo-secure-store` é dependência nova a aprovar).
 - T6.2 (fechamento da Etapa 0). T3.7 a T3.10 e T2.4 seguem pendentes.
 - P3: Dênis escolhe o provedor e prepara a conta (T3.7); depois T3.8 a T3.10.

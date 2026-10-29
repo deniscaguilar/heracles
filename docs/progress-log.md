@@ -29,9 +29,12 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - T6.1 (P5): orçamento de latência na seção 7.1 de `docs/architecture.md`, com os números medidos nas provas P1, P2 e P4.
 - T5.3 (P7): ADR-0008 aprovada: Amazon Cognito provisório, login por conta própria, Google e Apple; `ADMIN` e `MODERATOR` só com conta própria e MFA. Comparativo no Notion. Pendências: região de São Paulo, preço oficial, pt-BR, contas de desenvolvedor da Apple e do Google, prova real de login PKCE.
 - T4.1 e T4.2 (P6): matriz de Health Connect e HealthKit e teste com dados simulados no emulador Android (5 registros gravados e lidos). iOS e bioimpedância real pendentes. Build de desenvolvimento do Android funcionando (destrava SQLCipher da P1). Registro em `docs/stage-0/p6-wearables.md`.
+- T5.1 (P7): telas em baixa fidelidade aprovadas pelo Dênis (`docs/design/telas-baixa-fidelidade.md`): navegação, telas do app, estados compartilhados e backoffice. Sem Figma por ora.
+- Xcode instalado e licença aceita; dependências do teste de iOS (`@kingstinct/react-native-healthkit` e `react-native-nitro-modules`) aprovadas pelo Dênis.
 
 **Próximo passo**
-- T5.1 (telas em baixa fidelidade) e T6.2 (fechamento).
+- Simulador do iOS e teste de HealthKit (fecha a parte iOS da P6); depois SQLCipher e o armazenamento seguro (P1).
+- T6.2 (fechamento da Etapa 0). T3.7 a T3.10 e T2.4 seguem pendentes.
 - P3: Dênis escolhe o provedor e prepara a conta (T3.7); depois T3.8 a T3.10.
 - Depois da P3: ordem 4 (P6 wearables), ordem 5 (P7 telas, API e autenticação) e o fechamento (P5 latência e T6.2).
 

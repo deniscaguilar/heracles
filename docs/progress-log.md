@@ -34,9 +34,10 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 - P6 iOS: Xcode 26.6 e simulador do iOS 26.5 instalados; app compilado e rodando no simulador; HealthKit gravou e leu 3 de 5 tipos (peso e gordura sem permissão). Achados: permissão por tipo e leitura negada vem como lista vazia. Registro em `docs/stage-0/p6-wearables.md`.
 - P1, SQLCipher: criptografia local provada no Android (emulador) e no iOS (simulador) com `expo-sqlite` e `useSQLCipher` (SQLCipher 4.17.0): arquivo ilegível sem chave, chave errada falha, custo pequeno. Chave de teste fixa; falta o armazenamento seguro da chave. ADR-0005 e `p1-sincronizacao.md` atualizados.
 - Requisito novo do Dênis: **substituição de exercício** (por equipamento equivalente, como supino reto com halter por barra, ou por outro do mesmo grupo muscular). Decisão: **fica na Etapa 4**, não na Etapa 0 (consulta ao catálogo, sem o risco técnico da troca de alimento; regras dependem do educador físico). Registrado no roadmap (Etapa 4, anamnese da Etapa 2 e ideias aprovadas), no glossário do `CLAUDE.md`, na pendência C10, nas telas e na arquitetura.
+- T6.2: fechamento da Etapa 0 em `docs/stage-0/fechamento.md`, **aprovado pelo Dênis**: concluída com pendências; a Etapa 1 pode começar. Pendência principal que não bloqueia a fundação: provedor de IA e OCR (T3.7 a T3.10).
 
 **Próximo passo**
-- Fechamento da Etapa 0 (T6.2).
+- Spec da Etapa 1 (fundação).
 - Guardar a chave no Keychain e no Keystore (`expo-secure-store` é dependência nova a aprovar).
 - T6.2 (fechamento da Etapa 0). T3.7 a T3.10 e T2.4 seguem pendentes.
 - P3: Dênis escolhe o provedor e prepara a conta (T3.7); depois T3.8 a T3.10.

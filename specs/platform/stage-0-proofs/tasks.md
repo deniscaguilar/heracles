@@ -52,4 +52,4 @@
 ## Fechamento
 
 - [x] T6.1 **P5:** fixar metas de latência por tipo de operação a partir de P1, P2 e P4 e escrever a tabela no `docs/architecture.md`. *Pronto quando:* aprovada no Plannotator.
-- [ ] T6.2 Conferir o critério de conclusão da spec (seção 5), listar pendências abertas (jurídica, científica, aparelho de bioimpedância) e atualizar `docs/progress-log.md`. *Pronto quando:* tudo checado e o próximo passo (spec da Etapa 1) registrado.
+- [x] T6.2 Conferir o critério de conclusão da spec (seção 5), listar pendências abertas (jurídica, científica, aparelho de bioimpedância) e atualizar `docs/progress-log.md`. *Pronto quando:* tudo checado e o próximo passo (spec da Etapa 1) registrado.

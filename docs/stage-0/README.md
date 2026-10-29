@@ -19,6 +19,10 @@ Nome: `p<N>-<tema>.md` (por exemplo, `p4-filas.md`). Seções, em português:
 - Informação comercial (preços, propostas de provedor) fica no Notion.
 - Decisão de arquitetura vira ADR em `docs/adr/`, revisada no Plannotator.
 
+## Fechamento
+
+`fechamento.md` consolida o critério de conclusão, as decisões, as pendências e o que cada uma bloqueia.
+
 ## Registros
 
 | Prova | Registro | Estado |

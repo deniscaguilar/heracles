@@ -5,6 +5,25 @@ spring:
     # api, worker or all; the same image serves each role (ADR-0001).
     default: all
 
+  # The application connects as the unprivileged heracles_app; Flyway connects as the database admin
+  # (it creates the roles in V1 and runs the migrations). Defaults match docker/compose.yml (local only).
+  datasource:
+    url: ${HERACLES_DB_URL:jdbc:postgresql://localhost:5433/heracles}
+    username: ${HERACLES_DB_APP_USER:heracles_app}
+    password: ${HERACLES_DB_APP_PASSWORD:heracles_app_local}
+  flyway:
+    url: ${HERACLES_DB_URL:jdbc:postgresql://localhost:5433/heracles}
+    user: ${HERACLES_DB_ADMIN_USER:postgres}
+    password: ${HERACLES_DB_ADMIN_PASSWORD:postgres}
+    # One schema, one location and one history table per module (CLAUDE.md, section 3).
+    schemas: platform
+    default-schema: platform
+    locations: classpath:db/migration/platform
+    table: flyway_schema_history
+    placeholders:
+      owner_password: ${HERACLES_DB_OWNER_PASSWORD:heracles_owner_local}
+      app_password: ${HERACLES_DB_APP_PASSWORD:heracles_app_local}
+
 management:
   endpoints:
     web:

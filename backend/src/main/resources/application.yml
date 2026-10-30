@@ -31,6 +31,10 @@ heracles:
     url: ${HERACLES_QUEUE_URL:http://localhost:9324/000000000000/heracles-tasks}
     region: ${HERACLES_QUEUE_REGION:sa-east-1}
     endpoint: ${HERACLES_QUEUE_ENDPOINT:http://localhost:9324}
+  outbox:
+    publisher:
+      enabled: true
+      interval: 1s
   security:
     # Expected `iss` of the token, where to fetch the signing keys, and the audience (`aud`) of this API.
     # Defaults match the fake OIDC server of docker/compose.yml (local only).

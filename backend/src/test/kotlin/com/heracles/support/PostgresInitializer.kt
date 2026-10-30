@@ -21,6 +21,8 @@ class PostgresInitializer : ApplicationContextInitializer<ConfigurableApplicatio
             "spring.flyway.url=${postgres.jdbcUrl}",
             "spring.flyway.user=${postgres.username}",
             "spring.flyway.password=${postgres.password}",
+            // Test-only tables (never shipped): migrations live in test resources, versions start at 1000.
+            "spring.flyway.locations=classpath:db/migration/platform,classpath:db/test-migration/platform",
             "spring.flyway.placeholders.owner_password=$OWNER_PASSWORD",
             "spring.flyway.placeholders.app_password=$APP_PASSWORD",
         ).applyTo(context)

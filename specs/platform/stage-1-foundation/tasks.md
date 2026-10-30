@@ -50,7 +50,7 @@
 - [x] E1-S6.1 Migrações `outbox_message`, `task` e `processed_message` com RLS de escopo `system` (e `task` legível pelo dono). *Pronto quando:* Testes de isolamento passam; o teste do catálogo (S2.4) continua verde.
 - [x] E1-S6.2 Port `TaskQueue` e adaptador SQS; teste de integração com ElasticMQ em contêiner. *Pronto quando:* Enviar, receber e confirmar mensagem funciona.
 - [x] E1-S6.3 Gravar a mensagem no outbox na mesma transação da mudança de estado. *Pronto quando:* Transação desfeita não deixa mensagem (CA12).
-- [ ] E1-S6.4 `PublishOutbox` (lote com `FOR UPDATE SKIP LOCKED`, espera crescente nas falhas). *Pronto quando:* Com o publicador parado e depois ligado, a mensagem confirmada chega à fila (CA12).
+- [x] E1-S6.4 `PublishOutbox` (lote com `FOR UPDATE SKIP LOCKED`, espera crescente nas falhas). *Pronto quando:* Com o publicador parado e depois ligado, a mensagem confirmada chega à fila (CA12).
 - [ ] E1-S6.5 `ConsumeTask` idempotente por `processed_message`. *Pronto quando:* A mesma mensagem duas vezes produz um efeito (CA13).
 - [ ] E1-S6.6 Nova tentativa com espera crescente, DLQ e tarefa `FAILED`. *Pronto quando:* Mensagem que sempre falha vai à DLQ após as tentativas (CA14).
 - [ ] E1-S6.7 `GetTaskStatus` e `GET /api/v1/tasks/{id}`. *Pronto quando:* O dono vê o status; outro usuário recebe 404; sem dado de saúde (CA15).

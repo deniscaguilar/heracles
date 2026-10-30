@@ -25,6 +25,8 @@ class PostgresInitializer : ApplicationContextInitializer<ConfigurableApplicatio
             "spring.flyway.locations=classpath:db/migration/platform,classpath:db/test-migration/platform",
             "spring.flyway.placeholders.owner_password=$OWNER_PASSWORD",
             "spring.flyway.placeholders.app_password=$APP_PASSWORD",
+            // The tests call the publisher themselves; a background one would race with them and with the missing queue.
+            "heracles.outbox.publisher.enabled=false",
         ).applyTo(context)
     }
 

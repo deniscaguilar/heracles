@@ -2,6 +2,10 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-10-30 (tarefas, RLS)
+
+- **E1-S2.3** (tabelas de teste e CA6): `V1000__test_tables.sql` em `src/test/resources/db/test-migration/platform` (só no teste; nunca vai ao pacote), criada pelo `heracles_owner`: `test_user_note` (dado de usuário) e `test_health_sample` (dado de saúde), ambas com RLS `ENABLE` e `FORCE` e política `user_id = platform.current_app_user_id()` em `USING` e `WITH CHECK`. O `PostgresInitializer` soma essa pasta às `locations` do Flyway. `RowLevelSecurityIT` (6 testes): cada usuário vê só as suas linhas mesmo com consulta sem filtro; sem usuário volta zero linha (leitura) e a escrita é recusada; `admin` e `system` não leem nem a tabela de saúde nem a de usuário (as linhas existem: conferido com a conexão administrativa); não dá para gravar linha de outro usuário nem alterar ou apagar a dele; o `heracles_owner` também fica sob a política (prova do `FORCE`; provado que o teste falha sem `FORCE`). Próxima: E1-S2.4 (teste do catálogo, CA7).
+
 ## 2026-10-30 (tarefas, contexto de transação)
 
 - **E1-S2.2** (contexto de transação): domínio `AccessContext` e `AccessScope` (`user`, `admin`, `system`; usuário obrigatório só no escopo `user`), porta `TransactionContext` (`application/port/out`) e adaptador `JdbcTransactionContext`, que abre a transação e executa `set_config('app.user_id', ..., true)` e `set_config('app.scope', ..., true)` (equivale a `SET LOCAL`). Aninhar contextos é recusado. `V2__access_context_functions.sql` cria `platform.current_app_user_id()` (nulo sem contexto, então a política não casa nenhuma linha) e `platform.current_app_scope()` (padrão `user`). Termos `accessContext` e `accessScope` entraram no glossário do `CLAUDE.md`. Testes: 5 unitários e 7 de integração com pool de uma conexão (mesmo `pg_backend_pid` dentro e fora da transação, sem vazamento; falha limpa o contexto); provado que quebra se o `set_config` virar de sessão. O portão do JaCoCo passa a medir `domain` de verdade. Próxima: E1-S2.3 (tabelas de teste com RLS forçada).

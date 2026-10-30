@@ -1,6 +1,8 @@
 package com.heracles.platform.config
 
+import com.heracles.platform.adapter.out.SqsDeadLetters
 import com.heracles.platform.adapter.out.SqsTaskQueue
+import com.heracles.platform.application.port.out.DeadLetters
 import com.heracles.platform.application.port.out.TaskQueue
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -15,7 +17,13 @@ import java.net.URI
 
 /** `endpoint` is set only locally (ElasticMQ); in AWS it is empty and the SDK uses the instance role. */
 @ConfigurationProperties("heracles.queue")
-data class QueueProperties(val url: String, val region: String, val endpoint: String = "")
+data class QueueProperties(
+    val url: String,
+    val deadLetterUrl: String,
+    val region: String,
+    val endpoint: String = "",
+    val maxAttempts: Int = 5,
+)
 
 @Configuration
 @EnableConfigurationProperties(QueueProperties::class)
@@ -32,4 +40,7 @@ class QueueConfig {
 
     @Bean
     fun taskQueue(sqs: SqsClient, properties: QueueProperties): TaskQueue = SqsTaskQueue(sqs, properties.url)
+
+    @Bean
+    fun deadLetters(sqs: SqsClient, properties: QueueProperties): DeadLetters = SqsDeadLetters(SqsTaskQueue(sqs, properties.deadLetterUrl))
 }

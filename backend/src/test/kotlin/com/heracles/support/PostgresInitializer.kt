@@ -27,6 +27,7 @@ class PostgresInitializer : ApplicationContextInitializer<ConfigurableApplicatio
             "spring.flyway.placeholders.app_password=$APP_PASSWORD",
             // The tests call the publisher themselves; a background one would race with them and with the missing queue.
             "heracles.outbox.publisher.enabled=false",
+            "heracles.queue.consumer.enabled=false",
         ).applyTo(context)
     }
 

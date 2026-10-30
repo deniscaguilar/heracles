@@ -22,4 +22,5 @@ data class QueueMessage(val id: String, val type: String, val ids: Map<String, S
     }
 }
 
-data class ReceivedMessage(val message: QueueMessage, val receipt: String)
+/** A delivery of a message. [receiveCount] is how many times the queue has delivered it, this one included. */
+data class ReceivedMessage(val message: QueueMessage, val receipt: String, val receiveCount: Int = 1)

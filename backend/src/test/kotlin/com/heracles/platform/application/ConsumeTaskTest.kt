@@ -10,6 +10,7 @@ import com.heracles.platform.domain.ReceivedMessage
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
+import java.time.Duration
 import java.util.UUID
 
 private class ConsumeTransactions : TransactionContext {
@@ -27,6 +28,7 @@ private class AckQueue : TaskQueue {
     override fun send(message: QueueMessage) = Unit
     override fun receive(maxMessages: Int, waitSeconds: Int): List<ReceivedMessage> = emptyList()
     override fun acknowledge(receipt: String) { acknowledged += receipt }
+    override fun postpone(receipt: String, delay: Duration) = Unit
 }
 
 class ConsumeTaskTest {

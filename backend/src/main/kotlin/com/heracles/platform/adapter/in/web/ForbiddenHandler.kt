@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component
 @Component
 class ForbiddenHandler : AccessDeniedHandler {
     override fun handle(request: HttpServletRequest, response: HttpServletResponse, accessDeniedException: AccessDeniedException) {
-        ProblemResponse.write(response, HttpServletResponse.SC_FORBIDDEN, "Forbidden", "forbidden")
+        ProblemResponse.write(response, HttpServletResponse.SC_FORBIDDEN, "Forbidden", ErrorCodes.FORBIDDEN)
     }
 }

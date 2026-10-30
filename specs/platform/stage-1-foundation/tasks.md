@@ -41,7 +41,7 @@
 
 ## S5: Erros e contrato de API (RF7; CA10, CA11)
 
-- [ ] E1-S5.1 Tratador de erros no formato Problem Details com `code` estável e `traceId`. *Pronto quando:* Erro de validação devolve `application/problem+json` com `code` e o `traceId` do trace (CA10).
+- [x] E1-S5.1 Tratador de erros no formato Problem Details com `code` estável e `traceId`. *Pronto quando:* Erro de validação devolve `application/problem+json` com `code` e o `traceId` do trace (CA10).
 - [ ] E1-S5.2 OpenAPI gerado pelo springdoc e versionado em `backend/openapi/`; teste que compara o gerado com o versionado. *Pronto quando:* Mudar um endpoint sem atualizar o arquivo reprova (CA11).
 - [ ] E1-S5.3 `packages/api-client` gerado com `openapi-typescript` e `openapi-fetch`. *Pronto quando:* O cliente é regenerado no pipeline e compila (CA11).
 

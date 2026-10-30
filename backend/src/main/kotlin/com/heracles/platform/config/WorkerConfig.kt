@@ -2,6 +2,8 @@ package com.heracles.platform.config
 
 import com.heracles.platform.adapter.`in`.scheduler.OutboxPublisherJob
 import com.heracles.platform.adapter.`in`.scheduler.QueueConsumerJob
+import com.heracles.platform.adapter.`in`.scheduler.QueueMetricsJob
+import com.heracles.platform.application.CollectQueueMetrics
 import com.heracles.platform.application.ProcessDelivery
 import com.heracles.platform.application.PublishOutbox
 import com.heracles.platform.application.port.out.TaskQueue
@@ -22,4 +24,9 @@ class WorkerConfig {
     @Bean
     @ConditionalOnProperty("heracles.queue.consumer.enabled", havingValue = "true", matchIfMissing = true)
     fun queueConsumerJob(queue: TaskQueue, processDelivery: ProcessDelivery) = QueueConsumerJob(queue, processDelivery)
+
+    /** Switched off by `heracles.queue.metrics.enabled=false`. */
+    @Bean
+    @ConditionalOnProperty("heracles.queue.metrics.enabled", havingValue = "true", matchIfMissing = true)
+    fun queueMetricsJob(collect: CollectQueueMetrics) = QueueMetricsJob(collect)
 }

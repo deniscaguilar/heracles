@@ -34,6 +34,9 @@ heracles:
     consumer:
       enabled: true
       interval: 1s
+    metrics:
+      enabled: true
+      interval: 15s
     region: ${HERACLES_QUEUE_REGION:sa-east-1}
     endpoint: ${HERACLES_QUEUE_ENDPOINT:http://localhost:9324}
   outbox:

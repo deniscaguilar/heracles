@@ -55,7 +55,7 @@
 - [x] E1-S6.6 Nova tentativa com espera crescente, DLQ e tarefa `FAILED`. *Pronto quando:* Mensagem que sempre falha vai à DLQ após as tentativas (CA14).
 - [x] E1-S6.7 `GetTaskStatus` e `GET /api/v1/tasks/{id}`. *Pronto quando:* O dono vê o status; outro usuário recebe 404; sem dado de saúde (CA15).
 - [x] E1-S6.8 `ReprocessDeadLetter` e `POST /api/v1/admin/dead-letters/{id}/reprocess` (`ADMIN`). *Pronto quando:* Reprocessar devolve à fila e o efeito ocorre uma vez (CA14).
-- [ ] E1-S6.9 Métricas de idade da fila e de profundidade da DLQ. *Pronto quando:* As métricas são emitidas e testadas (CA16).
+- [x] E1-S6.9 Métricas de idade da fila e de profundidade da DLQ. *Pronto quando:* As métricas são emitidas e testadas (CA16).
 - [ ] E1-S6.10 Ports `FileStorage` (S3 e LocalStack), `Clock`, `LlmClient`, `OcrClient`, `PaymentGateway` e `NotificationChannel` com adaptadores locais ou falsos. *Pronto quando:* Testes usam só os locais, sem rede externa; ArchUnit confirma que domínio e aplicação só dependem de ports (CA17).
 
 ## S7: Casca dos clientes (RF11; CA20)

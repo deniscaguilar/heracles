@@ -28,6 +28,7 @@ class PostgresInitializer : ApplicationContextInitializer<ConfigurableApplicatio
             // The tests call the publisher themselves; a background one would race with them and with the missing queue.
             "heracles.outbox.publisher.enabled=false",
             "heracles.queue.consumer.enabled=false",
+            "heracles.queue.metrics.enabled=false",
         ).applyTo(context)
     }
 

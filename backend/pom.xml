@@ -24,6 +24,7 @@
     <!-- Fora do BOM do Boot; últimas GA no Maven Central em 29/10/2026. -->
     <spring-modulith.version>2.1.2</spring-modulith.version>
     <archunit.version>1.5.1</archunit.version>
+    <mock-oauth2-server.version>6.1.4</mock-oauth2-server.version>
     <jacoco.version>0.8.16</jacoco.version>
     <cyclonedx.version>2.9.3</cyclonedx.version>
     <coverage.minimum>0.85</coverage.minimum>
@@ -59,6 +60,14 @@
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -100,6 +109,12 @@
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>testcontainers-postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>no.nav.security</groupId>
+      <artifactId>mock-oauth2-server</artifactId>
+      <version>${mock-oauth2-server.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

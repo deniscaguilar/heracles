@@ -2,6 +2,7 @@ package com.heracles.platform.config
 
 import com.heracles.platform.application.Authorizer
 import com.heracles.platform.application.GetMe
+import com.heracles.platform.application.GetTaskStatus
 import com.heracles.platform.application.ProvisionUser
 import com.heracles.platform.application.ConsumeTask
 import com.heracles.platform.application.ProcessDelivery
@@ -13,6 +14,7 @@ import com.heracles.platform.application.port.out.AuditReader
 import com.heracles.platform.application.port.out.AuditTrail
 import com.heracles.platform.application.port.out.DeadLetters
 import com.heracles.platform.application.port.out.ProcessedMessages
+import com.heracles.platform.application.port.out.TaskReader
 import com.heracles.platform.application.port.out.TaskStatuses
 import com.heracles.platform.application.port.out.OutboxStore
 import com.heracles.platform.application.port.out.TaskQueue
@@ -60,4 +62,7 @@ class PlatformConfig {
     @Bean
     fun processDelivery(consume: ConsumeTask, queue: TaskQueue, deadLetters: DeadLetters, statuses: TaskStatuses, properties: QueueProperties) =
         ProcessDelivery(consume, queue, deadLetters, statuses, properties.maxAttempts)
+
+    @Bean
+    fun getTaskStatus(transactions: TransactionContext, tasks: TaskReader) = GetTaskStatus(transactions, tasks)
 }

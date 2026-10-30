@@ -1,6 +1,7 @@
 package com.heracles.platform.adapter.`in`.web
 
 import com.heracles.platform.domain.InvalidCursorException
+import com.heracles.platform.domain.TaskNotFoundException
 import com.heracles.platform.domain.UserNotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.beans.TypeMismatchException
@@ -50,6 +51,10 @@ class ApiExceptionHandler : ResponseEntityExceptionHandler() {
     fun invalidCursor(ex: InvalidCursorException, request: WebRequest): ResponseEntity<Any>? =
         handleExceptionInternal(ex, null, HttpHeaders(), HttpStatus.BAD_REQUEST, request)
 
+    @ExceptionHandler(TaskNotFoundException::class)
+    fun taskNotFound(ex: TaskNotFoundException, request: WebRequest): ResponseEntity<Any>? =
+        handleExceptionInternal(ex, null, HttpHeaders(), HttpStatus.NOT_FOUND, request)
+
     @ExceptionHandler(UserNotFoundException::class)
     fun userNotFound(ex: UserNotFoundException, request: WebRequest): ResponseEntity<Any>? =
         handleExceptionInternal(ex, null, HttpHeaders(), HttpStatus.NOT_FOUND, request)
@@ -65,7 +70,7 @@ class ApiExceptionHandler : ResponseEntityExceptionHandler() {
         is HttpMessageNotReadableException -> ErrorCodes.MALFORMED_REQUEST
         is TypeMismatchException, is MissingServletRequestParameterException -> ErrorCodes.INVALID_PARAMETER
         is InvalidCursorException -> ErrorCodes.INVALID_CURSOR
-        is NoResourceFoundException, is UserNotFoundException -> ErrorCodes.NOT_FOUND
+        is NoResourceFoundException, is UserNotFoundException, is TaskNotFoundException -> ErrorCodes.NOT_FOUND
         is HttpRequestMethodNotSupportedException -> ErrorCodes.METHOD_NOT_ALLOWED
         is HttpMediaTypeNotSupportedException -> ErrorCodes.UNSUPPORTED_MEDIA_TYPE
         else -> if (ex is org.springframework.web.ErrorResponse && ex.statusCode.is4xxClientError) ErrorCodes.BAD_REQUEST else ErrorCodes.INTERNAL_ERROR

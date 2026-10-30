@@ -65,6 +65,12 @@ services:
     image: heracles-backend:local
     environment:
       SPRING_PROFILES_ACTIVE: all
+      # Flyway runs as the database admin; the application connects as heracles_app (local-only credentials).
+      HERACLES_DB_URL: jdbc:postgresql://postgres:5432/heracles
+      HERACLES_DB_ADMIN_USER: postgres
+      HERACLES_DB_ADMIN_PASSWORD: postgres
+      HERACLES_DB_APP_PASSWORD: heracles_app_local
+      HERACLES_DB_OWNER_PASSWORD: heracles_owner_local
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel:4318
     ports: ["${HERACLES_API_PORT:-8080}:8080"]
     depends_on:

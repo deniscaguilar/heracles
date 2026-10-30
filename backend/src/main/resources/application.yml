@@ -38,6 +38,12 @@ logging:
       # One JSON object per line, with the trace id and the MDC (userId, route) of the request.
       console: ecs
 
+springdoc:
+  swagger-ui:
+    enabled: false # the contract is the versioned file (backend/openapi/openapi.json); no UI in the image
+  paths-to-match: /api/**
+  paths-to-exclude: /api/v1/_*, /api/v1/admin/_*
+
 management:
   tracing:
     sampling:

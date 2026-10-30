@@ -2,6 +2,7 @@ package com.heracles.platform.adapter.`in`.web
 
 import com.heracles.platform.application.QueryAuditTrail
 import com.heracles.platform.domain.AuditRecord
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -25,7 +26,8 @@ data class AuditEventsResponse(val items: List<AuditEventResponse>, val nextCurs
 @RestController
 class AuditEventsController(private val queryAuditTrail: QueryAuditTrail) {
 
-    @GetMapping("/api/v1/admin/audit-events")
+    @Operation(operationId = "listAuditEvents", summary = "Audit trail, newest first (ADMIN only)")
+    @GetMapping("/api/v1/admin/audit-events", produces = ["application/json"])
     fun list(
         @RequestParam(required = false) cursor: String?,
         @RequestParam(defaultValue = "50") limit: Int,

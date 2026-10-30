@@ -1,8 +1,10 @@
 package com.heracles.platform.config
 
 import com.heracles.platform.adapter.out.SqsDeadLetters
+import com.heracles.platform.adapter.out.SqsQueueDepths
 import com.heracles.platform.adapter.out.SqsTaskQueue
 import com.heracles.platform.application.port.out.DeadLetters
+import com.heracles.platform.application.port.out.QueueDepths
 import com.heracles.platform.application.port.out.TaskQueue
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -43,4 +45,7 @@ class QueueConfig {
 
     @Bean
     fun deadLetters(sqs: SqsClient, properties: QueueProperties): DeadLetters = SqsDeadLetters(SqsTaskQueue(sqs, properties.deadLetterUrl))
+
+    @Bean
+    fun queueDepths(sqs: SqsClient, properties: QueueProperties): QueueDepths = SqsQueueDepths(sqs, properties.url, properties.deadLetterUrl)
 }

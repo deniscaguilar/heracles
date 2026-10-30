@@ -4,6 +4,7 @@ import com.heracles.platform.application.Authorizer
 import com.heracles.platform.application.GetMe
 import com.heracles.platform.application.GetTaskStatus
 import com.heracles.platform.application.ProvisionUser
+import com.heracles.platform.application.CollectQueueMetrics
 import com.heracles.platform.application.ConsumeTask
 import com.heracles.platform.application.ProcessDelivery
 import com.heracles.platform.application.ReprocessDeadLetter
@@ -14,7 +15,10 @@ import com.heracles.platform.application.RecordAudit
 import com.heracles.platform.application.port.out.AuditReader
 import com.heracles.platform.application.port.out.AuditTrail
 import com.heracles.platform.application.port.out.DeadLetters
+import com.heracles.platform.application.port.out.PipelineAges
 import com.heracles.platform.application.port.out.ProcessedMessages
+import com.heracles.platform.application.port.out.QueueDepths
+import com.heracles.platform.application.port.out.QueueMetrics
 import com.heracles.platform.application.port.out.TaskReader
 import com.heracles.platform.application.port.out.TaskStatuses
 import com.heracles.platform.application.port.out.OutboxStore
@@ -70,4 +74,7 @@ class PlatformConfig {
     @Bean
     fun reprocessDeadLetter(deadLetters: DeadLetters, queue: TaskQueue, statuses: TaskStatuses, recordAudit: RecordAudit) =
         ReprocessDeadLetter(deadLetters, queue, statuses, recordAudit)
+
+    @Bean
+    fun collectQueueMetrics(depths: QueueDepths, ages: PipelineAges, metrics: QueueMetrics) = CollectQueueMetrics(depths, ages, metrics)
 }

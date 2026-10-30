@@ -36,6 +36,8 @@ private class DeliveryQueue : TaskQueue {
 private class DeadLetterBox : DeadLetters {
     val received = mutableListOf<QueueMessage>()
     override fun send(message: QueueMessage) { received += message }
+    override fun find(messageId: String): ReceivedMessage? = null
+    override fun remove(receipt: String) = Unit
 }
 
 private class RecordedStatuses : TaskStatuses {
@@ -43,6 +45,7 @@ private class RecordedStatuses : TaskStatuses {
     override fun markDone(taskId: UUID) { calls += "done:$taskId" }
     override fun markRetrying(taskId: UUID, attempts: Int, errorCode: String) { calls += "retrying:$taskId:$attempts:$errorCode" }
     override fun markFailed(taskId: UUID, attempts: Int, errorCode: String) { calls += "failed:$taskId:$attempts:$errorCode" }
+    override fun markRequeued(taskId: UUID) { calls += "requeued:$taskId" }
 }
 
 class ProcessDeliveryTest {

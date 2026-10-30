@@ -8,6 +8,34 @@
     "bearerAuth" : [ ]
   } ],
   "paths" : {
+    "/api/v1/admin/dead-letters/{id}/reprocess" : {
+      "post" : {
+        "tags" : [ "dead-letter-controller" ],
+        "summary" : "Send a dead message back to the work queue (ADMIN only)",
+        "operationId" : "reprocessDeadLetter",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "pattern" : "^[A-Za-z0-9_-]{1,128}$"
+          }
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Accepted",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ReprocessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/tasks/{id}" : {
       "get" : {
         "tags" : [ "task-controller" ],
@@ -94,6 +122,19 @@
   },
   "components" : {
     "schemas" : {
+      "ReprocessResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "QUEUED" ]
+          }
+        },
+        "required" : [ "id", "status" ]
+      },
       "TaskStatusResponse" : {
         "type" : "object",
         "properties" : {

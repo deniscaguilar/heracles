@@ -6,6 +6,7 @@ import com.heracles.platform.application.GetTaskStatus
 import com.heracles.platform.application.ProvisionUser
 import com.heracles.platform.application.ConsumeTask
 import com.heracles.platform.application.ProcessDelivery
+import com.heracles.platform.application.ReprocessDeadLetter
 import com.heracles.platform.application.PublishOutbox
 import com.heracles.platform.application.TaskHandlerRegistration
 import com.heracles.platform.application.QueryAuditTrail
@@ -65,4 +66,8 @@ class PlatformConfig {
 
     @Bean
     fun getTaskStatus(transactions: TransactionContext, tasks: TaskReader) = GetTaskStatus(transactions, tasks)
+
+    @Bean
+    fun reprocessDeadLetter(deadLetters: DeadLetters, queue: TaskQueue, statuses: TaskStatuses, recordAudit: RecordAudit) =
+        ReprocessDeadLetter(deadLetters, queue, statuses, recordAudit)
 }

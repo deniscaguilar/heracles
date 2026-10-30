@@ -6,3 +6,5 @@ import java.util.UUID
 data class TaskView(val id: UUID, val status: String, val resultRef: String?)
 
 class TaskNotFoundException(id: UUID) : RuntimeException("task not found: $id")
+
+class DeadLetterNotFoundException : RuntimeException("dead letter not found")

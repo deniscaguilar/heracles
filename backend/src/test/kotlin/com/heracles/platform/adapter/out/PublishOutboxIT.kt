@@ -1,6 +1,7 @@
 package com.heracles.platform.adapter.out
 
 import com.heracles.platform.application.PublishOutbox
+import com.heracles.platform.application.port.out.Clock
 import com.heracles.platform.application.port.out.Outbox
 import com.heracles.platform.application.port.out.OutboxStore
 import com.heracles.platform.application.port.out.TaskQueue
@@ -28,18 +29,14 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.sqs.SqsClient
 import java.net.URI
-import java.time.Clock
 import java.time.Duration
 import java.time.Instant
-import java.time.ZoneOffset
 import java.util.UUID
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-private class MutableClock(var now: Instant) : Clock() {
-    override fun getZone() = ZoneOffset.UTC
-    override fun withZone(zone: java.time.ZoneId?) = this
+private class MutableClock(var now: Instant) : Clock {
     override fun instant(): Instant = now
 }
 
@@ -93,7 +90,9 @@ class PublishOutboxIT(
 
     // next_attempt_at is stamped by the database clock (a container); this one is a few seconds ahead so that a message
     // appended a moment ago is already due, whatever the small difference between the two clocks.
-    private val ahead: Clock = Clock.offset(Clock.systemUTC(), Duration.ofSeconds(5))
+    private val ahead: Clock = object : Clock {
+        override fun instant(): Instant = Instant.now().plusSeconds(5)
+    }
 
     private fun publisher(clock: Clock = ahead, target: TaskQueue = queue, batch: Int = 50) =
         PublishOutbox(transactionContext, store, target, clock, batch)

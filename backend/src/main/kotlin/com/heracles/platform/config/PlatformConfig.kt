@@ -13,6 +13,7 @@ import com.heracles.platform.application.TaskHandlerRegistration
 import com.heracles.platform.application.QueryAuditTrail
 import com.heracles.platform.application.RecordAudit
 import com.heracles.platform.application.port.out.AuditReader
+import com.heracles.platform.application.port.out.Clock
 import com.heracles.platform.application.port.out.AuditTrail
 import com.heracles.platform.application.port.out.DeadLetters
 import com.heracles.platform.application.port.out.PipelineAges
@@ -29,7 +30,6 @@ import org.springframework.beans.factory.ObjectProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableScheduling
-import java.time.Clock
 
 /** Use cases are plain classes (no framework in `application`); this is where they are wired. */
 @Configuration
@@ -50,9 +50,6 @@ class PlatformConfig {
     @Bean
     fun queryAuditTrail(transactions: TransactionContext, reader: AuditReader) = QueryAuditTrail(transactions, reader)
 
-    /** Replaced by the Clock port with the Sao Paulo zone in E1-S6.10. */
-    @Bean
-    fun clock(): Clock = Clock.systemUTC()
 
     @Bean
     fun publishOutbox(transactions: TransactionContext, store: OutboxStore, queue: TaskQueue, clock: Clock) =

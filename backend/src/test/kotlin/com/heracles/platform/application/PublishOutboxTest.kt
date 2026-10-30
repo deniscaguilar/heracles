@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
+import java.time.Duration
 import java.util.UUID
 
 private class PublishTransactions : TransactionContext {
@@ -38,6 +39,7 @@ private class PublishQueue(private val failOn: Set<String> = emptySet()) : TaskQ
     }
     override fun receive(maxMessages: Int, waitSeconds: Int): List<ReceivedMessage> = emptyList()
     override fun acknowledge(receipt: String) = Unit
+    override fun postpone(receipt: String, delay: Duration) = Unit
 }
 
 class PublishOutboxTest {

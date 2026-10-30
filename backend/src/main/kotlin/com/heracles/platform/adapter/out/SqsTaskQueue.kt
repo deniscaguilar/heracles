@@ -4,6 +4,8 @@ import com.heracles.platform.application.port.out.TaskQueue
 import com.heracles.platform.domain.QueueMessage
 import com.heracles.platform.domain.ReceivedMessage
 import software.amazon.awssdk.services.sqs.SqsClient
+import software.amazon.awssdk.services.sqs.model.MessageSystemAttributeName
+import java.time.Duration
 import tools.jackson.databind.ObjectMapper
 
 class SqsTaskQueue(private val sqs: SqsClient, val queueUrl: String) : TaskQueue {
@@ -17,13 +19,22 @@ class SqsTaskQueue(private val sqs: SqsClient, val queueUrl: String) : TaskQueue
     override fun receive(maxMessages: Int, waitSeconds: Int): List<ReceivedMessage> =
         sqs.receiveMessage {
             it.queueUrl(queueUrl).maxNumberOfMessages(maxMessages.coerceIn(1, 10)).waitTimeSeconds(waitSeconds.coerceIn(0, 20))
+                .messageSystemAttributeNames(MessageSystemAttributeName.APPROXIMATE_RECEIVE_COUNT)
         }.messages().map { received ->
             val body = json.readTree(received.body())
             val ids = body.get("ids").propertyNames().associateWith { key -> body.get("ids").get(key).asString() }
-            ReceivedMessage(QueueMessage(body.get("id").asString(), body.get("type").asString(), ids), received.receiptHandle())
+            ReceivedMessage(
+                QueueMessage(body.get("id").asString(), body.get("type").asString(), ids),
+                received.receiptHandle(),
+                received.attributes()[MessageSystemAttributeName.APPROXIMATE_RECEIVE_COUNT]?.toIntOrNull() ?: 1,
+            )
         }
 
     override fun acknowledge(receipt: String) {
         sqs.deleteMessage { it.queueUrl(queueUrl).receiptHandle(receipt) }
+    }
+
+    override fun postpone(receipt: String, delay: Duration) {
+        sqs.changeMessageVisibility { it.queueUrl(queueUrl).receiptHandle(receipt).visibilityTimeout(delay.seconds.toInt().coerceIn(0, 43_200)) }
     }
 }

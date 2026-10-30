@@ -13,10 +13,10 @@
 - [x] E1-S1.4 Perfis `api`, `worker` e `all` (padrão `all`). *Pronto quando:* Teste de integração: no perfil `api` o worker não sobe e no `worker` a API não sobe.
 - [x] E1-S1.5 `docker/compose.yml` com PostgreSQL, ElasticMQ 1.7.1, LocalStack 4.14.0 (só S3), servidor OIDC de mentira, `grafana/otel-lgtm` e o backend; imagens por digest. *Pronto quando:* `docker compose up` deixa tudo saudável; script `docker/check.sh` confirma cada serviço; README diz como subir (CA3).
 - [x] E1-S1.6 `Dockerfile` do backend (multi-stage, imagem base com digest, usuário sem privilégio). *Pronto quando:* A imagem constrói e roda no compose; a mesma imagem serve ao perfil `api` e `worker`.
-- [ ] E1-S1.7 Workflow do GitHub Actions: build com JDK 25 e `./mvnw verify`, portão JaCoCo ≥ 85% em `domain` e `application`. *Pronto quando:* O workflow roda no PR; baixar a cobertura de propósito reprova o PR (CA1).
-- [ ] E1-S1.8 Scan de dependências (decidir OWASP dependency-check ou OSV-Scanner pela medição de tempo e falsos positivos) com falha em Alta ou Crítica e arquivo de supressão com justificativa e data de expiração. *Pronto quando:* Dependência vulnerável de propósito reprova o pipeline; a decisão fica registrada (CA1).
-- [ ] E1-S1.9 Trivy na imagem do backend e SBOM CycloneDX por build como artefato. *Pronto quando:* Imagem com vulnerabilidade Alta ou Crítica reprova; o SBOM aparece como artefato do build (CA1, CA2).
-- [ ] E1-S1.10 Dependabot (Maven, npm e GitHub Actions) e job de `npm audit` para os pacotes TypeScript. *Pronto quando:* O Dependabot abre PR de teste; `npm audit` roda no pipeline.
+- [x] E1-S1.7 Workflow do GitHub Actions: build com JDK 25 e `./mvnw verify`, portão JaCoCo ≥ 85% em `domain` e `application`. *Pronto quando:* O workflow roda no PR; baixar a cobertura de propósito reprova o PR (CA1).
+- [x] E1-S1.8 Scan de dependências (decidir OWASP dependency-check ou OSV-Scanner pela medição de tempo e falsos positivos) com falha em Alta ou Crítica e arquivo de supressão com justificativa e data de expiração. *Pronto quando:* Dependência vulnerável de propósito reprova o pipeline; a decisão fica registrada (CA1).
+- [x] E1-S1.9 Trivy na imagem do backend e SBOM CycloneDX por build como artefato. *Pronto quando:* Imagem com vulnerabilidade Alta ou Crítica reprova; o SBOM aparece como artefato do build (CA1, CA2).
+- [x] E1-S1.10 Dependabot (Maven, npm e GitHub Actions) e job de `npm audit` para os pacotes TypeScript. *Pronto quando:* O Dependabot abre PR de teste; `npm audit` roda no pipeline.
 - [ ] E1-S1.11 Proteção da `main` (exige CI verde) e secret scanning com push protection (pede ok: muda configuração do repositório). *Pronto quando:* Push com segredo de teste é bloqueado; merge sem CI verde é bloqueado (CA19).
 
 ## S2: Banco e isolamento por usuário (RF4; CA6, CA7)

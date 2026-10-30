@@ -1,5 +1,6 @@
 package com.heracles.platform.config
 
+import com.heracles.platform.application.Authorizer
 import com.heracles.platform.application.GetMe
 import com.heracles.platform.application.ProvisionUser
 import com.heracles.platform.application.RecordAudit
@@ -20,4 +21,7 @@ class PlatformConfig {
 
     @Bean
     fun recordAudit(trail: AuditTrail) = RecordAudit(trail)
+
+    @Bean
+    fun authorizer(recordAudit: RecordAudit) = Authorizer(recordAudit)
 }

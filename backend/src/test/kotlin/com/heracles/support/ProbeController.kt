@@ -9,4 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 class ProbeController {
     @GetMapping("/api/v1/_probe")
     fun probe(authentication: Authentication): Map<String, String> = mapOf("subject" to authentication.name)
+
+    @GetMapping("/api/v1/admin/_probe")
+    fun adminProbe(): Map<String, String> = mapOf("area" to "admin")
 }

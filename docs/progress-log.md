@@ -2,6 +2,10 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-10-30 (tarefas, Authorizer)
+
+- **E1-S4.3** (`Authorizer`, 403 e `DENIED`): caso de uso `Authorizer.authorize(user, perfisPermitidos, ação)` decide pelo **perfil lido do banco** (nunca do token) e, ao negar, grava um evento `DENIED` (ator, escopo `user`, ação, tipo `route`, sem campos) pelo `RecordAudit`. `AdminAuthorizationManager` aplica isso a tudo sob o prefixo admin da API (só `ADMIN`; `MODERATOR` também é recusado) e `ForbiddenHandler` responde 403 em Problem Details com `code: forbidden`. O corpo de erro dos dois (401 e 403) passou para um helper único, `ProblemResponse`. Sem token continua 401, não 403. Testes: `AuthorizerTest` (3) e `AdminAccessIT` (4: USER recebe 403 e deixa um evento `DENIED`; MODERATOR recusado; ADMIN passa sem evento; sem token 401). Provado que o teste falha se a rota admin exigir só autenticação. Rota de teste `/api/v1/admin/_probe` só em `src/test`. O `traceId` do evento entra na E1-S4.5. Próxima: E1-S4.4 (`QueryAuditTrail` e `GET /api/v1/admin/audit-events`).
+
 ## 2026-10-30 (tarefas, RecordAudit)
 
 - **E1-S4.2** (`AuditTrail` e `RecordAudit`, CA8): domínio `AuditEvent` (com `AuditResult`) que **recusa na construção** ação fora do formato `a.b_c`, tipo de entidade fora do padrão e qualquer item de `fields` que não seja nome de campo (mesma regra do banco); a mensagem de recusa traz só a posição, nunca o texto, que pode ser dado pessoal ou de saúde. Porta `AuditTrail.append` (só acrescenta; não lê, não altera, não remove), caso de uso `RecordAudit` (junta-se à transação de quem chama, então ação e auditoria confirmam juntas) e adaptador `JdbcAuditTrail`, que chama `platform.record_audit_event`. Testes: `RecordAuditTest` (5, com fake) e `AuditTrailIT` (2: grava só nomes e identificadores; valor no lugar de nome não chega ao banco). Glossário: `auditEvent`. Próxima: E1-S4.3 (`Authorizer` por perfil, 403 e auditoria `DENIED`).

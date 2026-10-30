@@ -3,24 +3,28 @@ package com.heracles.platform.adapter.`in`.web
 import com.heracles.platform.application.QueryAuditTrail
 import com.heracles.platform.domain.AuditRecord
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 data class AuditEventResponse(
-    val id: String,
-    val occurredAt: String,
-    val actorUserId: String?,
-    val actorScope: String,
-    val action: String,
-    val entityType: String,
-    val entityId: String?,
-    val result: String,
-    val fields: List<String>,
-    val traceId: String?,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED) val id: String,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED) val occurredAt: String,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) val actorUserId: String?,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED) val actorScope: String,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED) val action: String,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED) val entityType: String,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) val entityId: String?,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED) val result: String,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED) val fields: List<String>,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) val traceId: String?,
 )
 
-data class AuditEventsResponse(val items: List<AuditEventResponse>, val nextCursor: String?)
+data class AuditEventsResponse(
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED) val items: List<AuditEventResponse>,
+    @field:Schema(requiredMode = Schema.RequiredMode.REQUIRED, nullable = true) val nextCursor: String?,
+)
 
 /** Admin-only (see AdminAuthorizationManager). Names and identifiers only, never values. */
 @RestController

@@ -37,7 +37,7 @@
 - [x] E1-S4.2 Port `AuditTrail`, adaptador e caso de uso `RecordAudit` que recusa valores no lugar de nomes de campo. *Pronto quando:* Testes unitários e de integração; valor no lugar de nome é recusado (CA8).
 - [x] E1-S4.3 `Authorizer` por perfil, `403` e auditoria com resultado `DENIED`. *Pronto quando:* `USER` em rota `ADMIN` recebe 403 e deixa evento `DENIED`.
 - [x] E1-S4.4 `QueryAuditTrail` e `GET /api/v1/admin/audit-events` (`ADMIN`, cursor). *Pronto quando:* Só `ADMIN` lê; a resposta traz só nomes e identificadores.
-- [ ] E1-S4.5 OTLP, log em JSON com `traceId`, `userId` e rota, lista permitida de atributos de span; corpo de requisição nunca logado. *Pronto quando:* Teste de integração com valores sentinela (CPF, e-mail, texto de saúde): zero ocorrências em log, spans e erro (CA9).
+- [x] E1-S4.5 OTLP, log em JSON com `traceId`, `userId` e rota, lista permitida de atributos de span; corpo de requisição nunca logado. *Pronto quando:* Teste de integração com valores sentinela (CPF, e-mail, texto de saúde): zero ocorrências em log, spans e erro (CA9).
 
 ## S5: Erros e contrato de API (RF7; CA10, CA11)
 

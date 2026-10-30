@@ -38,6 +38,18 @@ object ArchitectureRules {
             )
             .allowEmptyShould(true)
 
+    /**
+     * A camada application só conhece ports: nada de Spring, JPA, Jackson, AWS nem JDBC (CA17). O que é externo fica
+     * atrás de um port, com adaptador real e adaptador local ou falso.
+     */
+    fun applicationDependsOnlyOnPorts(): ArchRule =
+        noClasses().that().resideInAPackage("..application..")
+            .should().dependOnClassesThat().resideInAnyPackage(
+                "org.springframework..", "jakarta..", "javax..", "tools.jackson..", "com.fasterxml.jackson..",
+                "software.amazon.awssdk..", "java.sql..", "io.micrometer..", "io.opentelemetry..",
+            )
+            .allowEmptyShould(true)
+
     /** Não existe módulo `core`, `common` ou `shared`: código sem lugar vai para o módulo dono do conceito. */
     fun noGenericPackages(): ArchRule =
         noClasses().should().resideInAnyPackage("..core..", "..common..", "..shared..")

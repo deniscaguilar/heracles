@@ -1,5 +1,6 @@
 package com.heracles.platform.application
 
+import com.heracles.platform.adapter.out.fake.FixedClock
 import com.heracles.platform.application.port.out.OutboxStore
 import com.heracles.platform.application.port.out.TaskQueue
 import com.heracles.platform.application.port.out.TransactionContext
@@ -11,9 +12,7 @@ import com.heracles.platform.domain.QueueMessage
 import com.heracles.platform.domain.ReceivedMessage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import java.time.Clock
 import java.time.Instant
-import java.time.ZoneOffset
 import java.time.Duration
 import java.util.UUID
 
@@ -44,7 +43,7 @@ private class PublishQueue(private val failOn: Set<String> = emptySet()) : TaskQ
 
 class PublishOutboxTest {
     private val now = Instant.parse("2026-10-30T12:00:00Z")
-    private val clock = Clock.fixed(now, ZoneOffset.UTC)
+    private val clock = FixedClock(now)
     private fun entry(attempts: Int = 0) = OutboxEntry(UUID.randomUUID(), "exam.imported", mapOf("examId" to "e-1"), attempts)
 
     @Test

@@ -23,6 +23,11 @@ class ArchitectureTest {
     }
 
     @Test
+    fun `application depends only on ports, not on Spring, AWS, JDBC or Jackson`() {
+        ArchitectureRules.applicationDependsOnlyOnPorts().check(production)
+    }
+
+    @Test
     fun `there is no core, common or shared package`() {
         ArchitectureRules.noGenericPackages().check(production)
     }
@@ -48,6 +53,12 @@ class ArchitectureRulesFailOnViolationTest {
     fun `domain purity rule rejects Spring in domain`() {
         assertThatThrownBy { ArchitectureRules.domainIsPure().check(fixture("pure")) }
             .isInstanceOf(AssertionError::class.java).hasMessageContaining("SpringInDomain")
+    }
+
+    @Test
+    fun `application rule rejects Spring in application`() {
+        assertThatThrownBy { ArchitectureRules.applicationDependsOnlyOnPorts().check(fixture("appdeps")) }
+            .isInstanceOf(AssertionError::class.java).hasMessageContaining("SpringInApplication")
     }
 
     @Test

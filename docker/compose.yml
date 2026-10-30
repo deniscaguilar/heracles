@@ -79,6 +79,8 @@ services:
       HERACLES_OIDC_AUDIENCE: heracles-api
       HERACLES_QUEUE_ENDPOINT: http://elasticmq:9324
       HERACLES_QUEUE_URL: http://elasticmq:9324/000000000000/heracles-tasks
+      HERACLES_STORAGE_ENDPOINT: http://localstack:4566
+      HERACLES_FAKE_ADAPTERS: "true"
       HERACLES_DLQ_URL: http://elasticmq:9324/000000000000/heracles-tasks-dlq
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel:4318
     ports: ["${HERACLES_API_PORT:-8080}:8080"]

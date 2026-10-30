@@ -39,6 +39,15 @@ heracles:
       interval: 15s
     region: ${HERACLES_QUEUE_REGION:sa-east-1}
     endpoint: ${HERACLES_QUEUE_ENDPOINT:http://localhost:9324}
+  storage:
+    # S3 bucket for files. Defaults match the LocalStack of docker/compose.yml (local only); in AWS the endpoint stays empty.
+    bucket: ${HERACLES_STORAGE_BUCKET:heracles-files}
+    region: ${HERACLES_STORAGE_REGION:sa-east-1}
+    endpoint: ${HERACLES_STORAGE_ENDPOINT:http://localhost:4567}
+  adapters:
+    fake:
+      # Fakes for language model, OCR, payment and notification (no real adapter yet). Never true in production.
+      enabled: ${HERACLES_FAKE_ADAPTERS:false}
   outbox:
     publisher:
       enabled: true

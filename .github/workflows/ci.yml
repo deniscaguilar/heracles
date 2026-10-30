@@ -80,3 +80,26 @@ jobs:
       # Roda em cada diretório com package-lock.json (web/, mobile/, packages/*). Sem nenhum, passa vazio.
       - name: npm audit
         run: .github/scripts/npm-audit.sh
+
+  api-client:
+    name: api-client (gerado, compila e testa)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: packages/api-client
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: packages/api-client/package-lock.json
+      - run: npm ci
+      # Regenera o cliente a partir do contrato e falha se o arquivo versionado estiver desatualizado (CA11).
+      - name: Regenera o cliente a partir de backend/openapi/openapi.json
+        run: npm run generate
+      - name: O cliente versionado está em dia
+        run: git diff --exit-code -- src/schema.d.ts
+      - run: npm run build
+      - run: npm test

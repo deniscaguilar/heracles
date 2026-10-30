@@ -75,7 +75,8 @@
           "role" : {
             "type" : "string"
           }
-        }
+        },
+        "required" : [ "id", "role" ]
       },
       "AuditEventResponse" : {
         "type" : "object",
@@ -113,7 +114,8 @@
           "traceId" : {
             "type" : [ "string", "null" ]
           }
-        }
+        },
+        "required" : [ "action", "actorScope", "actorUserId", "entityId", "entityType", "fields", "id", "occurredAt", "result", "traceId" ]
       },
       "AuditEventsResponse" : {
         "type" : "object",
@@ -127,7 +129,8 @@
           "nextCursor" : {
             "type" : [ "string", "null" ]
           }
-        }
+        },
+        "required" : [ "items", "nextCursor" ]
       }
     },
     "securitySchemes" : {

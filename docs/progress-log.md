@@ -2,6 +2,10 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-10-30 (tarefas, proteção da main)
+
+- **E1-S1.11** (com o ok do Dênis): proteção da `main` por API: exige PR, os 4 checks do CI (`backend`, `dependency-scan`, `image-scan`, `npm-audit`) com branch atualizada, histórico linear, sem force push nem exclusão, valendo também para administrador; 0 aprovações exigidas (desenvolvimento solo). Secret scanning e push protection já estavam ativos. Provado: `git push origin HEAD:main` rejeitado ("protected branch hook declined"); `gh pr merge` com CI pendente recusado ("4 of 4 required status checks are expected", PR #38 descartável fechado); push de um segredo falso (chave no formato Stripe) em branch descartável rejeitado por push protection, sem nada publicado. **Fim da fatia S1.** Próximo: S2 (banco e RLS), E1-S2.1.
+
 ## 2026-10-30 (tarefas, pipeline de CI)
 
 - **E1-S1.7 a S1.10** (concluídas e provadas no GitHub em 30/10/2026: PR #34 reprovou no JaCoCo, PR #35 reprovou no `dependency-scan` e no Trivy com `log4j-core 2.14.1`, ambos fechados sem merge; o Dependabot abriu sozinho o PR #33): `.github/workflows/ci.yml` com `backend` (`./mvnw verify` no JDK 25; JaCoCo 0.8.16 com portão de 85% de linhas e branches só em `domain` e `application`; SBOM CycloneDX 2.9.3 como artefato), `dependency-scan` (OSV-Scanner sobre o SBOM, ADR-0009), `image-scan` (Trivy, HIGH e CRITICAL) e `npm-audit`. Dependabot para Maven, Actions, Docker e npm. Ações fixadas por SHA. Provado **localmente**: o portão do JaCoCo reprova com uma classe de `domain` sem teste (e fica verde sem ela; um `mvnw clean` é necessário para tirar a classe velha); o `osv-gate.sh` reprova `log4j-core 2.14.1` (CVSS 9,0 e 10,0) e passa o SBOM real; o Trivy não acha nada na imagem do backend. O PR #33 do Dependabot (Maven 3.9.14 para 3.10.0 no wrapper, CI verde) segue aberto, esperando decisão do Dênis. O `npm audit` passa vazio até existir `package-lock.json`. O gate do JaCoCo hoje passa por não haver classes em `domain` e `application`; ele passa a valer com o primeiro código. ADR-0009 aprovada em 30/10/2026.

@@ -17,7 +17,7 @@
 - [x] E1-S1.8 Scan de dependências (decidir OWASP dependency-check ou OSV-Scanner pela medição de tempo e falsos positivos) com falha em Alta ou Crítica e arquivo de supressão com justificativa e data de expiração. *Pronto quando:* Dependência vulnerável de propósito reprova o pipeline; a decisão fica registrada (CA1).
 - [x] E1-S1.9 Trivy na imagem do backend e SBOM CycloneDX por build como artefato. *Pronto quando:* Imagem com vulnerabilidade Alta ou Crítica reprova; o SBOM aparece como artefato do build (CA1, CA2).
 - [x] E1-S1.10 Dependabot (Maven, npm e GitHub Actions) e job de `npm audit` para os pacotes TypeScript. *Pronto quando:* O Dependabot abre PR de teste; `npm audit` roda no pipeline.
-- [ ] E1-S1.11 Proteção da `main` (exige CI verde) e secret scanning com push protection (pede ok: muda configuração do repositório). *Pronto quando:* Push com segredo de teste é bloqueado; merge sem CI verde é bloqueado (CA19).
+- [x] E1-S1.11 Proteção da `main` (exige CI verde) e secret scanning com push protection (pede ok: muda configuração do repositório). *Pronto quando:* Push com segredo de teste é bloqueado; merge sem CI verde é bloqueado (CA19).
 
 ## S2: Banco e isolamento por usuário (RF4; CA6, CA7)
 

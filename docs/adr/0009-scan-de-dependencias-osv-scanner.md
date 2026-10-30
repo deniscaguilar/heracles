@@ -1,6 +1,6 @@
 # ADR-0009: Scan de dependências com OSV-Scanner sobre o SBOM
 
-- **Status:** Rascunho
+- **Status:** Aprovada (Dênis, via Plannotator, em 30/10/2026)
 - **Data:** 2026-10-30
 - **Origem:** Etapa 1, tarefa E1-S1.8; `specs/platform/stage-1-foundation/plan.md` (pipeline); `CLAUDE.md`, seção 7
 

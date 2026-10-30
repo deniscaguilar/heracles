@@ -2,6 +2,10 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-10-30
+
+- **E1-S1.4** (perfis `api`, `worker` e `all`): padrão `all` em `application.yml`; anotações `@ApiOnly` e `@WorkerOnly` em `platform/config` para marcar beans por papel. `RuntimeRoleIT` prova que `api` não sobe o worker e `worker` não sobe a API. `./mvnw verify` verde (9 unitários, 7 de integração). Próxima: E1-S1.5 (`docker compose`).
+
 ## 2026-10-29 (encerramento da sessão: onde paramos)
 
 **Estado do projeto**

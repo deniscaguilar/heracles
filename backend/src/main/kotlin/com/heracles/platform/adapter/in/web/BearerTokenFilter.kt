@@ -1,11 +1,15 @@
 package com.heracles.platform.adapter.`in`.web
 
+import com.heracles.platform.application.ProvisionUser
 import com.heracles.platform.application.port.out.IdentityProvider
+import com.heracles.platform.config.SpanAttributeAllowlist
 import com.heracles.platform.domain.AuthenticationFailedException
+import com.heracles.platform.domain.AppUser
 import com.heracles.platform.domain.Identity
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.slf4j.MDC
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -19,6 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 @Component
 class BearerTokenFilter(
     private val identityProvider: IdentityProvider,
+    private val provisionUser: ProvisionUser,
     private val entryPoint: UnauthorizedEntryPoint,
 ) : OncePerRequestFilter() {
 
@@ -36,17 +41,26 @@ class BearerTokenFilter(
             entryPoint.respond(response)
             return
         }
-        SecurityContextHolder.getContext().authentication = IdentityAuthentication(identity)
-        chain.doFilter(request, response)
+        // The platform user (and its role) is read once per request and reused by the controllers and the authorizer.
+        val user = provisionUser(identity)
+        SecurityContextHolder.getContext().authentication = IdentityAuthentication(identity, user)
+        request.setAttribute(SpanAttributeAllowlist.USER_ID_REQUEST_ATTRIBUTE, user.id.toString())
+        MDC.put(USER_ID, user.id.toString())
+        try {
+            chain.doFilter(request, response)
+        } finally {
+            MDC.remove(USER_ID)
+        }
     }
 
     private companion object {
         const val PREFIX = "Bearer "
+        const val USER_ID = "userId"
     }
 }
 
-/** The authenticated caller. Roles are not here: they come from the database once the user is provisioned (E1-S3.2). */
-class IdentityAuthentication(private val identity: Identity) : AbstractAuthenticationToken(emptyList()) {
+/** The authenticated caller: who the token says, and the platform user with the role read from the database. */
+class IdentityAuthentication(private val identity: Identity, val user: AppUser) : AbstractAuthenticationToken(emptyList()) {
     init {
         isAuthenticated = true
     }

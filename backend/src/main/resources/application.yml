@@ -32,7 +32,19 @@ heracles:
     jwk-set-uri: ${HERACLES_OIDC_JWK_SET_URI:http://localhost:8082/default/jwks}
     audience: ${HERACLES_OIDC_AUDIENCE:heracles-api}
 
+logging:
+  structured:
+    format:
+      # One JSON object per line, with the trace id and the MDC (userId, route) of the request.
+      console: ecs
+
 management:
+  tracing:
+    sampling:
+      probability: 1.0
+  opentelemetry:
+    # The collector address comes from the environment (OTEL_EXPORTER_OTLP_ENDPOINT); the application only speaks OTLP.
+    map-environment-variables: true
   endpoints:
     web:
       exposure:

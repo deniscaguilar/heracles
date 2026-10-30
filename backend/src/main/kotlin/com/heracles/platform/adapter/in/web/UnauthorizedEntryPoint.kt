@@ -15,6 +15,6 @@ class UnauthorizedEntryPoint : AuthenticationEntryPoint {
 
     fun respond(response: HttpServletResponse) {
         response.setHeader("WWW-Authenticate", "Bearer")
-        ProblemResponse.write(response, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized", "unauthenticated")
+        ProblemResponse.write(response, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized", ErrorCodes.UNAUTHENTICATED)
     }
 }

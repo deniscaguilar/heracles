@@ -1,6 +1,9 @@
 spring:
   application:
     name: heracles-backend
+  profiles:
+    # api, worker or all; the same image serves each role (ADR-0001).
+    default: all
 
 management:
   endpoints:

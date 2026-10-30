@@ -2,6 +2,10 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-10-30 (tarefas, RecordAudit)
+
+- **E1-S4.2** (`AuditTrail` e `RecordAudit`, CA8): domínio `AuditEvent` (com `AuditResult`) que **recusa na construção** ação fora do formato `a.b_c`, tipo de entidade fora do padrão e qualquer item de `fields` que não seja nome de campo (mesma regra do banco); a mensagem de recusa traz só a posição, nunca o texto, que pode ser dado pessoal ou de saúde. Porta `AuditTrail.append` (só acrescenta; não lê, não altera, não remove), caso de uso `RecordAudit` (junta-se à transação de quem chama, então ação e auditoria confirmam juntas) e adaptador `JdbcAuditTrail`, que chama `platform.record_audit_event`. Testes: `RecordAuditTest` (5, com fake) e `AuditTrailIT` (2: grava só nomes e identificadores; valor no lugar de nome não chega ao banco). Glossário: `auditEvent`. Próxima: E1-S4.3 (`Authorizer` por perfil, 403 e auditoria `DENIED`).
+
 ## 2026-10-30 (tarefas, auditoria)
 
 - **E1-S4.1** (`audit_event` append-only, CA8): `V4__audit_event.sql` cria `platform.audit_event` (`id`, `occurred_at`, `actor_user_id`, `actor_scope`, `action`, `entity_type`, `entity_id`, `result` `SUCCESS|DENIED|FAILURE`, `fields text[]`, `trace_id`). Gatilhos recusam `UPDATE`, `DELETE` e `TRUNCATE` ("audit_event is append-only"), valendo até para o superusuário. RLS `ENABLE` e `FORCE`: só o escopo `admin` lê; o `heracles_app` não tem `INSERT`, `UPDATE` nem `DELETE`, só `SELECT`. A única entrada é `platform.record_audit_event(...)` (`SECURITY DEFINER`, dono `heracles_owner`, único com política de `INSERT`); o id nasce dentro da função porque `RETURNING` exigiria também uma política de `SELECT`. O `fields` só aceita nomes de campo (regex em `platform.is_field_names`, `CHECK`), então valor como e-mail ou "7,2 mg/dL" é recusado pelo próprio banco. `AuditEventIT` (5 testes); provado que falha sem o gatilho. O dono não lê nem altera linhas (RLS forçada, 0 linhas), então o `UPDATE` dele afeta 0. Próxima: E1-S4.2 (porta `AuditTrail` e `RecordAudit`).

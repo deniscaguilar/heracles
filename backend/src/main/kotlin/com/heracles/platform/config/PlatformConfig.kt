@@ -2,6 +2,8 @@ package com.heracles.platform.config
 
 import com.heracles.platform.application.GetMe
 import com.heracles.platform.application.ProvisionUser
+import com.heracles.platform.application.RecordAudit
+import com.heracles.platform.application.port.out.AuditTrail
 import com.heracles.platform.application.port.out.TransactionContext
 import com.heracles.platform.application.port.out.UserRepository
 import org.springframework.context.annotation.Bean
@@ -15,4 +17,7 @@ class PlatformConfig {
 
     @Bean
     fun getMe(transactions: TransactionContext, users: UserRepository) = GetMe(transactions, users)
+
+    @Bean
+    fun recordAudit(trail: AuditTrail) = RecordAudit(trail)
 }

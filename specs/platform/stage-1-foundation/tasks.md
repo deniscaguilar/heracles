@@ -22,7 +22,7 @@
 ## S2: Banco e isolamento por usuário (RF4; CA6, CA7)
 
 - [x] E1-S2.1 Flyway por módulo (`db/migration/platform`, histórico próprio) e migração dos papéis `heracles_owner` e `heracles_app`. *Pronto quando:* Teste de integração: `heracles_app` não é superusuário, não tem `BYPASSRLS` e não faz DDL.
-- [ ] E1-S2.2 Port e adaptador do contexto de transação (`set_config('app.user_id', ..., true)` e `app.scope`). *Pronto quando:* Teste: duas requisições seguidas na mesma conexão não vazam contexto; sem contexto, zero linhas.
+- [x] E1-S2.2 Port e adaptador do contexto de transação (`set_config('app.user_id', ..., true)` e `app.scope`). *Pronto quando:* Teste: duas requisições seguidas na mesma conexão não vazam contexto; sem contexto, zero linhas.
 - [ ] E1-S2.3 Tabelas só de teste `test_user_note` e `test_health_sample` com RLS forçada, e os testes de CA6. *Pronto quando:* Dois usuários só veem os seus; consulta sem filtro continua isolada; sem contexto não volta nada; escopo `admin` não lê a tabela de saúde.
 - [ ] E1-S2.4 Teste do catálogo do banco: toda tabela com `user_id` exige RLS ativa e forçada e um teste de isolamento registrado. *Pronto quando:* Criar uma tabela de teste sem RLS faz o teste falhar (CA7).
 

@@ -3,7 +3,9 @@ package com.heracles.platform.config
 import com.heracles.platform.application.Authorizer
 import com.heracles.platform.application.GetMe
 import com.heracles.platform.application.ProvisionUser
+import com.heracles.platform.application.QueryAuditTrail
 import com.heracles.platform.application.RecordAudit
+import com.heracles.platform.application.port.out.AuditReader
 import com.heracles.platform.application.port.out.AuditTrail
 import com.heracles.platform.application.port.out.TransactionContext
 import com.heracles.platform.application.port.out.UserRepository
@@ -24,4 +26,7 @@ class PlatformConfig {
 
     @Bean
     fun authorizer(recordAudit: RecordAudit) = Authorizer(recordAudit)
+
+    @Bean
+    fun queryAuditTrail(transactions: TransactionContext, reader: AuditReader) = QueryAuditTrail(transactions, reader)
 }

@@ -1,0 +1,141 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Heracles API",
+    "version" : "v1"
+  },
+  "security" : [ {
+    "bearerAuth" : [ ]
+  } ],
+  "paths" : {
+    "/api/v1/me" : {
+      "get" : {
+        "tags" : [ "me-controller" ],
+        "summary" : "Who am I: identifier and role of the caller",
+        "operationId" : "getMe",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/audit-events" : {
+      "get" : {
+        "tags" : [ "audit-events-controller" ],
+        "summary" : "Audit trail, newest first (ADMIN only)",
+        "operationId" : "listAuditEvents",
+        "parameters" : [ {
+          "name" : "cursor",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "required" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 50
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AuditEventsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "MeResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "role" : {
+            "type" : "string"
+          }
+        }
+      },
+      "AuditEventResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "occurredAt" : {
+            "type" : "string"
+          },
+          "actorUserId" : {
+            "type" : [ "string", "null" ]
+          },
+          "actorScope" : {
+            "type" : "string"
+          },
+          "action" : {
+            "type" : "string"
+          },
+          "entityType" : {
+            "type" : "string"
+          },
+          "entityId" : {
+            "type" : [ "string", "null" ]
+          },
+          "result" : {
+            "type" : "string"
+          },
+          "fields" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "traceId" : {
+            "type" : [ "string", "null" ]
+          }
+        }
+      },
+      "AuditEventsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AuditEventResponse"
+            }
+          },
+          "nextCursor" : {
+            "type" : [ "string", "null" ]
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}

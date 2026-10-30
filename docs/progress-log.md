@@ -2,7 +2,28 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
-## 2026-10-30
+## 2026-10-30 (encerramento da sessão: onde paramos)
+
+**Estado do projeto**
+- **Etapa 1 em andamento: 6 de 45 tarefas** (E1-S1.1 a E1-S1.6, PRs #26 a #30 na `main`). Cartões E1-S1.4 a S1.6 em `DONE` no Notion.
+- Sem alterações locais pendentes; nenhuma branch aberta além desta de diário.
+
+**Como retomar**
+1. Ler o `CLAUDE.md`, `git checkout main` e `git pull`.
+2. JDK 25: `sdk env` em `backend/`; `./mvnw verify` para conferir.
+3. **Próximo: E1-S1.7 a S1.10 (pipeline de CI)**, que pretendo entregar numa revisão só: workflow do GitHub Actions com `./mvnw verify` e portão JaCoCo ≥ 85% em `domain` e `application` (JaCoCo 0.8.16), scan de dependências (decidir OWASP ou OSV-Scanner), Trivy na imagem, SBOM CycloneDX (plugin 2.9.3), Dependabot e `npm audit`. Hoje **não há `.github/`** e nenhum CI roda nos PRs; só dá para provar o reprovar-de-propósito depois de empurrar. Depois: S1.11 (pede ok), S2 (banco e RLS) em diante, conforme `specs/platform/stage-1-foundation/tasks.md`.
+4. Fluxo: uma revisão no Plannotator antes do commit; aprovada, commit, push, PR, merge e limpeza sem perguntar; mover o cartão no Notion e atualizar `tasks.md` e este diário.
+
+**Ambiente local** (para não estranhar)
+- O compose usa o projeto `heracles-dev` e as portas 5433 (Postgres), 9324 (SQS), 4567 (S3), 8082 (OIDC), 3001 (Grafana), 4327/4328 (OTLP) e 8080 (API). O `clinic-system` ocupa as portas padrão. Subir: `docker compose -f docker/compose.yml up -d --build --wait` e `docker/check.sh`.
+- Existe um projeto Docker antigo `heracles` (`~/Documents/projetos/heracles`): o contêiner `postgres_db` dele foi recriado por engano no primeiro `up` (o volume `heracles_postgres_data` está intacto) e `heracles-redis-1` continua lá.
+- Permissões do Claude Code: `git push`, `git merge` e `gh pr merge` agora estão em `allow` no `settings.json` global (feito pelo Dênis); force push segue em `deny`.
+
+**Pendências que dependem do Dênis** (as mesmas de antes)
+- E1-S1.11 (proteção da `main` e secret scanning), E1-S8.1 (estado remoto e conta AWS), E1-S8.3 e E1-S8.4 (ambiente de fumaça, geram custo): pedem ok.
+- Provedor de IA e OCR (Etapa 3), teste de fumaça no SQS real (T2.4), validação científica e pareceres jurídicos, contas Apple e Google, Cognito em São Paulo.
+
+## 2026-10-30 (tarefas)
 
 - **E1-S1.5 e E1-S1.6** (`docker compose` e Dockerfile): `docker/compose.yml` com PostgreSQL 18, ElasticMQ 1.7.1, LocalStack 4.14.0 (só S3), `mock-oauth2-server` 3.0.1, `grafana/otel-lgtm` e o backend, tudo por digest, com healthchecks. `docker/check.sh` confirma cada serviço. Projeto `heracles-dev` e portas deslocadas (5433, 4567, 8082, 3001, 4327/4328) porque o `clinic-system` ocupa as padrão e já existia um projeto antigo `heracles` (o primeiro `up` recriou o contêiner `postgres_db` dele; o volume `heracles_postgres_data` ficou intacto). Dockerfile multi-stage com usuário 10001; a mesma imagem subiu nos perfis `all` e `worker`. Próxima: E1-S1.7 (CI).
 - **E1-S1.4** (perfis `api`, `worker` e `all`): padrão `all` em `application.yml`; anotações `@ApiOnly` e `@WorkerOnly` em `platform/config` para marcar beans por papel. `RuntimeRoleIT` prova que `api` não sobe o worker e `worker` não sobe a API. `./mvnw verify` verde (9 unitários, 7 de integração). Próxima: E1-S1.5 (`docker compose`).

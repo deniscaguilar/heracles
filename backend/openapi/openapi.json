@@ -8,6 +8,34 @@
     "bearerAuth" : [ ]
   } ],
   "paths" : {
+    "/api/v1/tasks/{id}" : {
+      "get" : {
+        "tags" : [ "task-controller" ],
+        "summary" : "Status of one of the caller's asynchronous tasks",
+        "operationId" : "getTaskStatus",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TaskStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/me" : {
       "get" : {
         "tags" : [ "me-controller" ],
@@ -66,6 +94,22 @@
   },
   "components" : {
     "schemas" : {
+      "TaskStatusResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "PENDING", "PROCESSING", "DONE", "FAILED" ]
+          },
+          "resultRef" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "id", "resultRef", "status" ]
+      },
       "MeResponse" : {
         "type" : "object",
         "properties" : {

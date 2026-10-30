@@ -1,6 +1,8 @@
 package com.heracles.platform.config
 
+import com.heracles.platform.adapter.`in`.web.AdminAuthorizationManager
 import com.heracles.platform.adapter.`in`.web.BearerTokenFilter
+import com.heracles.platform.adapter.`in`.web.ForbiddenHandler
 import com.heracles.platform.adapter.`in`.web.UnauthorizedEntryPoint
 import jakarta.servlet.DispatcherType
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -46,18 +48,25 @@ class SecurityConfig {
     }
 
     @Bean
-    fun securityFilterChain(http: HttpSecurity, bearerTokenFilter: BearerTokenFilter, entryPoint: UnauthorizedEntryPoint): SecurityFilterChain =
+    fun securityFilterChain(
+        http: HttpSecurity,
+        bearerTokenFilter: BearerTokenFilter,
+        entryPoint: UnauthorizedEntryPoint,
+        forbiddenHandler: ForbiddenHandler,
+        adminAuthorization: AdminAuthorizationManager,
+    ): SecurityFilterChain =
         http
             .csrf(AbstractHttpConfigurer<*, *>::disable) // stateless bearer API: no cookies, no session
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .httpBasic(AbstractHttpConfigurer<*, *>::disable)
             .formLogin(AbstractHttpConfigurer<*, *>::disable)
             .logout(AbstractHttpConfigurer<*, *>::disable)
-            .exceptionHandling { it.authenticationEntryPoint(entryPoint) }
+            .exceptionHandling { it.authenticationEntryPoint(entryPoint).accessDeniedHandler(forbiddenHandler) }
             .authorizeHttpRequests {
                 // The container's internal error dispatch (404, 500) must keep its own status instead of becoming a 401.
                 it.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                     .requestMatchers("/actuator/**").permitAll() // only health is exposed (application.yml)
+                    .requestMatchers("/api/v1/admin/**").access(adminAuthorization)
                     .anyRequest().authenticated()
             }
             .addFilterBefore(bearerTokenFilter, AuthorizationFilter::class.java)

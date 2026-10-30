@@ -25,6 +25,12 @@ spring:
       app_password: ${HERACLES_DB_APP_PASSWORD:heracles_app_local}
 
 heracles:
+  queue:
+    # SQS queue of asynchronous tasks. Defaults match the ElasticMQ of docker/compose.yml (local only);
+    # in AWS the endpoint stays empty and the instance role is used.
+    url: ${HERACLES_QUEUE_URL:http://localhost:9324/000000000000/heracles-tasks}
+    region: ${HERACLES_QUEUE_REGION:sa-east-1}
+    endpoint: ${HERACLES_QUEUE_ENDPOINT:http://localhost:9324}
   security:
     # Expected `iss` of the token, where to fetch the signing keys, and the audience (`aud`) of this API.
     # Defaults match the fake OIDC server of docker/compose.yml (local only).

@@ -28,7 +28,7 @@
 
 ## S3: Identidade (RF3; CA4, CA5)
 
-- [ ] E1-S3.1 Port `IdentityProvider` e adaptador de teste; *resource server* que valida assinatura, emissor, público e expiração do JWT (emissor por variável de ambiente). *Pronto quando:* Testes: sem token, token expirado, assinatura inválida e outro emissor retornam 401 padronizado (CA4).
+- [x] E1-S3.1 Port `IdentityProvider` e adaptador de teste; *resource server* que valida assinatura, emissor, público e expiração do JWT (emissor por variável de ambiente). *Pronto quando:* Testes: sem token, token expirado, assinatura inválida e outro emissor retornam 401 padronizado (CA4).
 - [ ] E1-S3.2 Migração `app_user` com RLS; casos de uso `ProvisionUser` e `GetMe`; `GET /api/v1/me`. *Pronto quando:* `sub` novo cria usuário `USER`; repetir devolve o mesmo; a resposta só tem identificador e perfil (CA5).
 
 ## S4: Auditoria e observabilidade (RF5, RF6; CA8, CA9)

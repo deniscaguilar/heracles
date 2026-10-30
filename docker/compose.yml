@@ -71,6 +71,10 @@ services:
       HERACLES_DB_ADMIN_PASSWORD: postgres
       HERACLES_DB_APP_PASSWORD: heracles_app_local
       HERACLES_DB_OWNER_PASSWORD: heracles_owner_local
+      # Tokens are issued to clients on the host (localhost:8082); the backend fetches the keys inside the network.
+      HERACLES_OIDC_ISSUER: http://localhost:8082/default
+      HERACLES_OIDC_JWK_SET_URI: http://oidc:8080/default/jwks
+      HERACLES_OIDC_AUDIENCE: heracles-api
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel:4318
     ports: ["${HERACLES_API_PORT:-8080}:8080"]
     depends_on:

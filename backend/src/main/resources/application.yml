@@ -24,6 +24,14 @@ spring:
       owner_password: ${HERACLES_DB_OWNER_PASSWORD:heracles_owner_local}
       app_password: ${HERACLES_DB_APP_PASSWORD:heracles_app_local}
 
+heracles:
+  security:
+    # Expected `iss` of the token, where to fetch the signing keys, and the audience (`aud`) of this API.
+    # Defaults match the fake OIDC server of docker/compose.yml (local only).
+    issuer: ${HERACLES_OIDC_ISSUER:http://localhost:8082/default}
+    jwk-set-uri: ${HERACLES_OIDC_JWK_SET_URI:http://localhost:8082/default/jwks}
+    audience: ${HERACLES_OIDC_AUDIENCE:heracles-api}
+
 management:
   endpoints:
     web:

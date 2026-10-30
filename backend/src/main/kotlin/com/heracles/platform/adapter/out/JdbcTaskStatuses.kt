@@ -14,6 +14,12 @@ class JdbcTaskStatuses(private val transactions: TransactionContext, private val
     override fun markRetrying(taskId: UUID, attempts: Int, errorCode: String) = update(taskId, "PROCESSING", attempts, errorCode)
     override fun markFailed(taskId: UUID, attempts: Int, errorCode: String) = update(taskId, "FAILED", attempts, errorCode)
 
+    override fun markRequeued(taskId: UUID) {
+        transactions.run(AccessContext.system()) {
+            jdbc.update("update task set status = 'PENDING', attempts = 0, last_error_code = null, updated_at = now() where id = ?", taskId)
+        }
+    }
+
     private fun update(taskId: UUID, status: String, attempts: Int?, errorCode: String?) {
         transactions.run(AccessContext.system()) {
             jdbc.update(

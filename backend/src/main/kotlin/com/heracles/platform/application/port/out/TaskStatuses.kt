@@ -11,4 +11,7 @@ interface TaskStatuses {
 
     /** Every attempt failed: status FAILED. */
     fun markFailed(taskId: UUID, attempts: Int, errorCode: String)
+
+    /** A dead message was sent back to the queue: PENDING again, with no attempts and no error. */
+    fun markRequeued(taskId: UUID)
 }

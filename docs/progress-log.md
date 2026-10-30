@@ -4,6 +4,7 @@ Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualiza
 
 ## 2026-10-30
 
+- **E1-S1.5 e E1-S1.6** (`docker compose` e Dockerfile): `docker/compose.yml` com PostgreSQL 18, ElasticMQ 1.7.1, LocalStack 4.14.0 (só S3), `mock-oauth2-server` 3.0.1, `grafana/otel-lgtm` e o backend, tudo por digest, com healthchecks. `docker/check.sh` confirma cada serviço. Projeto `heracles-dev` e portas deslocadas (5433, 4567, 8082, 3001, 4327/4328) porque o `clinic-system` ocupa as padrão e já existia um projeto antigo `heracles` (o primeiro `up` recriou o contêiner `postgres_db` dele; o volume `heracles_postgres_data` ficou intacto). Dockerfile multi-stage com usuário 10001; a mesma imagem subiu nos perfis `all` e `worker`. Próxima: E1-S1.7 (CI).
 - **E1-S1.4** (perfis `api`, `worker` e `all`): padrão `all` em `application.yml`; anotações `@ApiOnly` e `@WorkerOnly` em `platform/config` para marcar beans por papel. `RuntimeRoleIT` prova que `api` não sobe o worker e `worker` não sobe a API. `./mvnw verify` verde (9 unitários, 7 de integração). Próxima: E1-S1.5 (`docker compose`).
 
 ## 2026-10-29 (encerramento da sessão: onde paramos)

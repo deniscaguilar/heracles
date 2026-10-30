@@ -2,6 +2,10 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-10-30 (tarefas, catálogo do banco)
+
+- **E1-S2.4** (teste do catálogo, CA7): `CatalogRules.violations` (em `src/test`) varre o catálogo do Postgres e acusa: tabela com `user_id` sem RLS ativa, com RLS ativa mas não forçada, ou sem teste de isolamento registrado em `IsolationTests` (lista `schema.tabela` para a classe de teste); e qualquer tabela que não seja do `heracles_owner` (a convenção da V2 em diante; a tabela de histórico do Flyway fica fora). `DatabaseCatalogIT` (7 testes) roda a regra no banco real e, num schema descartável, prova que cada violação é pega e que uma tabela correta passa. Provado também que tirar uma tabela da lista reprova. **Regra para o futuro:** toda migração que cria tabela com `user_id` precisa registrar o teste em `IsolationTests`. Fecha a fatia S2 (banco e isolamento). Próxima: S3, E1-S3.1 (`IdentityProvider` e resource server; mexe em autenticação, já autorizado pelo Dênis).
+
 ## 2026-10-30 (tarefas, RLS)
 
 - **E1-S2.3** (tabelas de teste e CA6): `V1000__test_tables.sql` em `src/test/resources/db/test-migration/platform` (só no teste; nunca vai ao pacote), criada pelo `heracles_owner`: `test_user_note` (dado de usuário) e `test_health_sample` (dado de saúde), ambas com RLS `ENABLE` e `FORCE` e política `user_id = platform.current_app_user_id()` em `USING` e `WITH CHECK`. O `PostgresInitializer` soma essa pasta às `locations` do Flyway. `RowLevelSecurityIT` (6 testes): cada usuário vê só as suas linhas mesmo com consulta sem filtro; sem usuário volta zero linha (leitura) e a escrita é recusada; `admin` e `system` não leem nem a tabela de saúde nem a de usuário (as linhas existem: conferido com a conexão administrativa); não dá para gravar linha de outro usuário nem alterar ou apagar a dele; o `heracles_owner` também fica sob a política (prova do `FORCE`; provado que o teste falha sem `FORCE`). Próxima: E1-S2.4 (teste do catálogo, CA7).

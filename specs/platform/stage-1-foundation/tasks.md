@@ -47,7 +47,7 @@
 
 ## S6: Fluxos assíncronos e ports (RF8, RF9; CA12 a CA17)
 
-- [ ] E1-S6.1 Migrações `outbox_message`, `task` e `processed_message` com RLS de escopo `system` (e `task` legível pelo dono). *Pronto quando:* Testes de isolamento passam; o teste do catálogo (S2.4) continua verde.
+- [x] E1-S6.1 Migrações `outbox_message`, `task` e `processed_message` com RLS de escopo `system` (e `task` legível pelo dono). *Pronto quando:* Testes de isolamento passam; o teste do catálogo (S2.4) continua verde.
 - [ ] E1-S6.2 Port `TaskQueue` e adaptador SQS; teste de integração com ElasticMQ em contêiner. *Pronto quando:* Enviar, receber e confirmar mensagem funciona.
 - [ ] E1-S6.3 Gravar a mensagem no outbox na mesma transação da mudança de estado. *Pronto quando:* Transação desfeita não deixa mensagem (CA12).
 - [ ] E1-S6.4 `PublishOutbox` (lote com `FOR UPDATE SKIP LOCKED`, espera crescente nas falhas). *Pronto quando:* Com o publicador parado e depois ligado, a mensagem confirmada chega à fila (CA12).

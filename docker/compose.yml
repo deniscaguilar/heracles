@@ -75,6 +75,8 @@ services:
       HERACLES_OIDC_ISSUER: http://localhost:8082/default
       HERACLES_OIDC_JWK_SET_URI: http://oidc:8080/default/jwks
       HERACLES_OIDC_AUDIENCE: heracles-api
+      HERACLES_QUEUE_ENDPOINT: http://elasticmq:9324
+      HERACLES_QUEUE_URL: http://elasticmq:9324/000000000000/heracles-tasks
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel:4318
     ports: ["${HERACLES_API_PORT:-8080}:8080"]
     depends_on:

@@ -216,3 +216,5 @@ Use sempre o termo em inglês no código. Termos novos entram aqui antes de sere
 | tarefa assíncrona | `task` |
 | auditoria | `auditTrail` |
 | dia livre / pausa | `restDay` |
+| contexto de acesso (quem e com qual escopo a transação roda) | `accessContext` |
+| escopo de acesso (`user`, `admin`, `system`) | `accessScope` |

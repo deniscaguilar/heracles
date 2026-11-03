@@ -45,3 +45,7 @@ coverage/
 # Playwright
 test-results/
 playwright-report/
+
+# Mobile: projetos nativos gerados por `expo prebuild` (não versionados)
+/mobile/ios/
+/mobile/android/

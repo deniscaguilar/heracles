@@ -1,0 +1,6 @@
+# The smoke environment has its own state (a separate key), created and destroyed by script (E1-S8.3).
+bucket       = "<state-bucket>"
+key          = "heracles/smoke/terraform.tfstate"
+region       = "sa-east-1"
+encrypt      = true
+use_lockfile = true

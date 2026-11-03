@@ -1,0 +1,12 @@
+# OpenTofu: state, planos e variáveis locais nunca vão para o repositório (público).
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*.auto.tfvars
+local.tfvars
+backend.local.hcl

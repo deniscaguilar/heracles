@@ -6,3 +6,23 @@
 #     expired_at: 2026-12-31
 #     statement: "Por que não afeta, ou plano e prazo de correção."
 vulnerabilities: []
+
+# Infraestrutura (trivy config sobre infra/): os dois achados abaixo são decisões conscientes.
+# Em `paths`, o caminho é relativo à pasta escaneada (infra/), sem o prefixo `infra/`.
+misconfigurations:
+  - id: AWS-0104
+    paths:
+      - modules/network/main.tf
+    expired_at: 2027-05-03
+    statement: >-
+      Sem NAT Gateway (ADR-0002), a instância precisa falar com SQS, S3, SSM, o registro de imagens e o provedor de
+      identidade pela internet. A saída já está limitada à porta 443 (e ao banco pelo grupo de segurança); não há
+      como listar os endereços desses serviços. Reavaliar com endpoints de VPC se o custo compensar.
+  - id: AWS-0095
+    paths:
+      - modules/queues/main.tf
+    expired_at: 2027-05-03
+    statement: >-
+      O CloudWatch não consegue publicar em tópico SNS cifrado com a chave gerenciada pela AWS. O tópico só leva nome
+      do alarme e números, nunca dado da aplicação. Para cifrar, criar uma chave KMS própria com a política do
+      CloudWatch (adiado até haver destinatário real do alarme).

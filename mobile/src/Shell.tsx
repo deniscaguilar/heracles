@@ -29,6 +29,7 @@ export function Shell() {
         <>
           <Text accessibilityRole="alert">{t("auth.error")}</Text>
           <Button title={t("auth.retry")} onPress={() => void retry()} />
+          <Button title={t("auth.signOut")} onPress={() => void logout()} />
         </>
       )}
     </View>

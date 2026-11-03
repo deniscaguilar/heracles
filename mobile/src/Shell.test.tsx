@@ -1,5 +1,5 @@
 import { fireEvent, screen } from "@testing-library/react-native";
-import { fakeAuthenticator, fakeBackend, renderShell } from "./test-utils";
+import { fakeAuthenticator, fakeBackend, fakeLocalStorage, renderShell } from "./test-utils";
 
 const me = (role: string) => ({ status: 200, body: { id: "11111111-1111-1111-1111-111111111111", role } });
 
@@ -66,5 +66,63 @@ describe("mobile shell (CA20)", () => {
     await fireEvent.press(await screen.findByText("Sair"));
     expect(await screen.findByText("Entrar")).toBeOnTheScreen();
     expect(authenticator.logout).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("local storage follows the session (S7.5)", () => {
+  const userId = "11111111-1111-1111-1111-111111111111";
+
+  it("opens the encrypted database of the signed-in user, and only after the backend confirmed who they are", async () => {
+    const storage = fakeLocalStorage();
+    await renderShell({ authenticator: fakeAuthenticator("abc"), fetch: fakeBackend(me("USER")).fetch, storage });
+    expect(await screen.findByText("Você entrou como Usuário.")).toBeOnTheScreen();
+    expect(storage.open).toHaveBeenCalledWith(userId);
+  });
+
+  it("opens nothing when nobody is signed in, and erases leftovers of an interrupted sign-out", async () => {
+    const storage = fakeLocalStorage();
+    await renderShell({ authenticator: fakeAuthenticator(undefined), storage });
+    expect(await screen.findByText("Entrar")).toBeOnTheScreen();
+    expect(storage.open).not.toHaveBeenCalled();
+    expect(storage.erase).toHaveBeenCalledTimes(1);
+  });
+
+  it("sign out erases the local data and the tokens", async () => {
+    const storage = fakeLocalStorage();
+    const authenticator = fakeAuthenticator("abc");
+    await renderShell({ authenticator, fetch: fakeBackend(me("USER")).fetch, storage });
+    await fireEvent.press(await screen.findByText("Sair"));
+    expect(await screen.findByText("Entrar")).toBeOnTheScreen();
+    expect(storage.erase).toHaveBeenCalledTimes(1);
+    expect(authenticator.logout).toHaveBeenCalledTimes(1);
+  });
+
+  it("signs out even when erasing fails, and tries again at the next start", async () => {
+    const storage = fakeLocalStorage();
+    const authenticator = fakeAuthenticator("abc");
+    await renderShell({ authenticator, fetch: fakeBackend(me("USER")).fetch, storage });
+    await screen.findByText("Sair");
+    storage.erase.mockRejectedValueOnce(new Error("disk"));
+    await fireEvent.press(screen.getByText("Sair"));
+    expect(await screen.findByText("Entrar")).toBeOnTheScreen();
+    expect(authenticator.logout).toHaveBeenCalledTimes(1); // the tokens go anyway
+  });
+
+  it("erases the local data when the API says the token is not valid (401)", async () => {
+    const storage = fakeLocalStorage();
+    await renderShell({ authenticator: fakeAuthenticator("expired"), fetch: fakeBackend({ status: 401 }).fetch, storage });
+    expect(await screen.findByText("Entrar")).toBeOnTheScreen();
+    expect(storage.erase).toHaveBeenCalled();
+    expect(storage.open).not.toHaveBeenCalled();
+  });
+
+  it("does not show a profile when the database cannot be opened, and lets the user sign out", async () => {
+    const storage = fakeLocalStorage();
+    storage.open.mockRejectedValueOnce(new Error("SQLCipher is not available"));
+    await renderShell({ authenticator: fakeAuthenticator("abc"), fetch: fakeBackend(me("USER")).fetch, storage });
+    expect(await screen.findByText("Não foi possível carregar sua sessão.")).toBeOnTheScreen();
+    expect(screen.queryByText(/Você entrou como/)).not.toBeOnTheScreen();
+    await fireEvent.press(screen.getByText("Sair"));
+    expect(await screen.findByText("Entrar")).toBeOnTheScreen();
   });
 });

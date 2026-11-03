@@ -25,3 +25,7 @@ Toque em **Entrar**; o servidor de mentira abre no navegador do sistema: digite 
 Ajustes de build: `EXPO_PUBLIC_OIDC_AUTHORITY`, `EXPO_PUBLIC_OIDC_CLIENT_ID` e `EXPO_PUBLIC_API_BASE_URL` (os padrões apontam para a pilha local).
 
 O identificador do app (`com.heracles.mobile`, em `app.json`) é **provisório**, como o pacote raiz do backend: defina-o antes de qualquer configuração externa (lojas, Cognito).
+
+## Banco local cifrado
+
+Depois do login, o app abre `heracles-<userId>.db` (expo-sqlite com SQLCipher). A chave é aleatória (256 bits), por usuário, e fica no Keychain ou Keystore (`expo-secure-store`); o `PRAGMA key` é o primeiro comando e o app **se recusa** a abrir o banco se `PRAGMA cipher_version` vier vazio. Sair (ou um 401) apaga o arquivo, a chave e o ponteiro do usuário atual; se outro usuário entrar, os dados do anterior são apagados antes. Como conferir: o arquivo não tem o cabeçalho `SQLite format 3` e o `sqlite3` responde "file is not a database". Mudar o plugin `expo-sqlite` exige novo `expo prebuild` e rebuild nativo.

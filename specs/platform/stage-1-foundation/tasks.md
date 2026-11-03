@@ -73,6 +73,11 @@
 - [x] E1-S8.3 Script do ambiente de fumaça efêmero: `apply`, teste de fumaça e `destroy` (pede ok: gera custo). *Pronto quando:* O script existe e foi revisado; custo estimado combinado antes.
 - [ ] E1-S8.4 Rodar o ambiente de fumaça e registrar o resultado (pede ok: gera custo). *Pronto quando:* Backend sobe, o teste passa e o `destroy` remove tudo (CA18).
 
+## V: Validação local antes da AWS (acrescentada em 03/11/2026, pedido do Dênis)
+
+- [x] E1-V.1 Roteiro `docker/validate.sh` que percorre a pilha local viva (token real do OIDC de mentira, API, banco, filas, Grafana) e dá a evidência de CA3 a CA6, CA8 a CA10 e CA12 a CA16. *Pronto quando:* O roteiro passa na pilha local, cada linha nomeia o CA e ele reprova quando a regra é quebrada (provado). Fora do roteiro, por não haver entrada na pilha viva: CA13 (efeito idempotente) e upload ao S3; seguem cobertos pelos testes de integração.
+- [ ] E1-V.2 Aplicar os módulos `queues`, `storage` e `secrets` num LocalStack (sem custo), e a aplicação usar as filas e o bucket criados pelo OpenTofu. *Pronto quando:* `tofu apply` passa no LocalStack, o backend usa os recursos criados e o `destroy` limpa.
+
 ## Fechamento
 
 - [x] E1-F.1 Conferir CA1 a CA20, escrever `docs/stage-1/fechamento.md` e atualizar o diário. *Pronto quando:* Cada critério marcado com a evidência; pendências listadas; gate da Etapa 1 decidido pelo Dênis.

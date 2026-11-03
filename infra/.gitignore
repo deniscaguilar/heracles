@@ -15,3 +15,6 @@ backend.local.hcl
 # e o pipeline precisa deles; qualquer outro *.tfvars continua ignorado.
 !stack/envs/prod.tfvars
 !stack/envs/smoke.tfvars
+
+# Cópia de trabalho e estado do ambiente de fumaça (scripts/smoke.sh); o estado fica aqui até o destroy terminar.
+.smoke/

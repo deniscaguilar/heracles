@@ -158,3 +158,27 @@ jobs:
       - name: Logs da pilha (se falhou)
         if: failure()
         run: docker compose -f docker/compose.yml logs --no-color --tail 200
+
+  mobile:
+    name: mobile (tipos e testes)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            mobile/package-lock.json
+            packages/api-client/package-lock.json
+      # O mobile usa o cliente gerado como dependência local (`file:`); ele precisa estar compilado.
+      - name: Compila o cliente de API
+        working-directory: packages/api-client
+        run: npm ci && npm run build
+      - run: npm ci
+        working-directory: mobile
+      - run: npm run typecheck
+        working-directory: mobile
+      - run: npm test
+        working-directory: mobile

@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Heracles",
+    "slug": "heracles",
+    "scheme": "heracles",
+    "version": "0.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.heracles.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#111827",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.heracles.mobile"
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-web-browser",
+      [
+        "expo-build-properties",
+        {
+          "android": { "compileSdkVersion": 37, "targetSdkVersion": 36, "minSdkVersion": 26 }
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "app": {
+    "name": "Heracles",
+    "tagline": "Treino, nutrição e saúde"
+  },
+  "auth": {
+    "signIn": "Entrar",
+    "signOut": "Sair",
+    "loading": "Carregando…",
+    "error": "Não foi possível carregar sua sessão.",
+    "retry": "Tentar de novo"
+  },
+  "roles": {
+    "user": "Usuário",
+    "admin": "Administrador",
+    "moderator": "Moderador"
+  },
+  "home": {
+    "signedInAs": "Você entrou como {{role}}.",
+    "adminOnWeb": "A administração fica no app web."
+  }
+}

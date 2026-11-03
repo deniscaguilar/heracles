@@ -41,3 +41,7 @@ coverage/
 *.tfvars
 !*.tfvars.example
 *.tsbuildinfo
+
+# Playwright
+test-results/
+playwright-report/

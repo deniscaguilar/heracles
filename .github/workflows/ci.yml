@@ -129,3 +129,32 @@ jobs:
       - run: npm audit --audit-level=high
       - run: npm run build
       - run: npm test
+
+  e2e:
+    name: e2e (web contra a pilha local)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            web/package-lock.json
+            packages/api-client/package-lock.json
+      - name: Compila o cliente de API
+        working-directory: packages/api-client
+        run: npm ci && npm run build
+      - name: Instala o web e o Chromium
+        working-directory: web
+        run: npm ci && npx playwright install --with-deps chromium
+      # Backend, banco e servidor OIDC de mentira reais, os mesmos do ambiente local.
+      - name: Sobe a pilha local
+        run: docker compose -f docker/compose.yml up -d --build --wait --wait-timeout 600
+      - name: Fluxo crítico (login, perfil, /admin)
+        working-directory: web
+        run: npm run test:e2e
+      - name: Logs da pilha (se falhou)
+        if: failure()
+        run: docker compose -f docker/compose.yml logs --no-color --tail 200

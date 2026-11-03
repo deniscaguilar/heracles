@@ -24,6 +24,19 @@ O projeto se chama `heracles-dev` para não colidir com outros ambientes locais.
 
 As credenciais do `compose.yml` são só do ambiente local.
 
+## Entrar no app web local
+
+1. Suba a pilha (`docker compose up -d --wait`) e o app web (`cd web && npm run dev`, porta 5173; o `/api` é repassado ao backend na 8080, então o navegador só fala com a própria origem).
+2. Em `http://localhost:5173`, clique em **Entrar**. O servidor de mentira abre um formulário: digite qualquer nome em **Username** (ele vira o `sub`) e deixe as claims vazias. O primeiro acesso cria o usuário com o perfil `USER`.
+3. Para ver o `/admin`, promova esse usuário no banco (o perfil nunca vem do token) e recarregue a página:
+
+```bash
+docker compose exec postgres psql -U postgres -d heracles \
+  -c "update platform.app_user set role='ADMIN' where sub='maria'"
+```
+
+O `oidc-config.json` fixa a audiência `heracles-api` nos tokens; sem ele o servidor de mentira põe só o id do emissor (`default`) no access token e a API responde 401. O `client_id` do app web é `heracles-api` pelo mesmo motivo (o ID token precisa ter o `client_id` como audiência).
+
 ## Imagem do backend
 
 `backend/Dockerfile` (multi-stage, bases com digest, usuário `10001` sem privilégio). O perfil vem de `SPRING_PROFILES_ACTIVE` (`api`, `worker` ou `all`); a mesma imagem serve aos três.

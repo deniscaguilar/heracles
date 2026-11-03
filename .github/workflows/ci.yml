@@ -117,7 +117,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: web/package-lock.json
+          cache-dependency-path: |
+            web/package-lock.json
+            packages/api-client/package-lock.json
+      # O web usa o cliente gerado como dependência local (`file:`); ele precisa estar compilado.
+      - name: Compila o cliente de API
+        working-directory: packages/api-client
+        run: npm ci && npm run build
       - run: npm ci
       # Falha só com vulnerabilidade Alta ou Crítica (CLAUDE.md, seção 7).
       - run: npm audit --audit-level=high

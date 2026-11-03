@@ -3,6 +3,35 @@
     "name": "Heracles",
     "tagline": "Treino, nutrição e saúde"
   },
+  "nav": {
+    "label": "Navegação principal",
+    "home": "Início",
+    "admin": "Administração"
+  },
+  "auth": {
+    "signIn": "Entrar",
+    "signOut": "Sair",
+    "signInRequired": "Entre para continuar.",
+    "loading": "Carregando…",
+    "error": "Não foi possível carregar sua sessão. Tente novamente.",
+    "failed": "Não foi possível concluir o login. Tente entrar de novo."
+  },
+  "roles": {
+    "user": "Usuário",
+    "admin": "Administrador",
+    "moderator": "Moderador"
+  },
+  "home": {
+    "signedInAs": "Você entrou como {{role}}."
+  },
+  "admin": {
+    "title": "Administração",
+    "description": "Área do backoffice. As telas entram nas próximas etapas."
+  },
+  "forbidden": {
+    "title": "Acesso negado",
+    "message": "Você não tem permissão para ver esta área."
+  },
   "offline": {
     "title": "Sem conexão",
     "message": "O app web precisa de internet. Reconecte para continuar."

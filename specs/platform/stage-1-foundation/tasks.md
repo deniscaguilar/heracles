@@ -75,4 +75,4 @@
 
 ## Fechamento
 
-- [ ] E1-F.1 Conferir CA1 a CA20, escrever `docs/stage-1/fechamento.md` e atualizar o diário. *Pronto quando:* Cada critério marcado com a evidência; pendências listadas; gate da Etapa 1 decidido pelo Dênis.
+- [x] E1-F.1 Conferir CA1 a CA20, escrever `docs/stage-1/fechamento.md` e atualizar o diário. *Pronto quando:* Cada critério marcado com a evidência; pendências listadas; gate da Etapa 1 decidido pelo Dênis.

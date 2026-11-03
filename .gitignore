@@ -40,3 +40,4 @@ coverage/
 *.tfstate.*
 *.tfvars
 !*.tfvars.example
+*.tsbuildinfo

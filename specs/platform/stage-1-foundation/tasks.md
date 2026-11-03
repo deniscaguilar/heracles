@@ -60,7 +60,7 @@
 
 ## S7: Casca dos clientes (RF11; CA20)
 
-- [ ] E1-S7.1 `web/` com Vite, React, TypeScript, i18n (chaves em inglês, pt-BR) e PWA instalável com service worker só para o shell, sem cache de resposta da API. *Pronto quando:* Testes Vitest; o service worker não guarda resposta da API.
+- [x] E1-S7.1 `web/` com Vite, React, TypeScript, i18n (chaves em inglês, pt-BR) e PWA instalável com service worker só para o shell, sem cache de resposta da API. *Pronto quando:* Testes Vitest; o service worker não guarda resposta da API.
 - [ ] E1-S7.2 Login OIDC com PKCE contra o servidor de mentira; shell por perfil; rota `/admin` só para `ADMIN` e `MODERATOR`; chamada a `GET /api/v1/me` pelo cliente gerado. *Pronto quando:* Usuário comum não vê `/admin`; administrador vê (CA20).
 - [ ] E1-S7.3 Teste Playwright do fluxo crítico (login, perfil, `/admin`). *Pronto quando:* O fluxo passa no pipeline.
 - [ ] E1-S7.4 `mobile/` com Expo e React Native: login com `expo-auth-session`, tokens no `expo-secure-store`, shell e cliente gerado. *Pronto quando:* Teste Jest; login no emulador e no simulador contra o servidor de mentira (CA20).

@@ -182,3 +182,34 @@ jobs:
         working-directory: mobile
       - run: npm test
         working-directory: mobile
+
+  infra:
+    name: infra (OpenTofu validate, plan e scan)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4 # v2.0.2
+        with:
+          tofu_version: 1.13.2
+          tofu_wrapper: false
+      - name: Formatação
+        run: tofu fmt -check -recursive infra
+      - name: Validação (sem estado remoto e sem credenciais)
+        working-directory: infra/stack
+        run: |
+          tofu init -backend=false -input=false
+          tofu validate
+      # CA18: o plan, offline, só traz os recursos de RF10 (rede sem NAT, EC2 ARM, RDS, S3, SQS, SSM) e as regras de segurança.
+      - name: Plan offline contra as regras de RF10 (smoke e prod)
+        run: |
+          infra/scripts/check-plan.sh smoke
+          infra/scripts/check-plan.sh prod
+      - uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: config
+          scan-ref: infra
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+          skip-dirs: '**/.terraform'
+          trivyignores: .trivyignore.yaml

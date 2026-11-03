@@ -1,0 +1,27 @@
+services:
+  api:
+    image: ${backend_image}
+    restart: unless-stopped
+    env_file:
+      - /opt/heracles/app.env
+      - /opt/heracles/secrets.env
+    expose: ["8080"]
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/localhost/8080 && printf 'GET /actuator/health/liveness HTTP/1.0\\r\\n\\r\\n' >&3 && grep -q UP <&3"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+      start_period: 40s
+
+  caddy:
+    image: ${caddy_image}
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    volumes:
+      - /opt/heracles/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+    depends_on:
+      api: {condition: service_healthy}
+
+volumes:
+  caddy-data:

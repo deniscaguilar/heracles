@@ -68,8 +68,8 @@
 
 ## S8: Infraestrutura (RF10; CA18)
 
-- [ ] E1-S8.1 Esqueleto OpenTofu em `infra/`, backend de estado e `tofu validate` na pipeline (pede ok: estado remoto e conta AWS). *Pronto quando:* `tofu validate` verde no pipeline.
-- [ ] E1-S8.2 Módulos `network` (sem NAT), `database`, `storage`, `queues` (com DLQ e alarmes), `secrets` e `compute` (EC2 ARM, Compose e Caddy). *Pronto quando:* `plan` mostra só os recursos de RF10 e foi revisado pelo Dênis (CA18).
+- [x] E1-S8.1 Esqueleto OpenTofu em `infra/`, backend de estado e `tofu validate` na pipeline (pede ok: estado remoto e conta AWS). *Pronto quando:* `tofu validate` verde no pipeline.
+- [x] E1-S8.2 Módulos `network` (sem NAT), `database`, `storage`, `queues` (com DLQ e alarmes), `secrets` e `compute` (EC2 ARM, Compose e Caddy). *Pronto quando:* `plan` mostra só os recursos de RF10 e foi revisado pelo Dênis (CA18).
 - [ ] E1-S8.3 Script do ambiente de fumaça efêmero: `apply`, teste de fumaça e `destroy` (pede ok: gera custo). *Pronto quando:* O script existe e foi revisado; custo estimado combinado antes.
 - [ ] E1-S8.4 Rodar o ambiente de fumaça e registrar o resultado (pede ok: gera custo). *Pronto quando:* Backend sobe, o teste passa e o `destroy` remove tudo (CA18).
 

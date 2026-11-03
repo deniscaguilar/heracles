@@ -1,0 +1,54 @@
+#!/bin/bash
+# First boot only. Everything that is not a secret is written here; secrets are read from SSM below.
+set -euo pipefail
+
+dnf install -y docker
+systemctl enable --now docker
+
+# Docker Compose plugin, version pinned and verified by checksum.
+mkdir -p /usr/local/lib/docker/cli-plugins
+curl -fsSL -o /usr/local/lib/docker/cli-plugins/docker-compose \
+  "https://github.com/docker/compose/releases/download/${compose_version}/docker-compose-linux-aarch64"
+echo "${compose_sha256}  /usr/local/lib/docker/cli-plugins/docker-compose" | sha256sum -c -
+chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
+install -d -m 0750 /opt/heracles
+cat > /opt/heracles/compose.yml <<'COMPOSE'
+${compose_yaml}
+COMPOSE
+cat > /opt/heracles/Caddyfile <<'CADDY'
+${caddyfile}
+CADDY
+cat > /opt/heracles/app.env <<'APPENV'
+${app_env}
+APPENV
+
+# Secrets: from SSM to a file only root can read. Never in the image, the repository or the user data.
+umask 077
+aws ssm get-parameters-by-path --region "${aws_region}" --path "${ssm_path_prefix}" --recursive --with-decryption \
+  --query 'Parameters[].[Name,Value]' --output text | while IFS=$'\t' read -r name value; do
+  case "$name" in
+    */db/admin_password) echo "HERACLES_DB_ADMIN_PASSWORD=$value" ;;
+    */db/app_password) echo "HERACLES_DB_APP_PASSWORD=$value" ;;
+    */db/owner_password) echo "HERACLES_DB_OWNER_PASSWORD=$value" ;;
+  esac
+done > /opt/heracles/secrets.env
+
+cat > /etc/systemd/system/heracles.service <<'UNIT'
+[Unit]
+Description=Heracles (Docker Compose)
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/heracles
+ExecStart=/usr/bin/docker compose -f /opt/heracles/compose.yml up -d --pull always
+ExecStop=/usr/bin/docker compose -f /opt/heracles/compose.yml down
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+systemctl daemon-reload
+systemctl enable --now heracles.service

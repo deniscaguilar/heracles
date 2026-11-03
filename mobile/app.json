@@ -25,11 +25,22 @@
       "expo-secure-store",
       "expo-web-browser",
       [
+        "expo-sqlite",
+        {
+          "useSQLCipher": true
+        }
+      ],
+      [
         "expo-build-properties",
         {
-          "android": { "compileSdkVersion": 37, "targetSdkVersion": 36, "minSdkVersion": 26 }
+          "android": {
+            "compileSdkVersion": 37,
+            "targetSdkVersion": 36,
+            "minSdkVersion": 26
+          }
         }
-      ]
+      ],
+      "expo-asset"
     ]
   }
 }

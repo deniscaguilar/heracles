@@ -2,7 +2,7 @@
 
 - **Tarefa:** E1-F.1 (`specs/platform/stage-1-foundation/tasks.md`)
 - **Data:** 03/11/2026
-- **Estado proposto:** **concluída com uma pendência: o ambiente de fumaça na AWS (E1-S8.4).** Os 20 critérios têm evidência; só a metade do CA18 que cria recursos na AWS depende de autorização de custo e de uma imagem do backend.
+- **Estado proposto:** **concluída com uma pendência: o ambiente de fumaça na AWS (E1-S8.4).** Desde a primeira versão deste documento, a pilha local viva (E1-V.1) e os módulos de filas, armazenamento e segredos num LocalStack (E1-V.2) também foram validados; ver a seção 2. Os 20 critérios têm evidência; só a metade do CA18 que cria recursos na AWS depende de autorização de custo e de uma imagem do backend.
 - **Decisão do Dênis:** _aguardando._ A primeira revisão deste documento foi só da evidência; o gate (seguir para a Etapa 2 já ou esperar a S8.4) é decisão do Dênis.
 
 ## 1. Critérios de aceite
@@ -30,14 +30,20 @@
 | **CA19** segredo não entra | **Atendido** | Push protection e secret scanning ativos; provado na S1 (push de uma chave falsa recusado). Segredos só em SSM no OpenTofu, nada em imagem nem em `.env` versionado. |
 | **CA20** casca dos clientes | **Atendido** | Web: `App.test` e testes de autenticação (Vitest) e `critical-flow.spec.ts` (Playwright contra a pilha real, 3 cenários, no CI); mobile: 37 testes Jest e login verificado no emulador Android e no simulador iOS (contra a pilha local), com o banco local cifrado (S7.5). |
 
-## 2. Números
+## 2. Validação local antes da AWS (E1-V.1 e E1-V.2, pedido do Dênis)
+
+- **Pilha viva** (`docker/validate.sh`): 30 verificações passam e reprovam quando a regra é quebrada (gatilho da auditoria desligado: CA8 falha). Dão evidência, na pilha de verdade e não só em teste de integração, de CA3 a CA6, CA8 a CA10 e CA12 a CA16: login com token real, `/me`, 400 com `traceId` que existe no Tempo, 403 em `/admin`, auditoria que o banco não deixa alterar, valor sentinela fora da resposta, do trace e do log, outbox com rollback e commit, 5 tentativas com espera crescente até a DLQ, tarefa `FAILED`, métricas no Prometheus e reprocessamento administrativo.
+- **Módulos no LocalStack** (`infra/scripts/localstack.sh`): 20 verificações dos módulos `queues`, `storage` e `secrets` (24 com a aplicação real consumindo as filas criadas pelo OpenTofu). Reforça CA14 e CA16 (redrive e alarmes definidos nos módulos) e o desenho de upload da ADR-0002; reprova quando o módulo é alterado (provado).
+- **Não coberto por nenhum dos dois, por falta de entrada na pilha ou de serviço no emulador gratuito:** efeito idempotente do consumidor (CA13, segue nos testes de integração), upload ao S3 pela API (não há endpoint), disparo real dos alarmes, e rede, banco e instância (só o ambiente de fumaça, E1-S8.4).
+
+## 3. Números
 
 - Backend: 74 testes unitários e 108 de integração, 0 falhas (CI da `main`, 03/11/2026).
 - Web: 23 testes Vitest e 3 cenários Playwright. Mobile: 37 testes Jest. `api-client`: testes e geração conferida no CI.
 - `main`: 9 verificações obrigatórias (`backend`, OSV, Trivy, `npm audit`, `api-client`, `web`, `e2e`, `mobile`, `infra`).
 - Infra: 47 recursos, provedores `aws` 6.71.0 e `random` 3.8.1 fixos, `trivy config` com 2 supressões com validade em 03/05/2027.
 
-## 3. Pendências
+## 4. Pendências
 
 **Bloqueiam o fechamento total (CA18):**
 1. **E1-S8.4**: rodar o ambiente de fumaça. Precisa do OK de custo do Dênis (estimativa: menos de US$ 0,30 por rodada de 2 horas), da conta autorizada e de uma **imagem do backend arm64 por digest** que a instância consiga baixar (o CI não publica imagem: GHCR pelo CI ou ECR).
@@ -51,6 +57,6 @@
 7. O pacote raiz (`com.heracles`) e o `groupId` Maven continuam provisórios (CLAUDE.md).
 8. Pendências da Etapa 0 que não eram desta fatia continuam em `docs/stage-0/fechamento.md` (provedor de IA e OCR, validação científica dos casos de troca, jurídico).
 
-## 4. Próximo passo
+## 5. Próximo passo
 
-Validação local ponta a ponta antes da AWS (roteiro `docker/validate.sh` e módulos no LocalStack), depois a S8.4 e a decisão do gate.
+A S8.4 (ambiente de fumaça na AWS), quando o Dênis autorizar o custo e escolher de onde sai a imagem do backend, e a decisão do gate. A validação local (V.1 e V.2) já está feita.

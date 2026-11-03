@@ -10,3 +10,8 @@ override.tf.json
 *.auto.tfvars
 local.tfvars
 backend.local.hcl
+
+# O .gitignore da raiz ignora *.tfvars por segurança. Estes dois só têm o nome do ambiente e tamanhos (sem segredo)
+# e o pipeline precisa deles; qualquer outro *.tfvars continua ignorado.
+!stack/envs/prod.tfvars
+!stack/envs/smoke.tfvars

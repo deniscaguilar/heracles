@@ -33,6 +33,21 @@ infra/scripts/check-plan.sh smoke   # ou prod
 
 `check-plan.sh` reprova com qualquer recurso fora de RF10 (NAT, load balancer, ECS...), instância que não seja ARM, IMDSv2 desligado, banco público ou multi-AZ, porta de entrada que não seja 80, 443 ou 5432 (do grupo da aplicação), bucket sem bloqueio público, fila sem criptografia, alarme de CA16 ausente e segredo que não seja `SecureString`.
 
+## Módulos no LocalStack (E1-V.2, sem custo)
+
+`infra/scripts/localstack.sh` aplica `queues`, `storage` e `secrets` (o mesmo código da AWS) num LocalStack descartável na porta 4577, com a imagem fixada por digest no `docker/compose.yml`, confere o comportamento e destrói. Não precisa de conta nem de credencial. A raiz é `infra/local/`.
+
+```bash
+infra/scripts/localstack.sh              # aplica, confere (20 verificações), destrói
+infra/scripts/localstack.sh keep         # deixa de pé para olhar
+HERACLES_WITH_APP=1 infra/scripts/localstack.sh   # também aponta o backend da pilha local (que deve estar de pé) para as filas e o bucket criados
+infra/scripts/localstack.sh down
+```
+
+Confere: redrive para a DLQ após 5 recebimentos (e funcionando: 6 recebimentos sem apagar levam a mensagem à DLQ), tempo de visibilidade de 30 s, política que recusa acesso sem TLS, os dois alarmes nas métricas certas notificando o SNS, bucket versionado, cifrado com KMS e sem acesso público, CORS, upload por URL pré-assinada sem credenciais, leitura dos mesmos bytes, os três segredos como `SecureString`, e que o `destroy` não deixa fila, bucket nem parâmetro. Com `HERACLES_WITH_APP=1`, o backend real consome as filas criadas pelo OpenTofu: a mensagem é publicada, tentada 5 vezes com espera crescente, vai para a DLQ do OpenTofu e a tarefa fica `FAILED`.
+
+**Limites do emulador (não são defeitos dos módulos):** o `destroy` do `aws_sqs_queue_redrive_allow_policy` nunca termina no LocalStack (o provedor espera um atributo que o emulador não esvazia), então o script tira esse recurso do estado antes e avisa; e o disparo dos alarmes do CloudWatch não é testado. Rede, banco e instância (VPC, RDS e EC2) não existem na versão gratuita: só o ambiente de fumaça na AWS (S8.4) os prova.
+
 ## Estado remoto (pendente de autorização)
 
 O `backend "s3" {}` está declarado vazio. O bucket de estado **ainda não existe**: criá-lo é uma ação na conta AWS e fica para depois do OK do Dênis (conta e região). Quando existir, copie `envs/prod.backend.hcl.example` para `envs/prod.backend.hcl` (ignorado pelo git) e rode `tofu init -backend-config=envs/prod.backend.hcl`. O estado guarda as senhas do banco: o bucket tem de ser privado, versionado e cifrado, e o fumaça usa outra chave.

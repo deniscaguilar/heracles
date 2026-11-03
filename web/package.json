@@ -15,6 +15,7 @@
     "check": "npm run build && npm test"
   },
   "dependencies": {
+    "@heracles/api-client": "file:../packages/api-client",
     "i18next": "26.7.1",
     "oidc-client-ts": "3.5.0",
     "react": "19.3.1",

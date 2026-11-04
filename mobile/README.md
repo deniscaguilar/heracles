@@ -18,7 +18,10 @@ Suba a pilha (`docker compose -f ../docker/compose.yml up -d --wait`). No iOS, o
 
 ```bash
 adb reverse tcp:8080 tcp:8080 && adb reverse tcp:8082 tcp:8082 && adb reverse tcp:8081 tcp:8081
+adb reverse tcp:4567 tcp:4567   # o link de "Baixar meus dados" aponta para o LocalStack publicado nesta porta
 ```
+
+Num ambiente novo, publique os textos de consentimento antes de entrar: `docker/seed-policies.sh` (sem eles, nada pede aceite).
 
 Toque em **Entrar**; o servidor de mentira abre no navegador do sistema: digite qualquer nome em *Username* e deixe as claims vazias. O primeiro acesso cria o usuário com o perfil `USER` (como virar `ADMIN`: `docker/README.md`).
 

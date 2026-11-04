@@ -79,6 +79,15 @@ class DataRightsErasureTest {
     }
 
     @Test
+    fun `the dates of the request keep the precision of the database, so the answer to the request equals what is read later`() {
+        // Linux clocks have nanoseconds; PostgreSQL keeps microseconds. What the person is told must be what is stored.
+        now.at = Instant.parse("2026-11-04T12:00:00.123456789Z")
+        val first = RequestErasure(Tx(), erasures, audit, now)(user)
+        assertThat(first.requestedAt).isEqualTo(Instant.parse("2026-11-04T12:00:00.123456Z"))
+        assertThat(first.dueAt).isEqualTo(Instant.parse("2026-11-11T12:00:00.123456Z"))
+    }
+
+    @Test
     fun `the person can cancel while pending, then ask again, and cancel with nothing open is not found`() {
         val request = RequestErasure(Tx(), erasures, audit, now)
         val cancel = CancelErasure(Tx(), erasures, audit)

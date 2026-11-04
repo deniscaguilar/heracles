@@ -39,6 +39,42 @@ async function signInAndAccept(page: Page, sub: string) {
   await acceptTexts(page);
 }
 
+// A new environment has no published text (the migrations do not seed them): without the three required ones nobody
+// is asked to accept anything. As an operator would, an administrator publishes what is missing before the flows.
+// "Comunidade" is optional, but the flow turns it on, and an optional consent without a published text has no switch.
+const SEEDED_TEXTS = ["Termos de uso", "Política de privacidade", "Dados de saúde", "Comunidade"];
+
+test.beforeAll(async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const sub = `e2e-seed-${randomUUID()}`;
+  await signIn(page, sub);
+  // With the texts already there (a rerun) the gate stands in front of the app: accept it like anyone.
+  const gate = page.getByRole("heading", { name: "Antes de continuar" });
+  const home = page.getByText("Você entrou como Usuário.");
+  await expect(gate.or(home)).toBeVisible();
+  if (await gate.isVisible()) await acceptTexts(page);
+  await expect(home).toBeVisible();
+  promoteToAdmin(sub);
+  await page.goto("/admin/policies");
+  await page.reload();
+  for (const name of SEEDED_TEXTS) {
+    const region = page.getByRole("region", { name, exact: true });
+    await expect(region).toBeVisible();
+    if ((await region.getByText("Publicada", { exact: true }).count()) > 0) continue;
+    if ((await region.getByRole("button", { name: "Novo rascunho" }).count()) > 0) {
+      await region.getByRole("button", { name: "Novo rascunho" }).click();
+      await page.getByLabel("Título").fill(`${name} (inicial)`);
+      await page.getByLabel("Texto (Markdown)").fill(`Texto inicial de ${name}.`);
+      await page.getByRole("button", { name: "Salvar rascunho" }).click();
+    }
+    await region.getByRole("button", { name: "Publicar" }).click();
+    await page.getByRole("button", { name: "Confirmar publicação" }).click();
+    await expect(region.getByText("Publicada", { exact: true })).toBeVisible();
+  }
+  await context.close();
+});
+
 const adminLink = (page: Page) => page.getByRole("link", { name: "Administração" });
 
 test("a regular user signs in, sees the profile and is kept out of /admin", async ({ page }) => {

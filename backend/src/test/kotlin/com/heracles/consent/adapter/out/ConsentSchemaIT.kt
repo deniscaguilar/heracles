@@ -89,7 +89,9 @@ class ConsentSchemaIT(
         assertThat(superuser.queryForObject("select markdown from consent.policy_version where id = ?", String::class.java, id)).isEqualTo("edited")
         assertThat(transactions.asAdmin { app.queryForObject("select consent.discard_draft(?)", Boolean::class.javaObjectType, id) }).isTrue()
         assertThat(publish(id)).isNull()
-        assertThat(publish(draft("COMMUNITY_CONSENT"))).isEqualTo(1)
+        // Other classes share the database and may have published this type already: the number is relative.
+        val before = superuser.queryForObject("select coalesce(max(version), 0) from consent.policy_version where type = 'COMMUNITY_CONSENT'", Int::class.javaObjectType)!!
+        assertThat(publish(draft("COMMUNITY_CONSENT"))).isEqualTo(before + 1)
     }
 
     @Test

@@ -34,7 +34,8 @@ class RequestErasure(
 ) {
     operator fun invoke(userId: UUID): AccountErasure = transactions.asUser(userId) {
         erasures.open(userId) ?: run {
-            val now = clock.instant()
+            // The database keeps microseconds: what we answer must equal what is read later.
+            val now = clock.instant().truncatedTo(java.time.temporal.ChronoUnit.MICROS)
             erasures.create(userId, now, now.plus(ErasureRules.GRACE_PERIOD)).also {
                 audit.record(userId, Scope.USER, "erasure.requested", "account_erasure", it.id.toString(), Outcome.SUCCESS)
             }

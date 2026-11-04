@@ -53,7 +53,7 @@ E o do contrato (CA16) acima. Lição: o backend simulado dos testes de tela pre
 
 1. **Cognito real:** `IdentityProvider.deleteUser` é no-op no adaptador OIDC genérico. A exclusão apaga tudo do nosso lado e desvincula o `sub`, mas **não apaga a conta no provedor**; é tarefa própria (ADR-0008).
 2. **Ambiente novo não tem texto publicado** (as migrações não semeiam): um `ADMIN` precisa publicar os 3 textos obrigatórios (e os opcionais que forem usados) antes de qualquer pessoa aceitar. Os textos reais precisam de revisão jurídica; é passo operacional do primeiro go-live, não de migração.
-3. **Cobertura que fica nos testes de integração:** o disparo real da exclusão em 7 dias de calendário (a pilha viva move o prazo no banco), e o link de exportação no emulador Android (a URL do LocalStack é `localhost:4566`; precisa de `adb reverse` para abrir).
+3. **Cobertura que fica nos testes de integração:** o disparo real da exclusão em 7 dias de calendário (a pilha viva move o prazo no banco), e o link de exportação aberto no emulador Android (o link agora aponta para o endereço publicado, `localhost:4567`, e precisa de `adb reverse tcp:4567`; o `validate.sh` baixa o link exatamente como o backend o entrega).
 4. **Visual:** telas mínimas, sem identidade visual e sem área segura no topo (o título encosta na barra de status quando a tela é alta). Fora do escopo da etapa.
 5. **Ambiente de fumaça na AWS (E1-S8.4):** continua pendente da Etapa 1, depende de autorização de custo.
 

@@ -24,6 +24,12 @@ O projeto se chama `heracles-dev` para não colidir com outros ambientes locais.
 
 As credenciais do `compose.yml` são só do ambiente local.
 
+## Textos de consentimento
+
+Um banco novo não tem nenhum texto publicado, e sem os três obrigatórios ninguém é solicitado a aceitar nada. `docker/seed-policies.sh` publica, como administrador, os que faltarem (textos de desenvolvimento, sem validade jurídica; rodar de novo não muda nada). O ambiente real segue `docs/operacao/textos-iniciais.md`.
+
+O link de download da exportação é assinado para o endereço **publicado no host** (`HERACLES_STORAGE_PUBLIC_ENDPOINT`, por padrão `http://localhost:4567`), e não para o `localstack:4566` que só o backend alcança.
+
 ## Validar tudo de ponta a ponta (E1-V.1)
 
 Com a pilha de pé, `docker/validate.sh` percorre o que ela expõe de verdade e diz, linha a linha, a que critério (CA) cada resultado serve de evidência. Demora cerca de 2 minutos, a maior parte esperando as tentativas com espera crescente até a DLQ.

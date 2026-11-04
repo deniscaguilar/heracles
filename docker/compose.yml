@@ -88,6 +88,8 @@ services:
       HERACLES_QUEUE_ENDPOINT: http://elasticmq:9324
       HERACLES_QUEUE_URL: http://elasticmq:9324/000000000000/heracles-tasks
       HERACLES_STORAGE_ENDPOINT: http://localstack:4566
+      # The link of a download is opened by the person's browser or phone, which reach LocalStack by the published port.
+      HERACLES_STORAGE_PUBLIC_ENDPOINT: http://localhost:${HERACLES_S3_PORT:-4567}
       HERACLES_FAKE_ADAPTERS: "true"
       HERACLES_DLQ_URL: http://elasticmq:9324/000000000000/heracles-tasks-dlq
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel:4318

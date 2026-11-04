@@ -2,6 +2,12 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-11-04 (área segura do mobile e adaptador do Cognito contra um falso)
+
+- **Onde paramos:** branch `feat/area-segura-e-cognito-falso`, dois commits, **sem push ainda** (revisão única no Plannotator primeiro). Decisão do Dênis: pendências 1, 2 (só contra um falso) e 4 (Dependabot), e encerrar o dia.
+- **Feito:** (1) `react-native-safe-area-context` (`~5.11.1`, a versão do Expo SDK 58; **dependência nova aprovada pelo Dênis**): `SafeAreaProvider` na raiz e o `Shell` soma a margem do aparelho ao seu espaçamento; teste escrito antes (viu falhar), 71 testes Jest; recompilado no Android e conferido na tela (o título deixou de encostar na barra de status). **iOS não recompilado** (a biblioteca é nativa e pede `pod install`); conferir amanhã. (2) `CognitoIdentityProvider` (SDK `cognitoidentityprovider`, **dependência nova aprovada pelo Dênis**, no BOM do AWS SDK e sem os clientes HTTP extras): `deleteUser` chama `AdminDeleteUser`, usuário já removido é sucesso, outras falhas sobem; ligado só quando `heracles.identity.cognito.user-pool-id` existe (`@Primary`, usa o adaptador OIDC para verificar token). Testes escritos antes: 4 unitários com cliente falso (mutante no `catch` morreu) e 2 ITs de ligação. **Não provado contra um Cognito real.**
+- **Pendente:** provar o Cognito com um user pool (permissão IAM, o `sub` como `username`, revogação do token da Apple); iOS recompilado; ambiente de fumaça na AWS (custo); Dependabot (próxima etapa de hoje); decisão do gate pelo Dênis.
+
 ## 2026-11-04 (pendências da Etapa 2, sem custo)
 
 - **Onde paramos:** a Etapa 2 foi mergeada na `main` (PR #82, `a57e9c3`, CI verde na terceira rodada; antes disso o CI achou precisão de relógio na exclusão, um teste dependente de ordem, o e2e sem textos num banco vazio e um timeout do Jest, todos corrigidos com revisão). Esta branch (`chore/pendencias-etapa-2`) trata das pendências que não geram custo.

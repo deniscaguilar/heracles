@@ -23,6 +23,7 @@ import com.heracles.platform.application.port.out.QueueMetrics
 import com.heracles.platform.application.port.out.TaskReader
 import com.heracles.platform.application.port.out.TaskStatuses
 import com.heracles.platform.application.port.out.OutboxStore
+import com.heracles.platform.application.port.out.TaskHandler
 import com.heracles.platform.application.port.out.TaskQueue
 import com.heracles.platform.application.port.out.TransactionContext
 import com.heracles.platform.application.port.out.UserRepository
@@ -59,7 +60,17 @@ class PlatformConfig {
     fun consumeTask(
         transactions: TransactionContext, processed: ProcessedMessages, queue: TaskQueue,
         registrations: ObjectProvider<TaskHandlerRegistration>,
-    ) = ConsumeTask(transactions, processed, queue, registrations.orderedStream().toList().associate { it.type to it.handler })
+        moduleRegistrations: ObjectProvider<com.heracles.platform.api.TaskHandlerRegistration>,
+    ): ConsumeTask {
+        // Handlers of other modules come through platform.api; the platform adapts them to its own message type.
+        val fromModules = moduleRegistrations.orderedStream().toList().associate { registration ->
+            registration.type to TaskHandler { message ->
+                registration.handler(com.heracles.platform.api.TaskMessage(message.id, message.type, message.ids))
+            }
+        }
+        val own = registrations.orderedStream().toList().associate { it.type to it.handler }
+        return ConsumeTask(transactions, processed, queue, own + fromModules)
+    }
 
     @Bean
     fun processDelivery(consume: ConsumeTask, queue: TaskQueue, deadLetters: DeadLetters, statuses: TaskStatuses, properties: QueueProperties) =

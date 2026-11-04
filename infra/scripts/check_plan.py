@@ -73,6 +73,22 @@ def main(path):
         if not all(v[k] for k in ("block_public_acls", "block_public_policy", "ignore_public_acls", "restrict_public_buckets")):
             problems.append(f"{r['address']}: public access is not fully blocked")
 
+    # Stage 2 (data subject export): files under exports/ live one day, in the bucket that is versioned, so the old
+    # versions go in one day too; without the rule an export (health data) would stay there for ever.
+    exports = [
+        rule
+        for r in of("aws_s3_bucket_lifecycle_configuration")
+        for rule in r["values"]["rule"]
+        if rule["status"] == "Enabled" and any(f.get("prefix") == "exports/" for f in rule.get("filter") or [])
+    ]
+    if not exports:
+        problems.append("no lifecycle rule for the exports/ prefix (files of the data export must expire)")
+    for rule in exports:
+        days = [e.get("days") for e in rule.get("expiration") or []]
+        noncurrent = [e.get("noncurrent_days") for e in rule.get("noncurrent_version_expiration") or []]
+        if days != [1] or noncurrent != [1]:
+            problems.append(f"exports/ must expire in 1 day, and its old versions in 1 day (got {days} and {noncurrent})")
+
     queues = {r["values"]["name"]: r["values"] for r in of("aws_sqs_queue")}
     work = [n for n in queues if not n.endswith("-dlq")]
     if len(work) != 1 or f"{work[0]}-dlq" not in queues:

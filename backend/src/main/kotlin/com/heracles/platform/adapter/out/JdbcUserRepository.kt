@@ -20,5 +20,5 @@ class JdbcUserRepository(private val jdbc: JdbcTemplate) : UserRepository {
     }
 
     override fun findById(id: UUID): AppUser? =
-        jdbc.query("select id, sub, role from app_user where id = ?", mapper, id).firstOrNull()
+        jdbc.query("select id, sub, role from app_user where id = ? and deleted_at is null", mapper, id).firstOrNull()
 }

@@ -22,6 +22,8 @@ adb reverse tcp:8080 tcp:8080 && adb reverse tcp:8082 tcp:8082 && adb reverse tc
 
 Toque em **Entrar**; o servidor de mentira abre no navegador do sistema: digite qualquer nome em *Username* e deixe as claims vazias. O primeiro acesso cria o usuário com o perfil `USER` (como virar `ADMIN`: `docker/README.md`).
 
+Se o aparelho parecer não refletir o código que você acabou de editar, o Metro perdeu as edições em disco: pare-o e rode `npx expo start --dev-client --clear`.
+
 Ajustes de build: `EXPO_PUBLIC_OIDC_AUTHORITY`, `EXPO_PUBLIC_OIDC_CLIENT_ID` e `EXPO_PUBLIC_API_BASE_URL` (os padrões apontam para a pilha local).
 
 O identificador do app (`com.heracles.mobile`, em `app.json`) é **provisório**, como o pacote raiz do backend: defina-o antes de qualquer configuração externa (lojas, Cognito).

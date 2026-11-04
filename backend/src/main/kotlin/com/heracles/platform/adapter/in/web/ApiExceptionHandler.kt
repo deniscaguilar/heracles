@@ -1,5 +1,6 @@
 package com.heracles.platform.adapter.`in`.web
 
+import com.heracles.platform.api.ApiProblemException
 import com.heracles.platform.domain.DeadLetterNotFoundException
 import com.heracles.platform.domain.InvalidCursorException
 import com.heracles.platform.domain.TaskNotFoundException
@@ -64,6 +65,10 @@ class ApiExceptionHandler : ResponseEntityExceptionHandler() {
     fun userNotFound(ex: UserNotFoundException, request: WebRequest): ResponseEntity<Any>? =
         handleExceptionInternal(ex, null, HttpHeaders(), HttpStatus.NOT_FOUND, request)
 
+    @ExceptionHandler(ApiProblemException::class)
+    fun apiProblem(ex: ApiProblemException, request: WebRequest): ResponseEntity<Any>? =
+        handleExceptionInternal(ex, null, HttpHeaders(), HttpStatus.valueOf(ex.status), request)
+
     @ExceptionHandler(Exception::class)
     fun unexpected(ex: Exception, request: WebRequest): ResponseEntity<Any>? {
         log.error("unexpected failure", ex)
@@ -76,6 +81,7 @@ class ApiExceptionHandler : ResponseEntityExceptionHandler() {
         is TypeMismatchException, is MissingServletRequestParameterException -> ErrorCodes.INVALID_PARAMETER
         is InvalidCursorException -> ErrorCodes.INVALID_CURSOR
         is NoResourceFoundException, is UserNotFoundException, is TaskNotFoundException, is DeadLetterNotFoundException -> ErrorCodes.NOT_FOUND
+        is ApiProblemException -> ex.code
         is HttpRequestMethodNotSupportedException -> ErrorCodes.METHOD_NOT_ALLOWED
         is HttpMediaTypeNotSupportedException -> ErrorCodes.UNSUPPORTED_MEDIA_TYPE
         else -> if (ex is org.springframework.web.ErrorResponse && ex.statusCode.is4xxClientError) ErrorCodes.BAD_REQUEST else ErrorCodes.INTERNAL_ERROR
@@ -85,6 +91,7 @@ class ApiExceptionHandler : ResponseEntityExceptionHandler() {
     private fun fieldNamesOf(ex: Exception): List<String>? = when (ex) {
         is MethodArgumentNotValidException -> ex.bindingResult.fieldErrors.map { it.field }.distinct()
         is BindException -> ex.fieldErrors.map { it.field }.distinct()
+        is ApiProblemException -> ex.fields.takeIf { it.isNotEmpty() }
         is HandlerMethodValidationException -> ex.parameterValidationResults
             .flatMap { it.resolvableErrors }.mapNotNull { (it as? DefaultMessageSourceResolvable)?.codes?.firstOrNull() }.distinct()
         else -> null

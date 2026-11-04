@@ -35,8 +35,12 @@ services:
     environment:
       SERVICES: s3
     ports: ["${HERACLES_S3_PORT:-4567}:4566"]
+    volumes:
+      # Creates the bucket the backend writes to once LocalStack is ready (the local twin of infra/modules/storage).
+      - ./localstack-init.sh:/etc/localstack/init/ready.d/10-bucket.sh:ro
     healthcheck:
-      test: ["CMD-SHELL", "curl -fs http://localhost:4566/_localstack/health | grep -q '\"s3\": \"\\(available\\|running\\)\"'"]
+      # Healthy only when the bucket exists too, so the backend never starts against a missing one.
+      test: ["CMD-SHELL", "curl -fs http://localhost:4566/_localstack/health | grep -q '\"s3\": \"\\(available\\|running\\)\"' && curl -fsI http://localhost:4566/heracles-files > /dev/null"]
       interval: 5s
       timeout: 5s
       retries: 30

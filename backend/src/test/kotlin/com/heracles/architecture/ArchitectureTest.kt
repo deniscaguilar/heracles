@@ -75,4 +75,17 @@ class ArchitectureRulesFailOnViolationTest {
             .hasMessageContaining("Bad").hasMessageNotContaining("Good")
         assertThat(rule.evaluate(fixture("boundary")).failureReport.details.joinToString()).doesNotContain("Good")
     }
+
+    @Test
+    fun `consent cannot use platform application, only platform api (E2-S1_4)`() {
+        val rule = ArchitectureRules.moduleBoundaries("com.heracles.fixture.modules")
+        val imported = fixture("modules")
+        assertThatThrownBy { rule.check(imported) }
+            .isInstanceOf(AssertionError::class.java)
+            .hasMessageContaining("Leak").hasMessageContaining("fixture.modules.platform.application")
+        val violations = rule.evaluate(imported).failureReport.details.joinToString()
+        assertThat(violations).contains("modules.consent.adapter.Leak").doesNotContain("Fine")
+        // the same holds for profile, the other new module
+        assertThat(violations).contains("modules.profile.adapter.Leak")
+    }
 }

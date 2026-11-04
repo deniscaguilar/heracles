@@ -22,9 +22,10 @@ describe("i18n", () => {
     expect(i18n.language).toBe("pt-BR");
   });
 
-  it("keeps every key in English (ASCII, camelCase segments)", () => {
+  it("keeps every key in English (ASCII, camelCase segments; an enum code of the API, like WEIGHT_LOSS, is a segment too)", () => {
+    const segment = "([a-z][A-Za-z0-9]*|[A-Z][A-Z0-9_]*)";
     for (const key of keys(ptBR)) {
-      expect(key).toMatch(/^[a-z][A-Za-z0-9]*(\.[a-z][A-Za-z0-9]*)*$/);
+      expect(key).toMatch(new RegExp(`^${segment}(\\.${segment})*$`));
     }
   });
 

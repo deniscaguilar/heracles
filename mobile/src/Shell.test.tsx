@@ -12,7 +12,8 @@ describe("mobile shell (CA20)", () => {
     await fireEvent.press(await screen.findByText("Entrar"));
     expect(authenticator.login).toHaveBeenCalledTimes(1);
     expect(await screen.findByText("Você entrou como Usuário.")).toBeOnTheScreen();
-    expect(backend.authorizations).toEqual(["Bearer token-after-login"]); // the API is called only after the login
+    expect(backend.authorizations.length).toBeGreaterThan(0); // the API is called only after the login
+    expect(backend.authorizations.every((a) => a === "Bearer token-after-login")).toBe(true);
   });
 
   it("signs in, calls GET /api/v1/me with the generated client and shows the role the backend answered", async () => {
@@ -20,7 +21,7 @@ describe("mobile shell (CA20)", () => {
     await renderShell({ authenticator: fakeAuthenticator("abc"), fetch: backend.fetch });
 
     expect(await screen.findByText("Você entrou como Usuário.")).toBeOnTheScreen();
-    expect(backend.authorizations).toEqual(["Bearer abc"]);
+    expect(backend.authorizations.every((a) => a === "Bearer abc")).toBe(true); // /me, then the consents the gate asks for
     expect(screen.queryByText("A administração fica no app web.")).not.toBeOnTheScreen();
   });
 

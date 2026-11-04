@@ -24,6 +24,25 @@ O projeto se chama `heracles-dev` para não colidir com outros ambientes locais.
 
 As credenciais do `compose.yml` são só do ambiente local.
 
+## Textos de consentimento
+
+Um banco novo não tem nenhum texto publicado, e sem os três obrigatórios ninguém é solicitado a aceitar nada. `docker/seed-policies.sh` publica, como administrador, os que faltarem (textos de desenvolvimento, sem validade jurídica; rodar de novo não muda nada). O ambiente real segue `docs/operacao/textos-iniciais.md`.
+
+O link de download da exportação é assinado para o endereço **publicado no host** (`HERACLES_STORAGE_PUBLIC_ENDPOINT`, por padrão `http://localhost:4567`), e não para o `localstack:4566` que só o backend alcança.
+
+## Validar tudo de ponta a ponta (E1-V.1)
+
+Com a pilha de pé, `docker/validate.sh` percorre o que ela expõe de verdade e diz, linha a linha, a que critério (CA) cada resultado serve de evidência. Demora cerca de 2 minutos, a maior parte esperando as tentativas com espera crescente até a DLQ.
+
+```sh
+docker compose -f docker/compose.yml up -d --build --wait
+docker/validate.sh
+```
+
+O que ele faz: obtém tokens reais pelo fluxo PKCE do servidor de mentira; chama a API sem token, com token inválido e com dois usuários novos (`/me`, 400 com `traceId`, 403 em `/admin`, promoção no banco, auditoria); confere que o banco recusa `UPDATE` e `DELETE` na auditoria; manda um valor sentinela e procura por ele na resposta, no trace (Tempo) e nos logs; grava no outbox uma mensagem sem handler e acompanha publicação, tentativas, DLQ, status `FAILED`, as métricas no Prometheus e o reprocessamento administrativo. Cada rodada usa usuários e ids novos, então pode repetir sem limpar nada. Sai com código diferente de zero se qualquer linha falhar.
+
+Fora do roteiro, porque a pilha viva não tem entrada para isso (nenhum módulo registrou handler ainda e não há endpoint de upload): o efeito idempotente do consumidor (CA13) e o upload ao S3; seguem nos testes de integração (`ConsumeTaskIT`, `S3FileStorageIT`). Para olhar sozinho: Grafana em `http://localhost:3001` (admin/admin, traces, logs e métricas) e a interface do ElasticMQ em `http://localhost:9325`.
+
 ## Entrar no app web local
 
 1. Suba a pilha (`docker compose up -d --wait`) e o app web (`cd web && npm run dev`, porta 5173; o `/api` é repassado ao backend na 8080, então o navegador só fala com a própria origem).

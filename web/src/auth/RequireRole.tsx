@@ -4,7 +4,7 @@ import { canSeeAdmin, useAuth } from "./AuthContext";
 
 // Hides a screen from profiles that must not see it. The backend still refuses the calls (403): this is
 // only what the shell shows.
-export function RequireAdminArea(props: { children: ReactNode }) {
+export function RequireAdminArea(props: { children: ReactNode; /** Only administrators, not moderators. */ adminOnly?: boolean }) {
   const { t } = useTranslation();
   const { session, login } = useAuth();
 
@@ -20,7 +20,7 @@ export function RequireAdminArea(props: { children: ReactNode }) {
       </>
     );
   }
-  if (!canSeeAdmin(session)) {
+  if (!canSeeAdmin(session) || (props.adminOnly && session.role !== "ADMIN")) {
     return (
       <>
         <h1>{t("forbidden.title")}</h1>

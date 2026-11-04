@@ -8,6 +8,259 @@
     "bearerAuth" : [ ]
   } ],
   "paths" : {
+    "/api/v1/me/consents/{type}" : {
+      "put" : {
+        "tags" : [ "consent-controller" ],
+        "summary" : "Turn an optional consent on or off, in the current version",
+        "operationId" : "setOptionalConsent",
+        "parameters" : [ {
+          "name" : "type",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "TERMS_OF_USE", "PRIVACY_POLICY", "HEALTH_DATA_CONSENT", "AI_EXAMS_CONSENT", "COMMUNITY_CONSENT", "NOTIFICATIONS_CONSENT", "PROMOTIONAL_CONSENT" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SetOptionalRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/me/anamnesis" : {
+      "get" : {
+        "tags" : [ "anamnesis-controller" ],
+        "summary" : "The caller's current anamnesis (the last revision)",
+        "operationId" : "getMyAnamnesis",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AnamnesisResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "anamnesis-controller" ],
+        "summary" : "Saves a new revision of the anamnesis; earlier ones stay readable",
+        "operationId" : "saveMyAnamnesis",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AnamnesisBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AnamnesisResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/policy-drafts/{id}" : {
+      "put" : {
+        "tags" : [ "policy-admin-controller" ],
+        "summary" : "Change a draft (ADMIN only)",
+        "operationId" : "updatePolicyDraft",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DraftRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "policy-admin-controller" ],
+        "summary" : "Throw a draft away (ADMIN only)",
+        "operationId" : "discardPolicyDraft",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/me/required-consents" : {
+      "post" : {
+        "tags" : [ "consent-controller" ],
+        "summary" : "Accept the three required consents, in the versions the caller saw",
+        "operationId" : "acceptRequiredConsents",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AcceptRequiredRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/me/exports" : {
+      "post" : {
+        "tags" : [ "export-controller" ],
+        "summary" : "Asks for a file with all the data the product keeps about the caller",
+        "operationId" : "requestExport",
+        "responses" : {
+          "202" : {
+            "description" : "Accepted",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ExportRequestedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/erasure-requests" : {
+      "post" : {
+        "tags" : [ "erasure-controller" ],
+        "summary" : "Asks to erase the caller's account, with 7 days to change their mind",
+        "operationId" : "requestErasure",
+        "responses" : {
+          "202" : {
+            "description" : "Accepted",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErasureResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/policy-drafts/{id}/publish" : {
+      "post" : {
+        "tags" : [ "policy-admin-controller" ],
+        "summary" : "Publish a draft as the next version; it becomes the current one (ADMIN only)",
+        "operationId" : "publishPolicyDraft",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PublishedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/policies/{type}/draft" : {
+      "post" : {
+        "tags" : [ "policy-admin-controller" ],
+        "summary" : "Start the draft of a new version of a policy (ADMIN only)",
+        "operationId" : "createPolicyDraft",
+        "parameters" : [ {
+          "name" : "type",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "TERMS_OF_USE", "PRIVACY_POLICY", "HEALTH_DATA_CONSENT", "AI_EXAMS_CONSENT", "COMMUNITY_CONSENT", "NOTIFICATIONS_CONSENT", "PROMOTIONAL_CONSENT" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DraftRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DraftCreatedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/dead-letters/{id}/reprocess" : {
       "post" : {
         "tags" : [ "dead-letter-controller" ],
@@ -64,6 +317,34 @@
         }
       }
     },
+    "/api/v1/policies/{type}/current" : {
+      "get" : {
+        "tags" : [ "consent-controller" ],
+        "summary" : "The current published text of a policy, as blocks to draw",
+        "operationId" : "getCurrentPolicy",
+        "parameters" : [ {
+          "name" : "type",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "TERMS_OF_USE", "PRIVACY_POLICY", "HEALTH_DATA_CONSENT", "AI_EXAMS_CONSENT", "COMMUNITY_CONSENT", "NOTIFICATIONS_CONSENT", "PROMOTIONAL_CONSENT" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PolicyResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/me" : {
       "get" : {
         "tags" : [ "me-controller" ],
@@ -76,6 +357,204 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/exports/{taskId}" : {
+      "get" : {
+        "tags" : [ "export-controller" ],
+        "summary" : "A 15-minute link to the export file, once it is ready",
+        "operationId" : "getExport",
+        "parameters" : [ {
+          "name" : "taskId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ExportReadyResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/erasure-requests/current" : {
+      "get" : {
+        "tags" : [ "erasure-controller" ],
+        "summary" : "The caller's open erasure request",
+        "operationId" : "getErasureRequest",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErasureResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "erasure-controller" ],
+        "summary" : "Cancels the caller's pending erasure request",
+        "operationId" : "cancelErasureRequest",
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/me/consents" : {
+      "get" : {
+        "tags" : [ "consent-controller" ],
+        "summary" : "The seven consents of the caller and where each stands",
+        "operationId" : "listMyConsents",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MyConsentsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/anamnesis/revisions" : {
+      "get" : {
+        "tags" : [ "anamnesis-controller" ],
+        "summary" : "The caller's revisions, oldest first",
+        "operationId" : "listAnamnesisRevisions",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RevisionListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/anamnesis/revisions/{revision}" : {
+      "get" : {
+        "tags" : [ "anamnesis-controller" ],
+        "summary" : "One revision of the caller's anamnesis",
+        "operationId" : "getAnamnesisRevision",
+        "parameters" : [ {
+          "name" : "revision",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AnamnesisResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalogs/{kind}" : {
+      "get" : {
+        "tags" : [ "catalog-controller" ],
+        "summary" : "The codes of one anamnesis catalog, in display order",
+        "operationId" : "getCatalog",
+        "parameters" : [ {
+          "name" : "kind",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "OBJECTIVE", "TRAINING_LEVEL", "ALLERGY", "INTOLERANCE", "RESTRICTION", "FOOD_PREFERENCE", "EQUIPMENT", "BODY_REGION" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CatalogResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/policy-versions/{id}/preview" : {
+      "get" : {
+        "tags" : [ "policy-admin-controller" ],
+        "summary" : "A draft or published version as people will see it (ADMIN only)",
+        "operationId" : "previewPolicyVersion",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PolicyPreviewResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/policies" : {
+      "get" : {
+        "tags" : [ "policy-admin-controller" ],
+        "summary" : "Every policy version, drafts included, with how many people hold each (ADMIN only)",
+        "operationId" : "listPolicies",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PoliciesResponse"
                 }
               }
             }
@@ -122,6 +601,233 @@
   },
   "components" : {
     "schemas" : {
+      "SetOptionalRequest" : {
+        "type" : "object",
+        "properties" : {
+          "granted" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "versionId" : {
+            "type" : [ "string", "null" ],
+            "format" : "uuid"
+          },
+          "client" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "WEB", "MOBILE" ]
+          }
+        },
+        "required" : [ "client", "granted", "versionId" ]
+      },
+      "AnamnesisBody" : {
+        "type" : "object",
+        "properties" : {
+          "objective" : {
+            "type" : [ "string", "null" ]
+          },
+          "trainingLevel" : {
+            "type" : [ "string", "null" ]
+          },
+          "birthDate" : {
+            "type" : [ "string", "null" ],
+            "format" : "date"
+          },
+          "biologicalSex" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "FEMALE", "MALE" ]
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AnamnesisItemBody"
+            },
+            "maxItems" : 100,
+            "minItems" : 0
+          },
+          "screening" : {
+            "type" : [ "object", "null" ],
+            "additionalProperties" : {
+              "type" : "string",
+              "enum" : [ "YES", "NO", "PREFER_NOT_TO_SAY" ]
+            }
+          }
+        },
+        "required" : [ "birthDate", "objective", "screening", "trainingLevel" ]
+      },
+      "AnamnesisItemBody" : {
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "ALLERGY", "INTOLERANCE", "RESTRICTION", "FOOD_PREFERENCE", "EQUIPMENT", "DISLIKED_FOOD", "INJURY" ]
+          },
+          "catalogCode" : {
+            "type" : [ "string", "null" ]
+          },
+          "otherText" : {
+            "type" : [ "string", "null" ]
+          },
+          "bodyRegion" : {
+            "type" : [ "string", "null" ]
+          },
+          "note" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "kind" ]
+      },
+      "AnamnesisItemResponse" : {
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string",
+            "enum" : [ "ALLERGY", "INTOLERANCE", "RESTRICTION", "FOOD_PREFERENCE", "EQUIPMENT", "DISLIKED_FOOD", "INJURY" ]
+          },
+          "catalogCode" : {
+            "type" : [ "string", "null" ]
+          },
+          "otherText" : {
+            "type" : [ "string", "null" ]
+          },
+          "bodyRegion" : {
+            "type" : [ "string", "null" ]
+          },
+          "note" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "kind" ]
+      },
+      "AnamnesisResponse" : {
+        "type" : "object",
+        "properties" : {
+          "revision" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "createdAt" : {
+            "type" : "string"
+          },
+          "objective" : {
+            "type" : "string"
+          },
+          "trainingLevel" : {
+            "type" : "string"
+          },
+          "birthDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "biologicalSex" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "FEMALE", "MALE" ]
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AnamnesisItemResponse"
+            }
+          },
+          "screening" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string",
+              "enum" : [ "YES", "NO", "PREFER_NOT_TO_SAY" ]
+            }
+          },
+          "eligible" : {
+            "type" : "boolean"
+          },
+          "ineligibilityReasons" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "required" : [ "biologicalSex", "birthDate", "createdAt", "eligible", "ineligibilityReasons", "items", "objective", "revision", "screening", "trainingLevel" ]
+      },
+      "DraftRequest" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "markdown" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 60000,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "markdown", "title" ]
+      },
+      "AcceptRequiredRequest" : {
+        "type" : "object",
+        "properties" : {
+          "versionIds" : {
+            "type" : [ "array", "null" ],
+            "items" : {
+              "type" : "string",
+              "format" : "uuid"
+            },
+            "maxItems" : 10,
+            "minItems" : 0
+          },
+          "client" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "WEB", "MOBILE" ]
+          }
+        },
+        "required" : [ "client", "versionIds" ]
+      },
+      "ExportRequestedResponse" : {
+        "type" : "object",
+        "properties" : {
+          "taskId" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "taskId" ]
+      },
+      "ErasureResponse" : {
+        "type" : "object",
+        "properties" : {
+          "requestedAt" : {
+            "type" : "string"
+          },
+          "dueAt" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "PENDING", "RUNNING" ]
+          }
+        },
+        "required" : [ "dueAt", "requestedAt", "status" ]
+      },
+      "PublishedResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "required" : [ "id", "version" ]
+      },
+      "DraftCreatedResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "id" ]
+      },
       "ReprocessResponse" : {
         "type" : "object",
         "properties" : {
@@ -151,6 +857,83 @@
         },
         "required" : [ "id", "resultRef", "status" ]
       },
+      "BlockResponse" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "level" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          },
+          "ordered" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "children" : {
+            "type" : [ "array", "null" ],
+            "items" : {
+              "$ref" : "#/components/schemas/InlineResponse"
+            }
+          },
+          "items" : {
+            "type" : [ "array", "null" ],
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/InlineResponse"
+              }
+            }
+          }
+        },
+        "required" : [ "type" ]
+      },
+      "InlineResponse" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "text" : {
+            "type" : [ "string", "null" ]
+          },
+          "href" : {
+            "type" : [ "string", "null" ]
+          },
+          "children" : {
+            "type" : [ "array", "null" ],
+            "items" : {
+              "$ref" : "#/components/schemas/InlineResponse"
+            }
+          }
+        },
+        "required" : [ "type" ]
+      },
+      "PolicyResponse" : {
+        "type" : "object",
+        "properties" : {
+          "versionId" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "blocks" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BlockResponse"
+            }
+          }
+        },
+        "required" : [ "blocks", "title", "type", "version", "versionId" ]
+      },
       "MeResponse" : {
         "type" : "object",
         "properties" : {
@@ -162,6 +945,164 @@
           }
         },
         "required" : [ "id", "role" ]
+      },
+      "ExportReadyResponse" : {
+        "type" : "object",
+        "properties" : {
+          "url" : {
+            "type" : "string"
+          },
+          "fileExpiresAt" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "fileExpiresAt", "url" ]
+      },
+      "ConsentStatusResponse" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "required" : {
+            "type" : "boolean"
+          },
+          "granted" : {
+            "type" : "boolean"
+          },
+          "pending" : {
+            "type" : "boolean"
+          },
+          "currentVersionId" : {
+            "type" : [ "string", "null" ]
+          },
+          "currentVersion" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          },
+          "acceptedVersionId" : {
+            "type" : [ "string", "null" ]
+          }
+        },
+        "required" : [ "acceptedVersionId", "currentVersion", "currentVersionId", "granted", "pending", "required", "type" ]
+      },
+      "MyConsentsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ConsentStatusResponse"
+            }
+          }
+        },
+        "required" : [ "items" ]
+      },
+      "RevisionListResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RevisionSummaryResponse"
+            }
+          }
+        },
+        "required" : [ "items" ]
+      },
+      "RevisionSummaryResponse" : {
+        "type" : "object",
+        "properties" : {
+          "revision" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "createdAt" : {
+            "type" : "string"
+          },
+          "eligible" : {
+            "type" : "boolean"
+          }
+        },
+        "required" : [ "createdAt", "eligible", "revision" ]
+      },
+      "CatalogResponse" : {
+        "type" : "object",
+        "properties" : {
+          "kind" : {
+            "type" : "string",
+            "enum" : [ "OBJECTIVE", "TRAINING_LEVEL", "ALLERGY", "INTOLERANCE", "RESTRICTION", "FOOD_PREFERENCE", "EQUIPMENT", "BODY_REGION" ]
+          },
+          "codes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "required" : [ "codes", "kind" ]
+      },
+      "PolicyPreviewResponse" : {
+        "type" : "object",
+        "properties" : {
+          "summary" : {
+            "$ref" : "#/components/schemas/PolicyVersionSummaryResponse"
+          },
+          "markdown" : {
+            "type" : "string"
+          },
+          "blocks" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BlockResponse"
+            }
+          }
+        },
+        "required" : [ "blocks", "markdown", "summary" ]
+      },
+      "PolicyVersionSummaryResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "version" : {
+            "type" : [ "integer", "null" ],
+            "format" : "int32"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string"
+          },
+          "publishedAt" : {
+            "type" : [ "string", "null" ]
+          },
+          "accepted" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "accepted", "createdAt", "id", "publishedAt", "status", "title", "type", "version" ]
+      },
+      "PoliciesResponse" : {
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PolicyVersionSummaryResponse"
+            }
+          }
+        },
+        "required" : [ "items" ]
       },
       "AuditEventResponse" : {
         "type" : "object",

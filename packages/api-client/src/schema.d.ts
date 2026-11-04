@@ -4,6 +4,144 @@
  */
 
 export interface paths {
+    "/api/v1/me/consents/{type}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Turn an optional consent on or off, in the current version */
+        put: operations["setOptionalConsent"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/anamnesis": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The caller's current anamnesis (the last revision) */
+        get: operations["getMyAnamnesis"];
+        /** Saves a new revision of the anamnesis; earlier ones stay readable */
+        put: operations["saveMyAnamnesis"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/policy-drafts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Change a draft (ADMIN only) */
+        put: operations["updatePolicyDraft"];
+        post?: never;
+        /** Throw a draft away (ADMIN only) */
+        delete: operations["discardPolicyDraft"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/required-consents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Accept the three required consents, in the versions the caller saw */
+        post: operations["acceptRequiredConsents"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/exports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Asks for a file with all the data the product keeps about the caller */
+        post: operations["requestExport"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/erasure-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Asks to erase the caller's account, with 7 days to change their mind */
+        post: operations["requestErasure"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/policy-drafts/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish a draft as the next version; it becomes the current one (ADMIN only) */
+        post: operations["publishPolicyDraft"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/policies/{type}/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Start the draft of a new version of a policy (ADMIN only) */
+        post: operations["createPolicyDraft"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/dead-letters/{id}/reprocess": {
         parameters: {
             query?: never;
@@ -38,6 +176,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/policies/{type}/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The current published text of a policy, as blocks to draw */
+        get: operations["getCurrentPolicy"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me": {
         parameters: {
             query?: never;
@@ -47,6 +202,143 @@ export interface paths {
         };
         /** Who am I: identifier and role of the caller */
         get: operations["getMe"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/exports/{taskId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A 15-minute link to the export file, once it is ready */
+        get: operations["getExport"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/erasure-requests/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The caller's open erasure request */
+        get: operations["getErasureRequest"];
+        put?: never;
+        post?: never;
+        /** Cancels the caller's pending erasure request */
+        delete: operations["cancelErasureRequest"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/consents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The seven consents of the caller and where each stands */
+        get: operations["listMyConsents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/anamnesis/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The caller's revisions, oldest first */
+        get: operations["listAnamnesisRevisions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/me/anamnesis/revisions/{revision}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One revision of the caller's anamnesis */
+        get: operations["getAnamnesisRevision"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/catalogs/{kind}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The codes of one anamnesis catalog, in display order */
+        get: operations["getCatalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/policy-versions/{id}/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A draft or published version as people will see it (ADMIN only) */
+        get: operations["previewPolicyVersion"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/policies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Every policy version, drafts included, with how many people hold each (ADMIN only) */
+        get: operations["listPolicies"];
         put?: never;
         post?: never;
         delete?: never;
@@ -76,6 +368,84 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        SetOptionalRequest: {
+            granted: boolean | null;
+            /** Format: uuid */
+            versionId: string | null;
+            /** @enum {string|null} */
+            client: "WEB" | "MOBILE" | null;
+        };
+        AnamnesisBody: {
+            objective: string | null;
+            trainingLevel: string | null;
+            /** Format: date */
+            birthDate: string | null;
+            /** @enum {string|null} */
+            biologicalSex?: "FEMALE" | "MALE" | null;
+            items?: components["schemas"]["AnamnesisItemBody"][];
+            screening: {
+                [key: string]: "YES" | "NO" | "PREFER_NOT_TO_SAY";
+            } | null;
+        };
+        AnamnesisItemBody: {
+            /** @enum {string|null} */
+            kind: "ALLERGY" | "INTOLERANCE" | "RESTRICTION" | "FOOD_PREFERENCE" | "EQUIPMENT" | "DISLIKED_FOOD" | "INJURY" | null;
+            catalogCode?: string | null;
+            otherText?: string | null;
+            bodyRegion?: string | null;
+            note?: string | null;
+        };
+        AnamnesisItemResponse: {
+            /** @enum {string} */
+            kind: "ALLERGY" | "INTOLERANCE" | "RESTRICTION" | "FOOD_PREFERENCE" | "EQUIPMENT" | "DISLIKED_FOOD" | "INJURY";
+            catalogCode?: string | null;
+            otherText?: string | null;
+            bodyRegion?: string | null;
+            note?: string | null;
+        };
+        AnamnesisResponse: {
+            /** Format: int32 */
+            revision: number;
+            createdAt: string;
+            objective: string;
+            trainingLevel: string;
+            /** Format: date */
+            birthDate: string;
+            /** @enum {string|null} */
+            biologicalSex: "FEMALE" | "MALE" | null;
+            items: components["schemas"]["AnamnesisItemResponse"][];
+            screening: {
+                [key: string]: "YES" | "NO" | "PREFER_NOT_TO_SAY";
+            };
+            eligible: boolean;
+            ineligibilityReasons: string[];
+        };
+        DraftRequest: {
+            title: string | null;
+            markdown: string | null;
+        };
+        AcceptRequiredRequest: {
+            versionIds: string[] | null;
+            /** @enum {string|null} */
+            client: "WEB" | "MOBILE" | null;
+        };
+        ExportRequestedResponse: {
+            taskId: string;
+        };
+        ErasureResponse: {
+            requestedAt: string;
+            dueAt: string;
+            /** @enum {string} */
+            status: "PENDING" | "RUNNING";
+        };
+        PublishedResponse: {
+            id: string;
+            /** Format: int32 */
+            version: number;
+        };
+        DraftCreatedResponse: {
+            id: string;
+        };
         ReprocessResponse: {
             id: string;
             /** @enum {string} */
@@ -87,9 +457,82 @@ export interface components {
             status: "PENDING" | "PROCESSING" | "DONE" | "FAILED";
             resultRef: string | null;
         };
+        BlockResponse: {
+            type: string;
+            /** Format: int32 */
+            level?: number | null;
+            ordered?: boolean | null;
+            children?: components["schemas"]["InlineResponse"][] | null;
+            items?: components["schemas"]["InlineResponse"][][] | null;
+        };
+        InlineResponse: {
+            type: string;
+            text?: string | null;
+            href?: string | null;
+            children?: components["schemas"]["InlineResponse"][] | null;
+        };
+        PolicyResponse: {
+            versionId: string;
+            type: string;
+            /** Format: int32 */
+            version: number;
+            title: string;
+            blocks: components["schemas"]["BlockResponse"][];
+        };
         MeResponse: {
             id: string;
             role: string;
+        };
+        ExportReadyResponse: {
+            url: string;
+            fileExpiresAt: string;
+        };
+        ConsentStatusResponse: {
+            type: string;
+            required: boolean;
+            granted: boolean;
+            pending: boolean;
+            currentVersionId: string | null;
+            /** Format: int32 */
+            currentVersion: number | null;
+            acceptedVersionId: string | null;
+        };
+        MyConsentsResponse: {
+            items: components["schemas"]["ConsentStatusResponse"][];
+        };
+        RevisionListResponse: {
+            items: components["schemas"]["RevisionSummaryResponse"][];
+        };
+        RevisionSummaryResponse: {
+            /** Format: int32 */
+            revision: number;
+            createdAt: string;
+            eligible: boolean;
+        };
+        CatalogResponse: {
+            /** @enum {string} */
+            kind: "OBJECTIVE" | "TRAINING_LEVEL" | "ALLERGY" | "INTOLERANCE" | "RESTRICTION" | "FOOD_PREFERENCE" | "EQUIPMENT" | "BODY_REGION";
+            codes: string[];
+        };
+        PolicyPreviewResponse: {
+            summary: components["schemas"]["PolicyVersionSummaryResponse"];
+            markdown: string;
+            blocks: components["schemas"]["BlockResponse"][];
+        };
+        PolicyVersionSummaryResponse: {
+            id: string;
+            type: string;
+            /** Format: int32 */
+            version: number | null;
+            title: string;
+            status: string;
+            createdAt: string;
+            publishedAt: string | null;
+            /** Format: int64 */
+            accepted: number;
+        };
+        PoliciesResponse: {
+            items: components["schemas"]["PolicyVersionSummaryResponse"][];
         };
         AuditEventResponse: {
             id: string;
@@ -116,6 +559,228 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    setOptionalConsent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                type: "TERMS_OF_USE" | "PRIVACY_POLICY" | "HEALTH_DATA_CONSENT" | "AI_EXAMS_CONSENT" | "COMMUNITY_CONSENT" | "NOTIFICATIONS_CONSENT" | "PROMOTIONAL_CONSENT";
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SetOptionalRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMyAnamnesis: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnamnesisResponse"];
+                };
+            };
+        };
+    };
+    saveMyAnamnesis: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnamnesisBody"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnamnesisResponse"];
+                };
+            };
+        };
+    };
+    updatePolicyDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DraftRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    discardPolicyDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    acceptRequiredConsents: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AcceptRequiredRequest"];
+            };
+        };
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    requestExport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExportRequestedResponse"];
+                };
+            };
+        };
+    };
+    requestErasure: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Accepted */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErasureResponse"];
+                };
+            };
+        };
+    };
+    publishPolicyDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublishedResponse"];
+                };
+            };
+        };
+    };
+    createPolicyDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                type: "TERMS_OF_USE" | "PRIVACY_POLICY" | "HEALTH_DATA_CONSENT" | "AI_EXAMS_CONSENT" | "COMMUNITY_CONSENT" | "NOTIFICATIONS_CONSENT" | "PROMOTIONAL_CONSENT";
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DraftRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DraftCreatedResponse"];
+                };
+            };
+        };
+    };
     reprocessDeadLetter: {
         parameters: {
             query?: never;
@@ -160,6 +825,28 @@ export interface operations {
             };
         };
     };
+    getCurrentPolicy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                type: "TERMS_OF_USE" | "PRIVACY_POLICY" | "HEALTH_DATA_CONSENT" | "AI_EXAMS_CONSENT" | "COMMUNITY_CONSENT" | "NOTIFICATIONS_CONSENT" | "PROMOTIONAL_CONSENT";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PolicyResponse"];
+                };
+            };
+        };
+    };
     getMe: {
         parameters: {
             query?: never;
@@ -176,6 +863,192 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MeResponse"];
+                };
+            };
+        };
+    };
+    getExport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExportReadyResponse"];
+                };
+            };
+        };
+    };
+    getErasureRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErasureResponse"];
+                };
+            };
+        };
+    };
+    cancelErasureRequest: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listMyConsents: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyConsentsResponse"];
+                };
+            };
+        };
+    };
+    listAnamnesisRevisions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RevisionListResponse"];
+                };
+            };
+        };
+    };
+    getAnamnesisRevision: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                revision: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnamnesisResponse"];
+                };
+            };
+        };
+    };
+    getCatalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                kind: "OBJECTIVE" | "TRAINING_LEVEL" | "ALLERGY" | "INTOLERANCE" | "RESTRICTION" | "FOOD_PREFERENCE" | "EQUIPMENT" | "BODY_REGION";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CatalogResponse"];
+                };
+            };
+        };
+    };
+    previewPolicyVersion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PolicyPreviewResponse"];
+                };
+            };
+        };
+    };
+    listPolicies: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PoliciesResponse"];
                 };
             };
         };

@@ -21,7 +21,7 @@
     <java.version>25</java.version>
     <kotlin.compiler.jvmTarget>25</kotlin.compiler.jvmTarget>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- Fora do BOM do Boot; últimas GA no Maven Central em 29/10/2026. -->
+    <!-- Fora do BOM do Boot; últimas GA no Maven Central em 29/10/2026 (commonmark: 03/11/2026). -->
     <spring-modulith.version>2.1.2</spring-modulith.version>
     <archunit.version>1.5.1</archunit.version>
     <mock-oauth2-server.version>6.1.4</mock-oauth2-server.version>
@@ -29,6 +29,7 @@
     <awssdk.version>2.57.7</awssdk.version>
     <jacoco.version>0.8.16</jacoco.version>
     <cyclonedx.version>2.9.3</cyclonedx.version>
+    <commonmark.version>0.32.0</commonmark.version>
     <coverage.minimum>0.85</coverage.minimum>
   </properties>
 
@@ -53,6 +54,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.commonmark</groupId>
+      <artifactId>commonmark</artifactId>
+      <version>${commonmark.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib</artifactId>
     </dependency>
@@ -74,6 +80,15 @@
       <artifactId>sqs</artifactId>
       <exclusions>
         <!-- One lightweight HTTP client (url-connection-client) instead of the Apache and Netty ones. -->
+        <exclusion><groupId>software.amazon.awssdk</groupId><artifactId>apache-client</artifactId></exclusion>
+        <exclusion><groupId>software.amazon.awssdk</groupId><artifactId>netty-nio-client</artifactId></exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <!-- Cognito adapter of IdentityProvider (ADR-0008): only to delete the user at the provider on erasure. -->
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>cognitoidentityprovider</artifactId>
+      <exclusions>
         <exclusion><groupId>software.amazon.awssdk</groupId><artifactId>apache-client</artifactId></exclusion>
         <exclusion><groupId>software.amazon.awssdk</groupId><artifactId>netty-nio-client</artifactId></exclusion>
       </exclusions>

@@ -1,0 +1,11 @@
+# Points the backend of docker/compose.yml at the queues and bucket that OpenTofu created in the LocalStack of
+# infra/scripts/localstack.sh (port 4577). Used only by that script, on request (HERACLES_WITH_APP=1).
+services:
+  backend:
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    environment:
+      HERACLES_QUEUE_ENDPOINT: http://host.docker.internal:4577
+      HERACLES_QUEUE_URL: http://host.docker.internal:4577/000000000000/heracles-local-tasks
+      HERACLES_DLQ_URL: http://host.docker.internal:4577/000000000000/heracles-local-tasks-dlq
+      HERACLES_STORAGE_ENDPOINT: http://host.docker.internal:4577
+      HERACLES_STORAGE_BUCKET: heracles-local-files-000000000000

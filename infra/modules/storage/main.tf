@@ -69,6 +69,26 @@ resource "aws_s3_bucket_lifecycle_configuration" "files" {
     }
   }
 
+  # The file of a data export (Stage 2, spec RF9) holds a person's data and is meant to be downloaded within minutes:
+  # the application deletes it after 24 h, and this rule is the safety net. The bucket is versioned, so the delete
+  # marker is not enough: the old version must go too, and the marker with it.
+  rule {
+    id     = "expire-exports"
+    status = "Enabled"
+
+    filter {
+      prefix = "exports/"
+    }
+
+    expiration {
+      days = 1
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+  }
+
   rule {
     id     = "expire-old-versions"
     status = "Enabled"

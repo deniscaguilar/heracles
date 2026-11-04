@@ -60,4 +60,13 @@ class OpenApiContractIT(@Value("\${local.server.port}") private val port: Int) {
         assertThat(names).noneMatch { it.contains("_probe") || it.contains("_boom") || it.contains("_validated") || it.contains("_number") }
         assertThat(generated().at("/components/securitySchemes/bearerAuth/scheme").asString()).isEqualTo("bearer")
     }
+
+    @Test
+    fun `no operation asks the caller for the user, which comes from the token and never from the request`() {
+        val offenders = generated().get("paths").properties().flatMap { (path, item) ->
+            item.properties().filter { (_, op) -> op.path("parameters").any { it.path("name").asString() == "user" } }.map { path }
+        }
+        assertThat(offenders).describedAs("operations that list a `user` parameter").isEmpty()
+        assertThat(generated().at("/components/schemas").propertyNames().toList()).doesNotContain("CurrentUser")
+    }
 }

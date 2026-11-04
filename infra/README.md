@@ -33,6 +33,21 @@ infra/scripts/check-plan.sh smoke   # ou prod
 
 `check-plan.sh` reprova com qualquer recurso fora de RF10 (NAT, load balancer, ECS...), instância que não seja ARM, IMDSv2 desligado, banco público ou multi-AZ, porta de entrada que não seja 80, 443 ou 5432 (do grupo da aplicação), bucket sem bloqueio público, fila sem criptografia, alarme de CA16 ausente e segredo que não seja `SecureString`.
 
+## Módulos no LocalStack (E1-V.2, sem custo)
+
+`infra/scripts/localstack.sh` aplica `queues`, `storage` e `secrets` (o mesmo código da AWS) num LocalStack descartável na porta 4577, com a imagem fixada por digest no `docker/compose.yml`, confere o comportamento e destrói. Não precisa de conta nem de credencial. A raiz é `infra/local/`.
+
+```bash
+infra/scripts/localstack.sh              # aplica, confere (20 verificações), destrói
+infra/scripts/localstack.sh keep         # deixa de pé para olhar
+HERACLES_WITH_APP=1 infra/scripts/localstack.sh   # também aponta o backend da pilha local (que deve estar de pé) para as filas e o bucket criados
+infra/scripts/localstack.sh down
+```
+
+Confere: redrive para a DLQ após 5 recebimentos (e funcionando: 6 recebimentos sem apagar levam a mensagem à DLQ), tempo de visibilidade de 30 s, política que recusa acesso sem TLS, os dois alarmes nas métricas certas notificando o SNS, bucket versionado, cifrado com KMS e sem acesso público, CORS, upload por URL pré-assinada sem credenciais, leitura dos mesmos bytes, os três segredos como `SecureString`, e que o `destroy` não deixa fila, bucket nem parâmetro. Com `HERACLES_WITH_APP=1`, o backend real consome as filas criadas pelo OpenTofu: a mensagem é publicada, tentada 5 vezes com espera crescente, vai para a DLQ do OpenTofu e a tarefa fica `FAILED`.
+
+**Limites do emulador (não são defeitos dos módulos):** o `destroy` do `aws_sqs_queue_redrive_allow_policy` nunca termina no LocalStack (o provedor espera um atributo que o emulador não esvazia), então o script tira esse recurso do estado antes e avisa; e o disparo dos alarmes do CloudWatch não é testado. Rede, banco e instância (VPC, RDS e EC2) não existem na versão gratuita: só o ambiente de fumaça na AWS (S8.4) os prova.
+
 ## Estado remoto (pendente de autorização)
 
 O `backend "s3" {}` está declarado vazio. O bucket de estado **ainda não existe**: criá-lo é uma ação na conta AWS e fica para depois do OK do Dênis (conta e região). Quando existir, copie `envs/prod.backend.hcl.example` para `envs/prod.backend.hcl` (ignorado pelo git) e rode `tofu init -backend-config=envs/prod.backend.hcl`. O estado guarda as senhas do banco: o bucket tem de ser privado, versionado e cifrado, e o fumaça usa outra chave.
@@ -41,9 +56,26 @@ O `backend "s3" {}` está declarado vazio. O bucket de estado **ainda não exist
 
 Provedores fixos: `hashicorp/aws` 6.71.0 e `hashicorp/random` 3.8.1, com `.terraform.lock.hcl` versionado (linux_amd64, linux_arm64 e darwin_arm64). O Dependabot acompanha `infra/stack`.
 
+## Ambiente de fumaça (CA18)
+
+`infra/scripts/smoke.sh` cria o ambiente efêmero, testa e **sempre tenta destruir**. **Gera custo e mexe numa conta AWS real**: só roda com `--yes`, com `SMOKE_ACCOUNT_ID` igual à conta das credenciais (a conta que o Dênis autorizou) e com `BACKEND_IMAGE` (arm64, por digest).
+
+```bash
+export SMOKE_ACCOUNT_ID=<conta autorizada> BACKEND_IMAGE=<imagem>@sha256:<digest>
+infra/scripts/smoke.sh plan          # só leitura: plan real, nada é criado
+infra/scripts/smoke.sh run --yes     # apply, teste e destroy
+infra/scripts/smoke.sh destroy --yes # limpa o que uma rodada interrompida deixou
+```
+
+- **Estado local** em `infra/.smoke/` (ignorado pelo git), guardado até o `destroy` terminar: uma rodada que caiu ainda pode ser limpa. Nenhum bucket é criado para isso.
+- **Só o seu IP** entra na instância durante o teste (`ingress_cidrs` = IP público do chamador `/32`).
+- **O teste** espera `/actuator/health` com `UP` pelo Caddy (o banco real respondeu e as migrações rodaram), confere que `/api/v1/me` sem token dá 401 e consulta a API da AWS: redrive da fila para a DLQ, bucket com KMS e sem acesso público, banco privado, cifrado e single-AZ, os dois alarmes de CA16 e nenhuma entrada na porta 22.
+- **O destroy** é conferido de duas formas: o estado fica vazio e nenhum recurso com as etiquetas `project=heracles` e `environment=smoke` sobra (as chaves KMS esperam 7 dias para apagar e não são cobradas nesse período).
+- **Custo estimado** (preços de lista em `sa-east-1`, consultados na API de preços em 03/11/2026): EC2 t4g.small US$ 0,027/h, RDS db.t4g.micro US$ 0,034/h, IPv4 público US$ 0,005/h, RDS gp3 20 GB US$ 0,219/GB-mês, mais volume da EC2, 2 chaves KMS (US$ 1/mês cada, proporcional), 2 alarmes (US$ 0,10/mês cada, proporcional) e SQS e S3 desprezíveis. **Uma rodada de 2 horas fica abaixo de US$ 0,30**; esquecida ligada por um dia, perto de US$ 2. Sem alarme de orçamento (um `aws_budgets_budget` seria outro serviço; a trava é o `destroy` no `trap`).
+
 ## Antes do primeiro `apply`
 
 - Conferir custos nas tabelas atuais da AWS (instância, RDS, Elastic IP, KMS, CloudWatch).
-- Confirmar a versão menor do PostgreSQL disponível em `sa-east-1` (`engine_version = "18"`).
+- ~~Versão do PostgreSQL~~ conferida em 03/11/2026: `sa-east-1` oferece 18.1 a 18.6, e o `db.t4g.micro` com gp3 está disponível.
 - Definir a imagem do backend (arm64, por digest) e de onde ela é baixada.
 - Definir o destino dos alarmes (`alarm_email`); sem ele o tópico existe, mas ninguém recebe.

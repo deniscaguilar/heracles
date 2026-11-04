@@ -29,7 +29,8 @@ describe("shell by profile (CA20)", () => {
   it("sends the token to GET /api/v1/me and shows the role the backend answered", async () => {
     const backend = fakeBackend(me("USER"));
     await renderApp("/", { authenticator: fakeAuthenticator("abc"), fetch: backend.fetch });
-    expect(backend.authorizations).toEqual(["Bearer abc"]);
+    expect(backend.authorizations.length).toBeGreaterThan(0); // /me, then the consents the gate asks for
+    expect(backend.authorizations.every((a) => a === "Bearer abc")).toBe(true);
     expect(screen.getByText("Você entrou como Usuário.")).toBeInTheDocument();
   });
 

@@ -6,7 +6,10 @@
   "nav": {
     "label": "Navegação principal",
     "home": "Início",
-    "admin": "Administração"
+    "admin": "Administração",
+    "anamnesis": "Anamnese",
+    "consents": "Meus consentimentos",
+    "privacy": "Privacidade"
   },
   "auth": {
     "signIn": "Entrar",
@@ -26,7 +29,8 @@
   },
   "admin": {
     "title": "Administração",
-    "description": "Área do backoffice. As telas entram nas próximas etapas."
+    "description": "Área do backoffice. As telas entram nas próximas etapas.",
+    "policies": "Textos e versões"
   },
   "forbidden": {
     "title": "Acesso negado",
@@ -39,5 +43,232 @@
   "notFound": {
     "title": "Página não encontrada",
     "back": "Voltar ao início"
+  },
+  "gate": {
+    "title": "Antes de continuar",
+    "intro": "Para usar o Heracles, leia e aceite os textos abaixo.",
+    "changed": "Os textos mudaram desde o seu último aceite. Leia e aceite a versão nova para continuar.",
+    "read": "Li e aceito: {{title}}",
+    "accept": "Aceitar e continuar",
+    "loadError": "Não foi possível carregar seus consentimentos. Tente novamente.",
+    "acceptError": "Não foi possível registrar o aceite. Tente novamente."
+  },
+  "catalog": {
+    "OBJECTIVE": {
+      "WEIGHT_LOSS": "Perder peso",
+      "MUSCLE_GAIN": "Ganhar massa muscular",
+      "GENERAL_HEALTH": "Saúde geral",
+      "PERFORMANCE": "Desempenho"
+    },
+    "TRAINING_LEVEL": {
+      "BEGINNER": "Iniciante",
+      "INTERMEDIATE": "Intermediário",
+      "ADVANCED": "Avançado"
+    },
+    "ALLERGY": {
+      "PEANUT": "Amendoim",
+      "TREE_NUTS": "Castanhas e nozes",
+      "MILK": "Leite",
+      "EGG": "Ovo",
+      "WHEAT": "Trigo",
+      "SOY": "Soja",
+      "FISH": "Peixe",
+      "SHELLFISH": "Frutos do mar",
+      "SESAME": "Gergelim"
+    },
+    "INTOLERANCE": {
+      "LACTOSE": "Lactose",
+      "GLUTEN": "Glúten",
+      "FRUCTOSE": "Frutose",
+      "CAFFEINE": "Cafeína"
+    },
+    "RESTRICTION": {
+      "NO_PORK": "Sem carne de porco",
+      "NO_BEEF": "Sem carne bovina",
+      "NO_ALCOHOL": "Sem álcool",
+      "HALAL": "Halal",
+      "KOSHER": "Kosher"
+    },
+    "FOOD_PREFERENCE": {
+      "VEGETARIAN": "Vegetariano",
+      "VEGAN": "Vegano",
+      "PESCETARIAN": "Pescetariano",
+      "LOW_CARB": "Low carb"
+    },
+    "EQUIPMENT": {
+      "BODYWEIGHT": "Peso do corpo",
+      "DUMBBELLS": "Halteres",
+      "BARBELL": "Barra",
+      "KETTLEBELL": "Kettlebell",
+      "RESISTANCE_BANDS": "Elásticos",
+      "PULL_UP_BAR": "Barra fixa",
+      "BENCH": "Banco",
+      "MACHINES": "Máquinas",
+      "TREADMILL": "Esteira",
+      "STATIONARY_BIKE": "Bicicleta ergométrica"
+    },
+    "BODY_REGION": {
+      "NECK": "Pescoço",
+      "SHOULDER": "Ombro",
+      "ELBOW": "Cotovelo",
+      "WRIST": "Punho",
+      "UPPER_BACK": "Parte alta das costas",
+      "LOWER_BACK": "Lombar",
+      "HIP": "Quadril",
+      "KNEE": "Joelho",
+      "ANKLE": "Tornozelo",
+      "OTHER": "Outra região"
+    }
+  },
+  "anamnesis": {
+    "title": "Sua anamnese",
+    "progress": "Passo {{current}} de {{total}}",
+    "steps": {
+      "about": "Sobre você",
+      "food": "Alimentação",
+      "training": "Treino",
+      "screening": "Sua saúde",
+      "review": "Revise e salve"
+    },
+    "choose": "Escolher…",
+    "objective": "Objetivo",
+    "trainingLevel": "Nível de treino",
+    "birthDate": "Data de nascimento",
+    "biologicalSex": "Sexo biológico (opcional)",
+    "biologicalSexWhy": "Usado só para ajustar referências de saúde. Você pode não informar.",
+    "sex": {
+      "FEMALE": "Feminino",
+      "MALE": "Masculino",
+      "NONE": "Prefiro não informar"
+    },
+    "allergies": "Alergias",
+    "intolerances": "Intolerâncias",
+    "restrictions": "Restrições",
+    "foodPreferences": "Preferências alimentares",
+    "otherAllergy": "Outra alergia",
+    "addAllergy": "Adicionar alergia",
+    "otherIntolerance": "Outra intolerância",
+    "addIntolerance": "Adicionar intolerância",
+    "dislikedFood": "Alimento que você não come",
+    "addFood": "Adicionar alimento",
+    "equipment": "Equipamentos que você tem",
+    "injuries": "Lesões",
+    "injuryRegion": "Região da lesão",
+    "injuryNote": "Observação da lesão",
+    "addInjury": "Adicionar lesão",
+    "remove": "Remover {{name}}",
+    "screeningIntro": "Quatro perguntas rápidas, só para saber se o plano automático serve para você.",
+    "questions": {
+      "PREGNANT_OR_NURSING": "Você está grávida ou amamentando?",
+      "CONDITION_REQUIRING_CARE": "Você tem alguma condição de saúde que exige acompanhamento?",
+      "MEDICATION_AFFECTING_PLAN": "Você usa algum medicamento que afeta a alimentação ou o treino?",
+      "EATING_DISORDER_HISTORY": "Você já teve algum transtorno alimentar?"
+    },
+    "answers": {
+      "YES": "Sim",
+      "NO": "Não",
+      "PREFER_NOT_TO_SAY": "Prefiro não dizer"
+    },
+    "reviewTitle": "Tudo pronto",
+    "reviewText": "Ao salvar, criamos uma nova revisão. As anteriores continuam guardadas.",
+    "back": "Voltar",
+    "next": "Próximo",
+    "save": "Salvar anamnese",
+    "errors": {
+      "objective": "Escolha o seu objetivo.",
+      "trainingLevel": "Escolha o seu nível de treino.",
+      "birthDateMissing": "Informe a data de nascimento.",
+      "birthDate": "Confira a data de nascimento.",
+      "screening": "Responda as quatro perguntas para continuar."
+    },
+    "saveError": "Não foi possível salvar a anamnese. Confira os dados e tente novamente.",
+    "loadError": "Não foi possível carregar a anamnese. Tente novamente.",
+    "savedTitle": "Anamnese salva",
+    "savedText": "Obrigado. Suas respostas foram guardadas.",
+    "professionalTitle": "Procure um profissional",
+    "professionalText": "Pelas suas respostas, o plano automático do Heracles não é indicado agora. Converse com um profissional de saúde, que poderá orientar você com segurança. Suas respostas ficam guardadas.",
+    "reasons": {
+      "UNDER_MINIMUM_AGE": "Você tem menos de 18 anos.",
+      "PREGNANT_OR_NURSING": "Você está grávida, amamentando ou preferiu não dizer.",
+      "CONDITION_REQUIRING_CARE": "Você tem uma condição que pede acompanhamento.",
+      "MEDICATION_AFFECTING_PLAN": "Você usa um medicamento que afeta o plano.",
+      "EATING_DISORDER_HISTORY": "Você tem histórico de transtorno alimentar.",
+      "OTHER": "Há um ponto que pede acompanhamento profissional."
+    }
+  },
+  "consents": {
+    "title": "Meus consentimentos",
+    "intro": "Os três primeiros são condição para usar o app. Os outros são opcionais: você liga e revoga quando quiser.",
+    "types": {
+      "TERMS_OF_USE": "Termos de uso",
+      "PRIVACY_POLICY": "Política de privacidade",
+      "HEALTH_DATA_CONSENT": "Dados de saúde",
+      "AI_EXAMS_CONSENT": "Uso de IA nos exames",
+      "COMMUNITY_CONSENT": "Comunidade",
+      "NOTIFICATIONS_CONSENT": "Notificações",
+      "PROMOTIONAL_CONSENT": "Notificações promocionais"
+    },
+    "accepted": "Aceito",
+    "pending": "Pendente",
+    "on": "Ativado",
+    "off": "Desativado",
+    "version": "(versão {{version}})",
+    "read": "Ler o texto",
+    "turnOn": "Ativar",
+    "revoke": "Revogar",
+    "changeError": "Não foi possível alterar o consentimento. Tente novamente.",
+    "unavailable": "Texto ainda não publicado"
+  },
+  "privacy": {
+    "title": "Privacidade",
+    "exportTitle": "Seus dados",
+    "exportText": "Peça um arquivo com tudo o que o Heracles guarda sobre você.",
+    "exportButton": "Exportar meus dados",
+    "exportWaiting": "Preparando o seu arquivo…",
+    "exportDownload": "Baixar meus dados",
+    "exportLinkInfo": "O link vale por 15 minutos.",
+    "exportExpired": "O arquivo expirou. Peça a exportação de novo.",
+    "exportFailed": "Não foi possível gerar a exportação. Tente novamente.",
+    "erasureTitle": "Excluir minha conta",
+    "erasureText": "Apaga a sua conta e os seus dados.",
+    "erasureButton": "Excluir minha conta",
+    "confirmTitle": "Excluir minha conta?",
+    "confirmText": "Depois de 7 dias, sua conta e todos os seus dados serão apagados e isso não pode ser desfeito. Durante os 7 dias você pode cancelar. O registro de auditoria fica sem ligação com você.",
+    "back": "Voltar",
+    "confirmButton": "Confirmar exclusão",
+    "erasureScheduled": "Exclusão agendada",
+    "erasureDue": "Sua conta será apagada em {{date}}. Até lá, você pode cancelar.",
+    "erasureRunning": "A exclusão está em andamento.",
+    "erasureCancel": "Cancelar a exclusão",
+    "erasureRequestError": "Não foi possível agendar a exclusão. Tente novamente.",
+    "erasureCancelError": "Não foi possível cancelar a exclusão. Tente novamente."
+  },
+  "policies": {
+    "title": "Textos e versões",
+    "loadError": "Não foi possível carregar os textos. Tente novamente.",
+    "draft": "Rascunho",
+    "published": "Publicada",
+    "version": "versão {{version}}",
+    "newDraft": "Novo rascunho",
+    "editDraft": "Editar rascunho",
+    "preview": "Pré-visualizar",
+    "publish": "Publicar",
+    "discard": "Descartar rascunho",
+    "close": "Fechar",
+    "fieldTitle": "Título",
+    "fieldMarkdown": "Texto (Markdown)",
+    "markdownHelp": "Só parágrafos, títulos, listas, negrito, itálico e links https ou mailto.",
+    "saveDraft": "Salvar rascunho",
+    "previewTitle": "Pré-visualização: {{title}}",
+    "publishRequired": "Ao publicar, todas as pessoas precisarão aceitar de novo antes de continuar usando o app.",
+    "publishOptional": "Ao publicar, quem tinha ativado este consentimento continua com o aceite da versão anterior até decidir de novo; a versão nova vale para quem ativar daqui em diante.",
+    "confirmPublish": "Confirmar publicação",
+    "errors": {
+      "generic": "Não foi possível concluir. Tente novamente.",
+      "invalidPolicyText": "O texto usa algo fora do formato permitido. Use só parágrafos, títulos, listas, negrito, itálico e links https ou mailto.",
+      "draftAlreadyExists": "Já existe um rascunho para este texto. Edite ou descarte o atual."
+    },
+    "acceptedOne": "{{count}} aceite",
+    "acceptedMany": "{{count}} aceites"
   }
 }

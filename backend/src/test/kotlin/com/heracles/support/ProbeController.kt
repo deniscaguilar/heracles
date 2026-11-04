@@ -1,5 +1,7 @@
 package com.heracles.support
 
+import com.heracles.consent.api.RequiresConsent
+import com.heracles.platform.api.CurrentUser
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import jakarta.validation.Valid
@@ -21,6 +23,15 @@ class ProbeController {
         log.info("probe handled")
         return mapOf("subject" to authentication.name)
     }
+
+    /** A controller of "another module" gets the caller as a [CurrentUser], without touching the platform's authentication. */
+    @GetMapping("/api/v1/_who")
+    fun who(user: CurrentUser): Map<String, String> = mapOf("id" to user.id.toString(), "role" to user.role)
+
+    /** Test-only route that stands for any health-data route: it is behind the consent barrier. */
+    @RequiresConsent
+    @GetMapping("/api/v1/_health_probe")
+    fun healthProbe(): Map<String, String> = mapOf("health" to "reached")
 
     @GetMapping("/api/v1/_boom")
     fun boom(): Nothing = throw IllegalStateException("boom")

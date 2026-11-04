@@ -18,4 +18,8 @@ class JwtIdentityProvider(private val decoder: JwtDecoder) : IdentityProvider {
         } catch (e: IllegalArgumentException) {
             throw AuthenticationFailedException(e)
         }
+
+    override fun deleteUser(subject: String) {
+        // Nothing to call: this adapter only verifies tokens. The subject is unlinked locally by the erasure.
+    }
 }

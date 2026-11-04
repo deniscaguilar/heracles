@@ -17,9 +17,13 @@ import software.amazon.awssdk.services.s3.S3Configuration
 import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import java.net.URI
 
-/** `endpoint` is set only locally (LocalStack); in AWS it is empty and the SDK uses the instance role. */
+/**
+ * `endpoint` is set only locally (LocalStack); in AWS it is empty and the SDK uses the instance role. `publicEndpoint` is
+ * the address a person's browser or phone reaches the storage by, when it differs from the backend's own (locally, the
+ * backend is inside docker and the person is not): links are signed for it. Empty means the same as `endpoint`.
+ */
 @ConfigurationProperties("heracles.storage")
-data class StorageProperties(val bucket: String, val region: String, val endpoint: String = "")
+data class StorageProperties(val bucket: String, val region: String, val endpoint: String = "", val publicEndpoint: String = "")
 
 @Configuration
 @EnableConfigurationProperties(StorageProperties::class)
@@ -38,7 +42,8 @@ class StorageConfig {
     fun s3Presigner(properties: StorageProperties): S3Presigner {
         val builder = S3Presigner.builder().region(Region.of(properties.region))
         if (local(properties)) {
-            builder.endpointOverride(URI(properties.endpoint)).credentialsProvider(localCredentials)
+            val linkEndpoint = properties.publicEndpoint.ifBlank { properties.endpoint }
+            builder.endpointOverride(URI(linkEndpoint)).credentialsProvider(localCredentials)
                 .serviceConfiguration(S3Configuration.builder().pathStyleAccessEnabled(true).build())
         }
         return builder.build()

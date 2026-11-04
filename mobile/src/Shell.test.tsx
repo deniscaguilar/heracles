@@ -1,4 +1,5 @@
 import { fireEvent, screen } from "@testing-library/react-native";
+import { StyleSheet } from "react-native";
 import { fakeAuthenticator, fakeBackend, fakeLocalStorage, renderShell } from "./test-utils";
 
 const me = (role: string) => ({ status: 200, body: { id: "11111111-1111-1111-1111-111111111111", role } });
@@ -67,6 +68,23 @@ describe("mobile shell (CA20)", () => {
     await fireEvent.press(await screen.findByText("Sair"));
     expect(await screen.findByText("Entrar")).toBeOnTheScreen();
     expect(authenticator.logout).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("safe area", () => {
+  const padding = () => StyleSheet.flatten(screen.getByTestId("shell").props.style);
+
+  it("keeps the content below the notch and the status bar, and above the home indicator", async () => {
+    await renderShell({ authenticator: fakeAuthenticator(undefined), insets: { top: 47, bottom: 34, left: 0, right: 0 } });
+    await screen.findByText("Entrar");
+    expect(padding().paddingTop).toBeGreaterThanOrEqual(47);
+    expect(padding().paddingBottom).toBeGreaterThanOrEqual(34);
+  });
+
+  it("follows the device: no inset, no extra padding beyond the base", async () => {
+    await renderShell({ authenticator: fakeAuthenticator(undefined), insets: { top: 0, bottom: 0, left: 0, right: 0 } });
+    await screen.findByText("Entrar");
+    expect(padding().paddingTop).toBeLessThan(47);
   });
 });
 

@@ -276,10 +276,10 @@ r="$(send "$tc" GET "/api/v1/me/exports/$export_task")"
 url="$(body_of "$r" | json 'd["url"]')"
 if [[ "$(code_of "$r")" == 200 && -n "$url" ]]; then
   ok "E2-CA13 the file became ready and the answer carries a link"
-  # The link names the storage host of the compose network; reach it through the published port, keeping the signed Host.
+  # The link is downloaded exactly as the backend gave it, as a browser or a phone would: it must name an address
+  # reachable from outside the compose network (it used to name `localstack:4566`, which only the backend reaches).
   host="$(python3 -c 'import sys,urllib.parse as u; print(u.urlparse(sys.argv[1]).netloc)' "$url")"
-  local_url="$(python3 -c 'import sys,urllib.parse as u; p=u.urlparse(sys.argv[1]); print(p._replace(netloc="localhost:"+sys.argv[2]).geturl())' "$url" "${HERACLES_S3_PORT:-4567}")"
-  dl="$(curl -s -w '\n%{http_code}' -H "Host: $host" "$local_url")"
+  dl="$(curl -s -w '\n%{http_code}' "$url")"
   file="$(sed '$d' <<< "$dl")"
   [[ "$file" == *"$food"* ]] && ok "E2-CA13 the file has the person's anamnesis" || bad "E2-CA13 file content" "http $(tail -n 1 <<< "$dl"), host $host, ${file:0:160}"
   [[ "$file" != *"dave-$food"* && "$file" != *"$dave_id"* ]] && ok "E2-CA13 the file has nothing of the other person" || bad "E2-CA13 leaks the other person"

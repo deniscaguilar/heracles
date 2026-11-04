@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createClient } from "./api/client";
 import { AuthProvider } from "./auth/AuthContext";
 import type { Authenticator, LoginResult } from "./auth/authenticator";
@@ -59,12 +60,17 @@ export async function renderShell(options: {
   authenticator: Authenticator;
   fetch?: typeof globalThis.fetch;
   storage?: LocalStorage;
+  /** The areas the device keeps for itself (notch, status bar, home indicator); a phone with a notch by default. */
+  insets?: { top: number; bottom: number; left: number; right: number };
 }) {
   const api = createClient(options.authenticator, "http://api.test", options.fetch);
+  const insets = options.insets ?? { top: 47, bottom: 34, left: 0, right: 0 };
   await render(
-    <AuthProvider authenticator={options.authenticator} api={api} storage={options.storage ?? fakeLocalStorage()}>
-      <Shell />
-    </AuthProvider>,
+    <SafeAreaProvider initialMetrics={{ frame: { x: 0, y: 0, width: 390, height: 844 }, insets }}>
+      <AuthProvider authenticator={options.authenticator} api={api} storage={options.storage ?? fakeLocalStorage()}>
+        <Shell />
+      </AuthProvider>
+    </SafeAreaProvider>,
   );
   return screen;
 }

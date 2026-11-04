@@ -51,10 +51,10 @@ E o do contrato (CA16) acima. Lição: o backend simulado dos testes de tela pre
 
 ## 5. Pendências
 
-1. **Cognito real:** `IdentityProvider.deleteUser` é no-op no adaptador OIDC genérico. A exclusão apaga tudo do nosso lado e desvincula o `sub`, mas **não apaga a conta no provedor**; é tarefa própria (ADR-0008).
+1. **Cognito real:** o adaptador `CognitoIdentityProvider` existe (04/11/2026): `deleteUser` chama `AdminDeleteUser` no user pool configurado em `heracles.identity.cognito.user-pool-id` (sem a propriedade, vale só o adaptador OIDC), trata "usuário já removido" como sucesso e deixa as outras falhas subirem para o passo de exclusão tentar de novo. **Provado só contra um cliente falso** (`CognitoIdentityProviderTest`, mais a ligação por configuração); não há user pool nem como testar no LocalStack gratuito. Falta, quando houver o pool: a permissão `cognito-idp:AdminDeleteUser` na role da tarefa, confirmar que o `sub` serve de `username` (se o pool entra por e-mail, pode não servir) e, para quem entrou pela Apple, revogar também o token da Apple (ADR-0008).
 2. **Ambiente novo não tem texto publicado** (as migrações não semeiam): um `ADMIN` precisa publicar os 3 textos obrigatórios (e os opcionais que forem usados) antes de qualquer pessoa aceitar. Os textos reais precisam de revisão jurídica; é passo operacional do primeiro go-live, não de migração.
-3. **Cobertura que fica nos testes de integração:** o disparo real da exclusão em 7 dias de calendário (a pilha viva move o prazo no banco), e o link de exportação no emulador Android (a URL do LocalStack é `localhost:4566`; precisa de `adb reverse` para abrir).
-4. **Visual:** telas mínimas, sem identidade visual e sem área segura no topo (o título encosta na barra de status quando a tela é alta). Fora do escopo da etapa.
+3. **Cobertura que fica nos testes de integração:** o disparo real da exclusão em 7 dias de calendário (a pilha viva move o prazo no banco), e o link de exportação aberto no emulador Android (o link agora aponta para o endereço publicado, `localhost:4567`, e precisa de `adb reverse tcp:4567`; o `validate.sh` baixa o link exatamente como o backend o entrega).
+4. **Visual:** telas mínimas, sem identidade visual. A área segura do topo foi resolvida (`react-native-safe-area-context`). Fora do escopo da etapa.
 5. **Ambiente de fumaça na AWS (E1-S8.4):** continua pendente da Etapa 1, depende de autorização de custo.
 
 ## 6. Para quem já tem a pilha antiga

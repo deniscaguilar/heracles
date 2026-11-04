@@ -28,7 +28,8 @@
     "i18next": "26.7.1",
     "react": "19.3.0",
     "react-i18next": "17.1.12",
-    "react-native": "0.88.1"
+    "react-native": "0.88.1",
+    "react-native-safe-area-context": "~5.11.1"
   },
   "devDependencies": {
     "@testing-library/react-native": "14.1.0",

@@ -1,5 +1,6 @@
 import { ActivityIndicator, Button, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "./auth/AuthContext";
 import { useState } from "react";
 import { ConsentGate } from "./consent/ConsentGate";
@@ -39,9 +40,14 @@ function Signed(props: { role: string }) {
 export function Shell() {
   const { t } = useTranslation();
   const { session, login, logout, retry } = useAuth();
+  // The device keeps areas for itself (notch, status bar, home indicator): the content starts after them.
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
+    <View
+      testID="shell"
+      style={[styles.container, { paddingTop: styles.container.padding + insets.top, paddingBottom: styles.container.padding + insets.bottom, paddingLeft: styles.container.padding + insets.left, paddingRight: styles.container.padding + insets.right }]}
+    >
       <Text accessibilityRole="header" style={styles.title}>
         {t("app.name")}
       </Text>

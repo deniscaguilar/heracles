@@ -87,6 +87,15 @@ code="$(printf 'exam bytes' | curl -s -o /dev/null -w '%{http_code}' -X PUT --da
 is "a presigned PUT uploads without credentials" "$code" 200
 is "the uploaded object is readable with the same bytes" \
   "$(aws_ s3 cp "s3://$bucket/exams/00000000-0000-0000-0000-000000000001/doc-1" - 2> /dev/null)" "exam bytes"
+lifecycle="$(aws_ s3api get-bucket-lifecycle-configuration --bucket "$bucket" --output json)"
+is "files under exports/ expire in 1 day, and their old versions too (the data export must not stay)" \
+  "$(python3 -c "
+import sys, json
+rules = [r for r in json.loads(sys.argv[1])['Rules'] if r['Status'] == 'Enabled' and r.get('Filter', {}).get('Prefix') == 'exports/']
+print(len(rules), rules[0]['Expiration']['Days'], rules[0]['NoncurrentVersionExpiration']['NoncurrentDays']) if rules else print(0)
+" "$lifecycle")" "1 1 1"
+is "the other lifecycle rules are still there (incomplete uploads, old versions of the rest)" \
+  "$(python3 -c "import sys,json; print(sorted(r['ID'] for r in json.loads(sys.argv[1])['Rules'] if r['ID'] != 'expire-exports'))" "$lifecycle")" "['abort-incomplete-uploads', 'expire-old-versions']"
 is "another object key does not exist" \
   "$(aws_ s3api head-object --bucket "$bucket" --key nope 2>&1 | grep -c 'Not Found\|404')" 1
 

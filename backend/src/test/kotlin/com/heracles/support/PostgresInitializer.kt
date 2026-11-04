@@ -29,6 +29,12 @@ class PostgresInitializer : ApplicationContextInitializer<ConfigurableApplicatio
             "heracles.outbox.publisher.enabled=false",
             "heracles.queue.consumer.enabled=false",
             "heracles.queue.metrics.enabled=false",
+            // Same for the export clean-up and the erasure scheduler: the tests run those use cases themselves.
+            "heracles.exports.expire.enabled=false",
+            "heracles.erasure.scheduler.enabled=false",
+            // Many cached Spring contexts share this one database; small pools keep it under max_connections.
+            "spring.datasource.hikari.maximum-pool-size=3",
+            "spring.datasource.hikari.minimum-idle=1",
         ).applyTo(context)
     }
 

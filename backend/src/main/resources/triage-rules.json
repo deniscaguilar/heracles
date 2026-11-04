@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "minimumAgeYears": 18,
+  "blockingAnswers": ["YES", "PREFER_NOT_TO_SAY"],
+  "questions": ["PREGNANT_OR_NURSING", "CONDITION_REQUIRING_CARE", "MEDICATION_AFFECTING_PLAN", "EATING_DISORDER_HISTORY"]
+}

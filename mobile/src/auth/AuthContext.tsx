@@ -13,6 +13,8 @@ export type Session =
 
 interface AuthContextValue {
   session: Session;
+  /** The API client of the session: screens use it so they all send the same token. */
+  api: ApiClient;
   login: () => Promise<void>;
   logout: () => Promise<void>;
   retry: () => Promise<void>;
@@ -68,6 +70,7 @@ export function AuthProvider(props: {
   const value = useMemo<AuthContextValue>(
     () => ({
       session,
+      api,
       login: async () => {
         try {
           if ((await authenticator.login()) === "signedIn") await load();
@@ -87,7 +90,7 @@ export function AuthProvider(props: {
       },
       retry: load,
     }),
-    [session, authenticator, storage, load],
+    [session, api, authenticator, storage, load],
   );
   return <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>;
 }

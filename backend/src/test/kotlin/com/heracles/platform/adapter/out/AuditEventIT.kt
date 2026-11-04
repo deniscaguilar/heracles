@@ -73,8 +73,10 @@ class AuditEventIT(
         (statements + "truncate platform.audit_event").forEach { sql ->
             assertThatThrownBy { superuser.execute(sql) }.describedAs(sql).hasStackTraceContaining("append-only")
         }
-        // The owner is under forced RLS and sees no row: nothing to change; truncate hits the trigger.
-        statements.forEach { sql -> assertThat(owner.update(sql)).describedAs(sql).isZero() }
+        // The owner may swap the identifier (E2-S8.1, PseudonymizationIT) but nothing else, and it has no DELETE policy:
+        // the update hits the trigger, the delete finds no row; truncate hits the trigger.
+        assertThatThrownBy { owner.update(statements[0]) }.hasStackTraceContaining("append-only")
+        assertThat(owner.update(statements[1])).isZero()
         assertThatThrownBy { owner.execute("truncate platform.audit_event") }.hasStackTraceContaining("append-only")
         // And the application role has no privilege at all.
         listOf("update audit_event set result = 'DENIED'", "delete from audit_event").forEach { sql ->

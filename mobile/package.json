@@ -16,7 +16,7 @@
   "dependencies": {
     "@heracles/api-client": "file:../packages/api-client",
     "expo": "~58.0.21",
-    "expo-asset": "~58.0.19",
+    "expo-asset": "~58.0.20",
     "expo-auth-session": "~58.0.16",
     "expo-build-properties": "~58.0.12",
     "expo-crypto": "~58.0.7",

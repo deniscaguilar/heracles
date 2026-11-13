@@ -24,7 +24,7 @@
     <!-- Fora do BOM do Boot; últimas GA no Maven Central em 29/10/2026 (commonmark: 03/11/2026). -->
     <spring-modulith.version>2.1.2</spring-modulith.version>
     <archunit.version>1.5.1</archunit.version>
-    <mock-oauth2-server.version>6.1.4</mock-oauth2-server.version>
+    <mock-oauth2-server.version>6.1.5</mock-oauth2-server.version>
     <springdoc.version>3.2.0</springdoc.version>
     <awssdk.version>2.57.8</awssdk.version>
     <jacoco.version>0.8.16</jacoco.version>

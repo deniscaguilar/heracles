@@ -2,6 +2,13 @@
 
 Registra onde paramos e o próximo passo. Entrada mais recente no topo; atualizar ao fim de cada tarefa.
 
+## 2026-11-18 (material de apresentação do produto, fora do código)
+
+- **Onde paramos:** nenhum código mudou hoje. Montamos, a pedido do Dênis, um documento de apresentação do produto para um nutricionista, em MD e HTML (marca, protótipos de conceito com dados fictícios, 11 seções), revisado e aprovado no Plannotator em três rodadas. Os arquivos ficam em `local/parceria-nutricionista/`, **ignorada pelo git de propósito** (repositório público; o documento trata de assunto comercial). Também ficaram sem versionar, na raiz, `Logo.ai`, `logoHeracles.jpeg` e `Manual de aplicação de marca.pdf`.
+- **Atenção (conceitos fora do escopo aprovado):** o documento cita ideias que **não estão** no `docs/roadmap.md` nem no `CLAUDE.md`: um índice de acompanhamento de 0 a 100, um painel do profissional com consentimento (**colidiria com "dado de saúde só legível pelo dono" e pediria ADR**) e a exceção de vitaminas e minerais em dose terapêutica indicada por nutricionista (**colide com a trava de suplementos do roadmap**). Estão marcados no texto como "conceito para validarmos juntos". Só viram escopo se o Dênis aprovar e atualizar o roadmap.
+- **Pendente:** decidir se os três arquivos de marca vão para `local/marca/` ou são versionados (decisão própria, com revisão); pendências técnicas da entrada de 04/11 seguem valendo (Cognito real, iOS recompilado, ambiente de fumaça, gate).
+- **Próximo:** retomar pelas pendências da Etapa 2 acima.
+
 ## 2026-11-04 (área segura do mobile e adaptador do Cognito contra um falso)
 
 - **Onde paramos:** branch `feat/area-segura-e-cognito-falso`, dois commits, **sem push ainda** (revisão única no Plannotator primeiro). Decisão do Dênis: pendências 1, 2 (só contra um falso) e 4 (Dependabot), e encerrar o dia.

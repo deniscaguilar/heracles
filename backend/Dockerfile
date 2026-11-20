@@ -1,5 +1,5 @@
 # Mesma imagem para os perfis api, worker e all: o perfil vem de SPRING_PROFILES_ACTIVE.
-FROM eclipse-temurin:25-jdk@sha256:83f4a7fc27df94dcc7b8de04d14cbbba8da14406f921e966969c3b09000aa507 AS build
+FROM eclipse-temurin:25-jdk@sha256:884a2f8692cc1e2c7e21f95914adf0ae0eafee9a7eb663a12169cc44468256ec AS build
 WORKDIR /build
 COPY .mvn .mvn
 COPY mvnw pom.xml ./
@@ -8,7 +8,7 @@ COPY src src
 RUN ./mvnw -B -q -DskipTests package \
     && java -Djarmode=tools -jar target/heracles-backend-*.jar extract --layers --destination /build/layers
 
-FROM eclipse-temurin:25-jre@sha256:ecdc0adb37bde1a281c4d245a3cd535004b1fc8322d560f5b09463b248c81df0
+FROM eclipse-temurin:25-jre@sha256:945247f9d092703e0c6be92243ef3c51640229e23ab34d353c8dcdc73e6cd4e6
 RUN useradd --system --uid 10001 --no-create-home --shell /usr/sbin/nologin heracles
 WORKDIR /app
 COPY --from=build --chown=10001:10001 /build/layers/dependencies/ ./

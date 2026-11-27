@@ -29,7 +29,7 @@
     <awssdk.version>2.57.8</awssdk.version>
     <jacoco.version>0.8.16</jacoco.version>
     <cyclonedx.version>2.9.3</cyclonedx.version>
-    <commonmark.version>0.32.0</commonmark.version>
+    <commonmark.version>0.33.0</commonmark.version>
     <coverage.minimum>0.85</coverage.minimum>
   </properties>
 

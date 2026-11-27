@@ -25,7 +25,7 @@
     <spring-modulith.version>2.1.2</spring-modulith.version>
     <archunit.version>1.5.1</archunit.version>
     <mock-oauth2-server.version>6.1.4</mock-oauth2-server.version>
-    <springdoc.version>3.2.0</springdoc.version>
+    <springdoc.version>3.2.1</springdoc.version>
     <awssdk.version>2.57.8</awssdk.version>
     <jacoco.version>0.8.16</jacoco.version>
     <cyclonedx.version>2.9.3</cyclonedx.version>
